@@ -1,23 +1,18 @@
-import logo from './logo.svg';
 import './App.css';
+import dataImport from './mock-data.json';
+import React, {useState} from 'react';
+import BarChartAsian from './components/barchart-asian';
+import BarChartCompound from './components/barchart-compound';
+
 
 function App() {
+  const [country, setcountry] = useState("Thailand");
+  const onChange = event => setcountry(event.target.value);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <BarChartAsian data={dataImport} mode="total_cases"/>
+      <BarChartCompound data={dataImport} country={country}/>
     </div>
   );
 }
