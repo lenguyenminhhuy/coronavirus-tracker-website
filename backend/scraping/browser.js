@@ -3,15 +3,16 @@ const puppeteer = require('puppeteer');
 async function startBrowser(){
     let browser;
     try {
+        // pageScraping = true;
         console.log("Opening the browser......");
         browser = await puppeteer.launch({
-            headless: false,
+            headless: true,
             args: ["--disable-setuid-sandbox"],
             'ignoreHTTPSErrors': true,
         });
     } catch (err) {
         console.log("Could not create a browser instance => : ", err);
-    }
+    } 
     return browser;
 }
 

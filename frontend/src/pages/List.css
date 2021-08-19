@@ -1,0 +1,22 @@
+body {
+    margin: 30px;
+}
+
+a {
+    text-decoration: none;
+    color: white;
+}
+
+a:hover{
+    text-decoration: none;
+    color: underline;
+}
+
+.header {
+    background-color: #242a44;
+    border-left: 10px solid #2186f4;
+    text-align: left;
+    margin: 5px;
+    font-size: 30px;
+    padding: 10px;
+}
