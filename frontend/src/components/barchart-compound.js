@@ -15,9 +15,7 @@ async function processData(data, country) {
       }
     }
     return array;
-  }
-
-
+}
 
 function BarChartCompound({data, country}) {
 

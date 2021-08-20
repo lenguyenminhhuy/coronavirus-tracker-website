@@ -1,0 +1,11 @@
+.statsBoardContainer {
+    text-align: center;
+    padding: 20px;
+    width: 60%;
+}
+
+.statsContainer {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 0.2em;
+}
