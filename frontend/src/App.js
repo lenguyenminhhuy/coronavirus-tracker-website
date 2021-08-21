@@ -1,70 +1,37 @@
 import "./App.css";
-import dataImport from "./mock-data.json";
-import React, { useState } from "react";
-import BarChartAsian from "./components/BarChartAsian";
-import BarChartCompound from "./components/BarChartCompound";
-import AreaChartARD from "./components/AreaChartARD";
-import BarChartDailyCase from "./components/BarChartDailyCase";
-import StatsBoard from "./components/StatsBoard";
+import React, { useState, Component } from "react";
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import Nav from './components/Nav';
+import Home from './pages/Home';
+import { Grid, GridItem } from "@chakra-ui/react";
+import Analysis from "./pages/Analysis";
 
-const mockData = [
-	{
-		name: "Page A",
-		uv: 4000,
-		pv: 2400,
-		amt: 2400,
-	},
-	{
-		name: "Page B",
-		uv: 3000,
-		pv: 1398,
-		amt: 2210,
-	},
-	{
-		name: "Page C",
-		uv: 2000,
-		pv: 9800,
-		amt: 2290,
-	},
-	{
-		name: "Page D",
-		uv: 2780,
-		pv: 3908,
-		amt: 2000,
-	},
-	{
-		name: "Page E",
-		uv: 1890,
-		pv: 4800,
-		amt: 2181,
-	},
-	{
-		name: "Page F",
-		uv: 2390,
-		pv: 3800,
-		amt: 2500,
-	},
-	{
-		name: "Page G",
-		uv: 3490,
-		pv: 4300,
-		amt: 2100,
-	},
-];
+class App extends Component {
+  render() {
+    return (
+      <BrowserRouter>
+        <Grid
+          templateColumns="repeat(10,1fr)"
+          gap={6}
+        >
+          <GridItem colSpan={1}>
+            <Nav/>
+          </GridItem>
+          <GridItem colSpan={9}>
+            <Switch>
+              <Route exact path="/">
+                  <Home/>
+              </Route>
+              <Route path="/analysis">
+                  <Analysis/>
+              </Route>
+            </Switch>
+          </GridItem>
+        </Grid>
 
-function App() {
-	const [country, setcountry] = useState("Thailand");
-	const onChange = (event) => setcountry(event.target.value);
-
-	return (
-		<div className="App">
-      <StatsBoard/>    
-			<BarChartAsian data={dataImport} mode="total_cases" />
-			<BarChartCompound data={dataImport} country={country} />
-			<AreaChartARD data={mockData} />
-			<BarChartDailyCase data={mockData} />
-		</div>
-	);
+      </BrowserRouter>
+    );
+  }
 }
 
 export default App;
