@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react'
-import StatsBox from './stats-box'
-import styles from './stats-board.module.css';
+import StatsBox from './StatsBox'
+import styles from './StatsBoard.module.css';
 import dataImport from '../mock-data.json';
 import colors from '../constants/colors';
 
@@ -76,10 +76,10 @@ function StatsBoard() {
                 </label>
             </div>
             <div className={styles.statsContainer}>
-                <StatsBox label="Cases" value={cases} backgroundColor={colors.casesBackgroundColor} textColor={colors.casesTextColor}/>
-                <StatsBox label="Tests" value={tests} backgroundColor={colors.testBackgroundColor} textColor={colors.testsTextColor} />
-                <StatsBox label="Vaccinations" value={vaccinations} backgroundColor={colors.vaccinationsBackgroundColor} textColor={colors.vaccinationsTextColor} />
-                <StatsBox label="Deaths" value={deaths} backgroundColor={colors.deathsBackgroundColor} textColor={colors.deathsTextColor} />
+                <StatsBox label="Cases" value={cases} valueContainerColor={colors.yellowLightest} labelContainerColor={colors.yellowLighter} textColor={colors.yellowDark} />
+                <StatsBox label="Vaccinations" value={vaccinations} valueContainerColor={colors.oceanBlueLighter} labelContainerColor={colors.oceanBlueLight} textColor={colors.oceanBlueDark} />
+                <StatsBox label="Tests" value={tests} valueContainerColor={colors.grayLighter} labelContainerColor={colors.grayLight} textColor={colors.grayDark} />
+                <StatsBox label="Deaths" value={deaths}valueContainerColor={colors.redLighter} labelContainerColor={colors.redLight} textColor={colors.redDark} />
             </div>
         </div>
     )

@@ -2,21 +2,25 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 10px;
 }
 
 .valueContainer {
-    margin-bottom: 10px;
+    padding: 15px 0;
+    width: 100%;
 }
 
 .valueText {
     font-size: 2em;
 }
 
+.labelContainer {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    width: 100%;
+    padding: 12px 0;
+}
+
 .labelText {
     font-size: 1em;
-    border-radius: 5px;
-    width: 80%;
     text-align: center;
-    padding: 12px 5px;
 }
