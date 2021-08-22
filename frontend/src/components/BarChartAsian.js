@@ -1,5 +1,6 @@
 import {useState, useEffect} from 'react';
 import { BarChart, YAxis, XAxis, Tooltip, Legend, Bar } from 'recharts';
+import PropTypes from 'prop-types';
 
 async function processData(data,mode) {
     let Asian = ["Vietnam", "Thailand", "Singapore", "Malaysia", "Phillipines", "Myanmar", "Laos", "Campodia", "Indonesia", "Brunei"];
@@ -38,6 +39,10 @@ function BarChartAsian({data, mode}) {
             <Bar dataKey={mode} name="Total Cases" fill="#8884d8"/>
         </BarChart>
     )
+}
+
+BarChartAsian.propTypes = {
+  mode: PropTypes.string
 }
 
 export default BarChartAsian;

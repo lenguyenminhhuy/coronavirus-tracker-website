@@ -1,12 +1,4 @@
-export default {
-    casesTextColor: '#FFFCD6',
-    vaccinationsTextColor: '#C2F784',
-    testsTextColor: '#FFBF86',
-    deathsTextColor: '#F6A9A9',
-    casesBackgroundColor: '#FFEC1F',
-    vaccinationsBackgroundColor: '#9FF33F',
-    testBackgroundColor: '#FF9233',
-    deathsBackgroundColor: '#EF6B6B',
+const color = {
     yellowDefault: '#FFDD33',
     yellowLight: '#FFE66D',
     yellowLighter: '#FFEE99',
@@ -33,3 +25,5 @@ export default {
     grayDarker: '#525252',
     grayDarkest: '#292929'
 }
+
+export default color;

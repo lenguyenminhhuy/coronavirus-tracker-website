@@ -3,6 +3,8 @@ import StatsBox from './StatsBox'
 import styles from './StatsBoard.module.css';
 import dataImport from '../mock-data.json';
 import colors from '../constants/colors';
+import { Box, Center, Select } from "@chakra-ui/react"
+import color from '../constants/colors';
 
 async function getCountries(data) {
     let array = [];
@@ -56,32 +58,38 @@ function StatsBoard() {
         })
     },[selectedCountry])
 
-
     return (
-        <div className={styles.statsBoardContainer}>
+        <Box className={styles.statsBoardContainer}>
             <div>
                 Statistics on coronavirus
             </div>
-            <div>
-                <label>
-                <select value={selectedCountry} onChange={(e) => setSelectedCountry(e.target.value)}>
+            <Center textAlign='center'>
+                <Select 
+                    borderBottomColor={color.grayLight}
+                    borderTop='hidden' 
+                    borderRight='hidden' 
+                    borderLeft='hidden' 
+                    borderBottomRadius={0} 
+                    borderBottomWidth={2} 
+                    maxW="xs" 
+                    value={selectedCountry} 
+                    onChange={(e) => setSelectedCountry(e.target.value)}>
                     {countries? 
-                    countries.map(c => (
-                        <option value={c}>
+                    countries.map((c)=> (
+                        <option value={c} key={c}>
                             {c}
                         </option>
                     ))
                     : (null)}
-                </select>
-                </label>
-            </div>
+                </Select>
+            </Center>
             <div className={styles.statsContainer}>
                 <StatsBox label="Cases" value={cases} valueContainerColor={colors.yellowLightest} labelContainerColor={colors.yellowLighter} textColor={colors.yellowDark} />
                 <StatsBox label="Vaccinations" value={vaccinations} valueContainerColor={colors.oceanBlueLighter} labelContainerColor={colors.oceanBlueLight} textColor={colors.oceanBlueDark} />
                 <StatsBox label="Tests" value={tests} valueContainerColor={colors.grayLighter} labelContainerColor={colors.grayLight} textColor={colors.grayDark} />
                 <StatsBox label="Deaths" value={deaths}valueContainerColor={colors.redLighter} labelContainerColor={colors.redLight} textColor={colors.redDark} />
             </div>
-        </div>
+        </Box>
     )
 }
 

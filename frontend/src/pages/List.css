@@ -1,12 +1,3 @@
-a {
-    text-decoration: none;
-}
-
-a:hover{
-    text-decoration: none;
-    color: underline;
-}
-
 .header {
     background-color: #242a44;
     border-left: 10px solid #2186f4;

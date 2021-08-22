@@ -3,12 +3,8 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-
 import { ChakraProvider, ColorModeScript } from "@chakra-ui/react";
 import theme from "./theme";
-import Nav from './components/Nav';
-
-
 
 ReactDOM.render(
   <ChakraProvider theme={theme} resetCSS={false}>  
