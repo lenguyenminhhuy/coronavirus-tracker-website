@@ -60,10 +60,10 @@ function StatsBoard() {
 
     return (
         <Box className={styles.statsBoardContainer}>
-            <div>
+            <Box mb={5}>
                 Statistics on coronavirus
-            </div>
-            <Center textAlign='center'>
+            </Box>
+            <Center mb={5} textAlign='center'>
                 <Select 
                     borderBottomColor={color.grayLight}
                     borderTop='hidden' 
