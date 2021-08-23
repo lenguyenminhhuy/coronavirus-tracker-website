@@ -1,5 +1,6 @@
 import React from 'react'
 import styles from './StatsBox.module.css';
+import PropTypes from 'prop-types'
 
 function StatsBox({label, value, textColor, valueContainerColor, labelContainerColor}) {
 
@@ -15,5 +16,12 @@ function StatsBox({label, value, textColor, valueContainerColor, labelContainerC
     )
 }
 
+StatsBox.propTypes = {
+    label: PropTypes.string,
+    value: PropTypes.number,
+    textColor: PropTypes.string,
+    valueContainerColor: PropTypes.string,
+    labelContainerColor: PropTypes.string
+};
 
 export default StatsBox;

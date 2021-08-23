@@ -1,30 +1,35 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import {
-	BarChart,
 	CartesianGrid,
 	XAxis,
 	YAxis,
 	Tooltip,
 	Legend,
 	Bar,
+	ComposedChart,
+	ResponsiveContainer,
+	Brush
 } from "recharts";
+import CustomAxisX from './shared/CustomAxisX';
+import CustomTooltip from "./shared/CustomTooltip";
 
-function BarChartDailyCase({ width = 730, height = 250, data }) {
+function BarChartDailyCase({ width = 730, height = 450, data }) {
 	const [chartData, useChartData] = useState(data);
 
 	return (
 		<React.Fragment>
-			<BarChart width={width} height={height} data={data}>
-				<CartesianGrid strokeDasharray="3 3" />
-				<XAxis dataKey="name" />
-				<YAxis />
-				<Tooltip />
-				<Legend />
-				<Bar dataKey="pv" fill="#8884d8" />
-				<Bar dataKey="uv" fill="#82ca9d" />
-				<Bar dataKey="amt" fill="#ffc658" />
-			</BarChart>
+			<ResponsiveContainer width={'100%'} height={450}>
+                <ComposedChart width={730} height={250} data={data}
+                    margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis minTickGap={20} dataKey="date" tick={<CustomAxisX/>} />
+                    <YAxis tickFormatter={(value) => value.toLocaleString()} />
+                    <Tooltip content={<CustomTooltip/>} />
+                    <Legend />
+                    <Bar type="monotone" dataKey="positive" fill="#82ca9d" />
+                </ComposedChart>
+            </ResponsiveContainer>
 		</React.Fragment>
 	);
 }
