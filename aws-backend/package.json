@@ -1,0 +1,38 @@
+{
+  "name": "aws-backend",
+  "version": "1.0.0",
+  "description": "Back-end for Serverless services on AWS of CoronaVirus-Tracker-Website App",
+  "main": "src/index.ts",
+  "repository": "https://github.com/lenguyenminhhuy/coronavirus-tracker-website",
+  "author": "Group 42",
+  "license": "MIT",
+  "devDependencies": {
+    "@aws-sdk/types": "^3.25.0",
+    "@types/aws-lambda": "^8.10.83",
+    "@types/jest": "^27.0.1",
+    "@types/node": "^16.7.1",
+    "@typescript-eslint/eslint-plugin": "^4.29.2",
+    "@typescript-eslint/parser": "^4.29.2",
+    "eslint": "^7.32.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-import-resolver-typescript": "^2.4.0",
+    "eslint-plugin-import": "^2.22.1",
+    "jest": "^27.0.6",
+    "ts-jest": "^27.0.5",
+    "typescript": "^4.3.5"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.973.0",
+    "aws-serverless-express": "^3.4.0",
+    "source-map-support": "^0.5.19"
+  },
+  "scripts": {
+    "build": "npx tsc",
+    "watch": "npx tsc -w",
+    "dev": "nodemon dist/index.js",
+    "start": "node dist/index.js",
+    "test": "jest",
+    "lint": "npx eslint --ext ts,tsx src/*"
+  }
+}

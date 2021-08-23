@@ -1,25 +1,37 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import React, { Component } from "react";
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import Nav from './components/Nav';
+import WorldMap from './pages/Home';
+import { Grid, GridItem } from "@chakra-ui/react";
+import Analysis from "./pages/Analysis";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+class App extends Component {
+  render() {
+    return (
+      <BrowserRouter>
+        <Grid
+          templateColumns="repeat(10,1fr)"
+          gap={6}
         >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+          <GridItem colSpan={1}>
+            <Nav/>
+          </GridItem>
+          <GridItem colSpan={9}>
+            <Switch>
+              <Route exact path="/">
+                  <WorldMap/>
+              </Route>
+              <Route path="/analysis">
+                  <Analysis/>
+              </Route>
+            </Switch>
+          </GridItem>
+        </Grid>
+
+      </BrowserRouter>
+    );
+  }
 }
 
 export default App;
