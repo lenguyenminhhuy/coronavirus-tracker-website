@@ -1,0 +1,60 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  coronavirus-tracker-website
+  Great and Deep insights about the current pandemic!
+  CloudFormation Template for SAM
+# More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
+Globals:
+  Function:
+    Layers:
+      - !Ref RuntimeDependenciesLayer
+    Environment:
+      Variables:
+        COVID_FULL_TABLE: "covid-full"
+    Runtime: nodejs14.x
+    MemorySize: 128
+    Timeout: 100
+
+Resources:
+  # Covid Lambda Function
+  CovidFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Metadata:
+      BuildMethod: makefile
+    Properties:
+      Handler: dist/handlers/hello.handler
+      Description: A simple example function for Hello Covid API
+      Events:
+        CovidDataAPI:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /hello
+            Method: GET
+
+  # Shared layer with Lambda runtime dependencies
+  RuntimeDependenciesLayer:
+    Type: AWS::Serverless::LayerVersion
+    Metadata:
+      BuildMethod: makefile
+    Properties:
+      LayerName: "coronavirus-tracker-website-dependencies"
+      Description: Node.js Runtime dependencies for Lambdas
+      ContentUri: ./
+      CompatibleRuntimes:
+        - nodejs14.x
+      RetentionPolicy: Retain
+
+# Created resources on AWS
+Outputs:
+  CovidAPI:
+    Description: "API Gateway endpoint URL for Prod stage"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/"
+
+  CovidFunction:
+    Description: "Covid Lambda Function ARN"
+    Value: !GetAtt CovidFunction.Arn
+
+  CovidFunctionIamRole:
+    Description: "Implicit IAM Role created for Covid Function"
+    Value: !GetAtt CovidFunctionRole.Arn
