@@ -1,3 +1,5 @@
+
+import format from "../../utils/format";
 const CustomTooltip = props => {
     const { active, payload, label } = props;
     if (!active || !payload) {
@@ -8,7 +10,7 @@ const CustomTooltip = props => {
         className="custom-tooltip"
       >
         <p>
-          <strong>{label}</strong>
+          <strong>{format.formatXAxis(label)}</strong>
         </p>
         {payload.map((item, i) => (
           <p key={i}>
