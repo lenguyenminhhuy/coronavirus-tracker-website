@@ -31,6 +31,8 @@ Resources:
           Properties:
             Path: /covid
             Method: GET
+  
+
   # Shared layer with Lambda runtime dependencies
   RuntimeDependenciesLayer:
     Type: AWS::Serverless::LayerVersion
@@ -60,27 +62,29 @@ Resources:
   BrowserAndUtilsLayer:
     Type: AWS::Serverless::LayerVersion
     Properties:
-        LayerName: BrowserAndUtilsLayer
-        Description: Holds helper functions for application
-        ContentUri: dist/utils/
-        CompatibleRuntimes:
-          - nodejs14.x
-        RetentionPolicy: Delete
+      LayerName: BrowserAndUtilsLayer
+      Description: Holds helper functions for application
+      ContentUri: dist/utils/
+      CompatibleRuntimes:
+        - nodejs14.x
+      RetentionPolicy: Delete
 
   ScarpingFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Metadata:
+      BuildMethod: makefile
     Properties:
-      Handler: dist/handlers/app.lambdaHandler
+      Handler: dist/handlers/scraping.handler
       MemorySize: 4096
       Layers:
         - !Ref BrowserAndUtilsLayer
       Events:
-        HelloWorldApi:
+        ScarpingApi:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
             Path: /api/getList/
             Method: get
-  
+            
 
   # ------------------------------------END OF SCRAPING----------------------------------------------------------------
 

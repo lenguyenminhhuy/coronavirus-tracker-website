@@ -1,8 +1,3 @@
-// var jsdom = require("jsdom");
-// var JSDOM = jsdom.JSDOM;
-
-// GLOBAL.document = new JSDOM(html).window.document;
-
 const scraperObject = {
   url: 'https://abli.asia/covid19aggregator',
   async scraper(browser: { newPage: () => any; }){
@@ -57,4 +52,4 @@ const scraperObject = {
   }
 }
 
-module.exports = scraperObject;
+export default scraperObject;
