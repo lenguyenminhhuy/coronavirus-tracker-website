@@ -1,0 +1,63 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: 'corona-tracking
+
+  Sample SAM Template for corona-tracking
+
+  '
+Globals:
+  Function:
+    Timeout: 15
+Resources:
+  GeneralPuppeteerLayer:
+    Type: AWS::Serverless::LayerVersion
+    Properties:
+      LayerName: GeneralPuppeteerLayer
+      Description: Hold Puppeteer library and node modules
+      ContentUri: GeneralPuppeteerLayer
+      CompatibleRuntimes:
+      - nodejs14.x
+    Metadata:
+      BuildMethod: nodejs14.x
+  BrowserAndUtilsLayer:
+    Type: AWS::Serverless::LayerVersion
+    Properties:
+      LayerName: BrowserAndUtilsLayer
+      Description: Holds helper functions for application
+      ContentUri: ..\..\hello-world\utils
+      CompatibleRuntimes:
+      - nodejs12.x
+      RetentionPolicy: Delete
+  HelloWorldFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: HelloWorldFunction
+      Handler: app.lambdaHandler
+      Runtime: nodejs12.x
+      MemorySize: 4096
+      Layers:
+      - Ref: GeneralPuppeteerLayer
+      - Ref: BrowserAndUtilsLayer
+      Events:
+        HelloWorldApi:
+          Type: Api
+          Properties:
+            Path: /api/getList/
+            Method: get
+Outputs:
+  HelloWorldApi:
+    Description: API Gateway endpoint URL for Prod stage for Hello World function
+    Value:
+      Fn::Sub: https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/prod/api/getList/
+  HelloWorldFunction:
+    Description: Hello World Lambda Function ARN
+    Value:
+      Fn::GetAtt:
+      - HelloWorldFunction
+      - Arn
+  HelloWorldFunctionIamRole:
+    Description: Implicit IAM Role created for Hello World function
+    Value:
+      Fn::GetAtt:
+      - HelloWorldFunctionRole
+      - Arn

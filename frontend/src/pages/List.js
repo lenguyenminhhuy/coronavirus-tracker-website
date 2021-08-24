@@ -30,7 +30,7 @@ class List extends Component {
   // Retrieves the list of items from the Express app
   getList = () => {
 
-    fetch('/api/getList', {mode: 'cors'})
+    fetch('https://cccae2mh0l.execute-api.us-east-2.amazonaws.com/Stage/api/getList', {mode: 'cors'})
     .then(res => res.json())
     .then(list => this.setState({ isLoaded: true, list }))
   }
