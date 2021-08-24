@@ -5,7 +5,6 @@ import CustomTooltip from "./shared/CustomTooltip";
 import CustomAxisX from './shared/CustomAxisX';
 
 async function processData(data,continent,mode) {
-    let Asian = ["Vietnam", "Thailand", "Singapore", "Malaysia", "Phillipines", "Myanmar", "Laos", "Campodia", "Indonesia", "Brunei"];
     let array = [];
     for (let country in data) {
       if (data[country].continent == continent && data[country][mode] != null) {
