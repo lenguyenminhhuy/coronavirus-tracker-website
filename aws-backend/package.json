@@ -25,6 +25,10 @@
   "dependencies": {
     "aws-sdk": "^2.973.0",
     "aws-serverless-express": "^3.4.0",
+    "chrome-aws-lambda": "^10.1.0",
+    "cors": "^2.8.5",
+    "fs": "^0.0.1-security",
+    "puppeteer-core": "^10.2.0",
     "source-map-support": "^0.5.19"
   },
   "scripts": {

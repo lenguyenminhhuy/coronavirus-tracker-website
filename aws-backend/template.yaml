@@ -43,6 +43,46 @@ Resources:
       CompatibleRuntimes:
         - nodejs14.x
       RetentionPolicy: Retain
+  
+
+  # ------------------------------------SCRAPING PART----------------------------------------------------------------
+  # GeneralPuppeteerLayer:
+  #   Type: AWS::Serverless::LayerVersion
+  #   Properties:
+  #       LayerName: GeneralPuppeteerLayer
+  #       Description: Hold Puppeteer library and node modules
+  #       ContentUri: layers/puppeteer/
+  #       CompatibleRuntimes:
+  #       - nodejs14.x
+  #   Metadata:
+  #     BuildMethod: nodejs14.x
+  
+  BrowserAndUtilsLayer:
+    Type: AWS::Serverless::LayerVersion
+    Properties:
+        LayerName: BrowserAndUtilsLayer
+        Description: Holds helper functions for application
+        ContentUri: dist/utils/
+        CompatibleRuntimes:
+          - nodejs14.x
+        RetentionPolicy: Delete
+
+  ScarpingFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      Handler: dist/handlers/app.lambdaHandler
+      MemorySize: 4096
+      Layers:
+        - !Ref BrowserAndUtilsLayer
+      Events:
+        HelloWorldApi:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /api/getList/
+            Method: get
+  
+
+  # ------------------------------------END OF SCRAPING----------------------------------------------------------------
 
 # Created resources on AWS
 Outputs:
@@ -57,3 +97,17 @@ Outputs:
   CovidFunctionIamRole:
     Description: "Implicit IAM Role created for Covid Function"
     Value: !GetAtt CovidFunctionRole.Arn
+  
+
+  # ------------------------------SCRAPING PART-------------------------------------------------------
+  ScarpingApi:
+    Description: "API Gateway endpoint URL for Prod stage for Hello World function"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/prod/api/getList/"
+  ScarpingFunction:
+    Description: "Scarping Lambda Function ARN"
+    Value: !GetAtt ScarpingFunction.Arn
+  ScarpingFunctionIamRole:
+    Description: "Implicit IAM Role created for Scarping function"
+    Value: !GetAtt ScarpingFunctionRole.Arn
+  # ------------------------------------END OF SCRAPING----------------------------------------------------------------
+
