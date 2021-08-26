@@ -25,6 +25,7 @@
   "dependencies": {
     "aws-sdk": "^2.973.0",
     "aws-serverless-express": "^3.4.0",
+    "dayjs": "^1.10.6",
     "source-map-support": "^0.5.19"
   },
   "scripts": {

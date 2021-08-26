@@ -1,3 +1,4 @@
 dist
 node_modules
 .aws-sam
+config.json

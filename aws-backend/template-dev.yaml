@@ -1,9 +1,8 @@
 AWSTemplateFormatVersion: "2010-09-09"
 Transform: AWS::Serverless-2016-10-31
 Description: >
-  coronavirus-tracker-website
-  Great and Deep insights about the current pandemic!
-  CloudFormation Template for SAM
+  coronavirus-tracker-website-dev-stack
+  CloudFormation Template for SAM (Dev Environment)
 # More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
 Globals:
   Function:
@@ -53,7 +52,7 @@ Resources:
       BuildMethod: makefile
     Properties:
       LayerName: "coronavirus-tracker-website-dev-dependencies"
-      Description: Node.js Runtime dependencies for Lambdas
+      Description: Node.js Runtime dependencies for Lambdas  (Dev Environment)
       ContentUri: ./
       CompatibleRuntimes:
         - nodejs14.x
