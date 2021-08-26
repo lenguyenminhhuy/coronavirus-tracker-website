@@ -1,3 +1,13 @@
+import {
+  Flex,
+  Heading,
+  Text,
+  Icon,
+  Link,
+  Box,
+  Divider,
+  Select,
+} from "@chakra-ui/react";
 import React from "react";
 import { Map, GeoJSON } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
@@ -19,25 +29,27 @@ const WorldMap = ({ countries }) => {
     // layer.popup()
     // .setLatLng(country.properties)
     // .setContent(`${name}${confirmedText}`)
-    // .openOn(); 
-    console.log('country', country.properties)
+    // .openOn();
+    console.log("country", country.properties);
     layer.bindPopup(`${name}${confirmedText}`);
-    layer.on('mouseover', function (e) {
+    layer.on("mouseover", function (e) {
       this.openPopup();
     });
-    layer.on('mouseout', function (e) {
-        this.closePopup();
+    layer.on("mouseout", function (e) {
+      this.closePopup();
     });
-    };
+  };
 
   return (
-    <Map style={{ height: "90vh" }} zoom={2} center={[20, 60]}>
-      <GeoJSON
-        style={mapStyle}
-        data={countries}
-        onEachFeature={onEachCountry}
-      />
-    </Map>
+    <Flex flexDir="column" overflow="auto" minH="100vh">
+      <Map style={{ height: "50vh" }} zoom={2} center={[20, 60]}>
+        <GeoJSON
+          style={mapStyle}
+          data={countries}
+          onEachFeature={onEachCountry}
+        />
+      </Map>
+    </Flex>
   );
 };
 

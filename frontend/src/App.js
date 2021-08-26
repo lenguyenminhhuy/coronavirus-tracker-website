@@ -1,34 +1,50 @@
 import "./App.css";
 import React, { Component } from "react";
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
-import Nav from './components/Nav';
-import WorldMap from './pages/Home';
-import { Grid, GridItem } from "@chakra-ui/react";
+import { BrowserRouter, Switch, Route } from "react-router-dom";
+import Nav from "./components/Nav";
+import WorldMap from "./pages/Home";
+import { Flex, Grid, GridItem } from "@chakra-ui/react";
 import Analysis from "./pages/Analysis";
 
 class App extends Component {
   render() {
     return (
       <BrowserRouter>
-        <Grid
-          templateColumns="repeat(10,1fr)"
-          gap={6}
+        <Flex
+          h={[null, null, "100vh"]}
+          flexDir={["column", "column", "row"]}
+          overflow="hidden"
+          maxW="2000px"
+          backgroundColor="#f5f6f8"
         >
+          <Flex w={["100%", "100%", "10%", "15%", "15%"]}>
+            <Nav />
+          </Flex>
+          <Flex w={["100%", "100%", "85%"]} p="2%">
+            <Switch>
+              <Route exact path="/" component={WorldMap} />
+              <Route path="/analysis" component={Analysis} />
+              {/* <Route path="/news" component={New} /> */}
+            </Switch>
+          </Flex>
+        </Flex>
+
+        {/* <Grid templateColumns="repeat(10,1fr)" gap={6}>
           <GridItem colSpan={1}>
-            <Nav/>
+            <Nav />
           </GridItem>
           <GridItem colSpan={9}>
             <Switch>
-              <Route exact path="/">
-                  <WorldMap/>
-              </Route>
-              <Route path="/analysis">
-                  <Analysis/>
-              </Route>
-            </Switch>
-          </GridItem>
-        </Grid>
-
+              <Route exact path="/" component={WorldMap} />
+              <Route path="/analysis" component={Analysis} />
+              {/* <Route path="/news" component={New} /> */}
+        {/* </Switch> */}
+        {/* </GridItem> */}
+        {/* <WorldMap /> */}
+        {/* </Route> */}
+        {/* <Analysis /> */}
+        {/* </Route> */}
+        {/* </Grid> */}
       </BrowserRouter>
     );
   }
