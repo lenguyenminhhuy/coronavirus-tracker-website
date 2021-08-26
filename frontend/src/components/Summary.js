@@ -26,6 +26,7 @@ const Summary = () => {
       ) : (
         <div>
           <WorldMap countries={countries} />
+          <br></br>
           <Legend legendItems={legendItemsReverse} />
         </div>
       )}

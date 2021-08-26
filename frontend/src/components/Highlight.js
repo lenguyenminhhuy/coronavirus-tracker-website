@@ -3,12 +3,12 @@ import React from 'react';
 import Cards from './Cards';
 export default function Highlight( {infor} ) {
     return  (
-    <Grid templateColumns="repeat(3, 2fr)" gap={4}>
+    <Grid templateColumns="repeat(3, 1fr)" gap={3}>
         { 
             infor.map((item) =>        
             <Grid 
             columns={{ sm: 2, md: 4 }}
-            spacing="8"
+            // spacing="5"
             p="10"
             textAlign="center"
             rounded="lg"

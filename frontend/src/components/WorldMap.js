@@ -2,8 +2,16 @@ import React from "react";
 import { Map, GeoJSON } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import "./WorldMap.css";
+import { TileLayer } from "react-leaflet";
+import Legend from "./Legend";
 
 const WorldMap = ({ countries }) => {
+  const state = {
+      lat: 50,
+      lng: 10,
+      zoom: 1.5
+    };
+
   const mapStyle = {
     fillColor: "white",
     weight: 1,
@@ -16,11 +24,6 @@ const WorldMap = ({ countries }) => {
     const name = country.properties.ADMIN;
     const confirmedText = country.properties.confirmedText;
 
-    // layer.popup()
-    // .setLatLng(country.properties)
-    // .setContent(`${name}${confirmedText}`)
-    // .openOn(); 
-    console.log('country', country.properties)
     layer.bindPopup(`${name}${confirmedText}`);
     layer.on('mouseover', function (e) {
       this.openPopup();
@@ -29,16 +32,24 @@ const WorldMap = ({ countries }) => {
         this.closePopup();
     });
     };
-
+  
   return (
-    <Map style={{ height: "90vh" }} zoom={2} center={[20, 60]}>
+    <div>
+    <Map style={{ height: "80vh", width: "95%", border: "1px solid black"}} zoom={state.zoom} center={[state.lat, state.lng]}>
       <GeoJSON
         style={mapStyle}
         data={countries}
         onEachFeature={onEachCountry}
       />
-    </Map>
+       <TileLayer
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+        />
+        </Map>
+    </div>
+
   );
+
 };
 
 export default WorldMap;

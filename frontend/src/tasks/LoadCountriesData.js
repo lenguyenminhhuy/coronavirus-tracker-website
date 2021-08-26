@@ -29,7 +29,6 @@ class LoadCountryData {
       
         );
 
-
       country.properties.confirmed = 0;
       country.properties.confirmedText = 0;
 

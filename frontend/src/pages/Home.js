@@ -1,6 +1,5 @@
 import axios from 'axios';
-import React, { Component, useMemo, useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useMemo, useState, useEffect } from 'react';
 import Highlight from '../components/Highlight';
 import Summary from '../components/Summary';
 
@@ -32,11 +31,10 @@ function WorldMap() {
   }, [information])
     return (
     <div className="App">
-      <h1>Project Home</h1>
-      {/* Link to List.js */}
-        <button variant="raised" href="list.js">
+      {/* <h1> Coronavirus Tracker Website</h1>
+        <button variant="raised" href="List.js">
             My List
-        </button>
+        </button> */}
       <div>
         <Highlight infor={dataHighlight}/>
         <Summary />
