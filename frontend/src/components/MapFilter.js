@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Select } from "@chakra-ui/react";
+import styled from "styled-components";
 
 async function selectData(data, mode) {
   let selectedArray = [];
@@ -35,18 +36,22 @@ function MapFilter({ data, defaultMode }) {
 
   console.log("Current mode: " + mode);
   console.log(displayedData);
+
+
   return (
-    <Select
-      value={mode}
-      onChange={(e) => {
-        setMode(e.target.value);
-      }}
-    >
-      <option value={modes[0].value}>{modes[0].label}</option>
-      <option value={modes[1].value}>{modes[1].label}</option>
-      <option value={modes[2].value}>{modes[2].label}</option>
-      <option value={modes[3].value}>{modes[3].label}</option>
-    </Select>
+      <Select
+        width="95%"
+        marginBottom="5px"
+        value={mode}
+        onChange={(e) => {
+          setMode(e.target.value);
+        }}
+      >
+        <option value={modes[0].value}>{modes[0].label}</option>
+        <option value={modes[1].value}>{modes[1].label}</option>
+        <option value={modes[2].value}>{modes[2].label}</option>
+        <option value={modes[3].value}>{modes[3].label}</option>
+        </Select>
 
     // for using
     // api: https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/latest/owid-covid-latest.json

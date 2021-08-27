@@ -7,9 +7,9 @@ function WorldMap() {
   const [information, setInformation] = useState([]);
 
   useEffect(() => {
-    axios.get('https://api.covid19api.com/summary')
-    .then((res) => {console.log('dataa',res.data.Global);
-    setInformation(res.data.Global)})
+    axios.get('https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/latest/owid-covid-latest.json')
+    .then((res) => {console.log('dataa',res.data.OWID_WRL);
+    setInformation(res.data.OWID_WRL)})
   });
 
   const dataHighlight = useMemo(() => {
@@ -17,24 +17,25 @@ function WorldMap() {
       return [
         {
           title: "Total confirmed cases",
-          count: information.TotalConfirmed,
+          count: information.total_cases,
           type: 'confirmed'
       },
       {
           title: "Total death cases",
-          count: information.TotalDeaths,
+          count: information.total_deaths,
           type: 'death'
       },
+      {
+        title: "Total vaccinated cases",
+        count: information.total_vaccinations,
+        type: 'vaccinated'
+    },
       ];
     }
     return []; 
   }, [information])
     return (
     <div className="App">
-      {/* <h1> Coronavirus Tracker Website</h1>
-        <button variant="raised" href="List.js">
-            My List
-        </button> */}
       <div>
         <Highlight infor={dataHighlight}/>
         <Summary />

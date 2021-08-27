@@ -4,7 +4,10 @@ import CountUp from 'react-countup';
 import styled from "styled-components";
 
 const CardStyle = styled.div`
-    border-left: ${props => props.type === 'confirmed' ? "10px solid blue" : "10px solid red"};
+    border-left: ${props => props.type === 'confirmed' ? "10px solid yellow" : "10px solid red" }};
+    ${props => props.type === 'vaccinated' && `
+    border-left: 10px solid green
+    `};
     box-shadow: 6px 6px 5px #f2f7ff;
     background-color: #d1e2f;
     border-radius: 7px;
@@ -20,7 +23,7 @@ export default function Cards ({title, count, type}){
             <Text component="p" variant="body2" marginBottom="2%" marginTop="5%" fontWeight="bold" fontSize="18"> 
                 <CountUp end={count} separator=' ' duration={1} />
             </Text>
-            <Text component="p" variant="body2"  marginBottom="2%"   > {title} </Text>
+            <Text component="p" variant="body2"  marginBottom="2%" > {title} </Text>
         </Stack>
     </CardStyle>
 

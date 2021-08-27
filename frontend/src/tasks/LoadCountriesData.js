@@ -8,13 +8,13 @@ class LoadCountryData {
   // covidUrl =
   //   "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/web-data/data/cases_country.csv";
   
-  covidUrl = 'https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/latest/owid-covid-latest.csv';
+  api = 'https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/latest/owid-covid-latest.csv';
   setState = null;
 
   load = (setState) => {
     this.setState = setState;
 
-    papa.parse(this.covidUrl, {
+    papa.parse(this.api, {
       download: true,
       header: true,
       complete: (result) => this.#processCovidData(result.data),
@@ -23,7 +23,7 @@ class LoadCountryData {
   #processCovidData = (covidCountries) => {
     for (let i = 0; i < features.length; i++) {
       const country = features[i];
-      //console.log(country);
+      console.log("Country", country);
       const covidCountry = covidCountries.find(
         (covidCountry) => country.properties.ISO_A3 === covidCountry.iso_code
       
@@ -35,6 +35,10 @@ class LoadCountryData {
 
       if (covidCountry != null) {
         let confirmed = Number(covidCountry.total_cases);
+        let deaths = Number(covidCountry.total_deaths);
+        let vaccinated = Number(covidCountry.total_vaccinations);
+        let new_cases = Number(covidCountry.new_cases);
+
         country.properties.confirmed = confirmed;
         country.properties.confirmedText = "\nTotal cases: ".concat(this.#formatNumberWithCommas(confirmed));
       }

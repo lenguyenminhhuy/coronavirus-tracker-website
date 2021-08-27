@@ -5,6 +5,7 @@ import WorldMap from "./WorldMap";
 import LoadCountriesTask from "../tasks/LoadCountriesData";
 import Legend from "./Legend";
 import legendItems from "../legends/LegendItems";
+import MapFilter from "./MapFilter";
 
 const Summary = () => {
   const [countries, setCountries] = useState([]);
@@ -25,6 +26,7 @@ const Summary = () => {
         <Loading />
       ) : (
         <div>
+          <MapFilter data={countries} defaultMode={'total_deaths'}/>
           <WorldMap countries={countries} />
           <br></br>
           <Legend legendItems={legendItemsReverse} />
