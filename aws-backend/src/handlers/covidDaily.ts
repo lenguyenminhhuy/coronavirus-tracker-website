@@ -36,7 +36,7 @@ function chunkArray(arr:DynamoDB.DocumentClient.WriteRequest[], chunkCount:numbe
 const addRequest = async (record: DynamoDB.DocumentClient.WriteRequest[])=>{
   const params: DynamoDB.DocumentClient.BatchWriteItemInput = {
     RequestItems : { 
-      'CovidTimeSeriesTable' : record
+      'CovidTimeSeriesTable1' : record
     }
   };
   const run = async () => {

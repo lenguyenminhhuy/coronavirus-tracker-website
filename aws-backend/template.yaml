@@ -89,7 +89,7 @@ Resources:
   CovidTimeSeriesTable:
     Type: AWS::DynamoDB::Table
     Properties: 
-      TableName: "CovidTimeSeriesTable"
+      TableName: "CovidTimeSeriesTable1"
       KeySchema: 
         - AttributeName: "iso_code"
           KeyType: "HASH"
@@ -141,7 +141,7 @@ Resources:
         GetDataDailyAPI:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
-            Path: /getDaily/
+            Path: /api/getDaily/
             Method: get
 
 
@@ -179,7 +179,7 @@ Outputs:
   # ------------------------------------------------INSERT AND VIEW DAILY DATA--------------------------------------------------------
   GetDataDailyFunction:
     Description: "Covid Lambda Function ARN"
-    Value: !GetAtt GetDataDailyFunctionFunction.Arn
+    Value: !GetAtt GetDataDailyFunction.Arn
 
   GetDataDailyFunctionIamRole:
     Description: "Implicit IAM Role created for Covid Function"
@@ -187,7 +187,7 @@ Outputs:
   
   GetDataDailyAPI:
     Description: "API Gateway endpoint URL for Prod stage"
-    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/prod/getDaily/"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/prod/api/getList/"
 
   GetDataDailyAPIFunction:
     Description: "Covid Lambda Function ARN"

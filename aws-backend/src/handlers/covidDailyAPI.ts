@@ -17,7 +17,7 @@ exports.handler = async (
   console.log(event);
 
   const params:AWS.DynamoDB.DocumentClient.ScanInput = {
-    TableName: 'CovidTimeSeriesTable'
+    TableName: 'CovidTimeSeriesTable1'
   };
   
   // fetch all todos from the database
