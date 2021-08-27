@@ -14,7 +14,7 @@ clean_process() {
     aws cloudformation list-stacks --query "StackSummaries[?contains(StackName,'coronavirus-tracker-website-dev-stack')].StackStatus"
     echo "=> Success confirmation of removal for DEV Stack! ✅"
   else
-echo "Start the PROD clean process of CF Stack..."
+    echo "Start the PROD clean process of CF Stack..."
     aws cloudformation delete-stack --stack-name coronavirus-tracker-website
     echo "=> Delete PROD Stack completed! ✅"
     echo "Confirming if the PROD Stack has been deleted..."
