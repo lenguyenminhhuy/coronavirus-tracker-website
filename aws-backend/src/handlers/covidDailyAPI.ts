@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/indent */
 import AWS = require('aws-sdk');
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda";
 
@@ -21,14 +22,21 @@ exports.handler = async (
   
   // fetch all todos from the database
   // For production workloads you should design your tables and indexes so that your applications can use Query instead of Scan.
-  const result  =  await docClient.scan(params).promise().then(data => data).catch(console.error);
+  const result  =  await docClient.scan(params).promise()
+  .then(data => {
+    const entries = data.Items;
+    response = {
+      statusCode: 200,
+      body: JSON.stringify(entries?.slice(0, 223)),
+    };
+      return response;
+    }).catch(console.error);
 
   // create a response
   // eslint-disable-next-line prefer-const
-  response = {
-    statusCode: 200,
-    body: JSON.stringify(result?.Items),
-  };
+  
 
-  return context.succeed(response);
+  // result?.Items[result.Items.lengthslice(-2)]
+
+  return context.succeed(result);
 };
