@@ -43,7 +43,7 @@ Resources:
         SendDailyEmailFunction:
           Type: Schedule
           Properties:
-            Schedule: rate(5 minutes)
+            Schedule: rate(60 minutes)
 
   # Shared layer with Lambda runtime dependencies
   RuntimeDependenciesLayer:

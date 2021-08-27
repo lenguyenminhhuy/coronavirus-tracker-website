@@ -9,13 +9,15 @@ ship_process() {
     sam.cmd build -t template-dev.yaml
     echo "=> Build DEV completed! ✅"
     echo "Start the deployment process to AWS CloudFormation..."
-    sam deploy --config-file samconfig-dev.toml
+    sam.cmd deploy --config-file samconfig-dev.toml
+    echo "=> Deploy DEV completed! ✅"
   else
     echo "Start the PROD build process of .aws-sam folder..."
     sam.cmd build
     echo "=> Build PROD completed! ✅"
     echo "Start the deployment process to AWS CloudFormation..."
     sam.cmd deploy
+    echo "=> Deploy PROD completed! ✅"
   fi
 }
 

@@ -5,8 +5,10 @@ import { SendEmailRequest, SendEmailResponse } from "aws-sdk/clients/ses";
 // // Provide credentials
 // aws.config.loadFromPath("../../config.json");
 
-const ses = new aws.SES();
 exports.handler = async (): Promise<void> => {
+  // Initialize SES service
+  const ses = new aws.SES({ region: "us-east-2" });
+
   // Specify e-mail agents
   const sender = "CoronaNews <coronanews@minhthings.com>";
   const recipient = "minhlucky2408@gmail.com"; // @test account
