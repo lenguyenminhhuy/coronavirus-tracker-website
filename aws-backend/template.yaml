@@ -84,7 +84,68 @@ Resources:
           Properties:
             Path: /api/getList/
             Method: get
-            
+    
+    # ------------------------------------------TABLE----------------------------------------------------------
+  CovidTimeSeriesTable:
+    Type: AWS::DynamoDB::Table
+    Properties: 
+      TableName: "CovidTimeSeriesTable"
+      KeySchema: 
+        - AttributeName: "iso_code"
+          KeyType: "HASH"
+        - AttributeName: "updated_date"
+          KeyType: "RANGE"
+      AttributeDefinitions:
+        - AttributeName: "iso_code"
+          AttributeType: "S"
+        - AttributeName: "updated_date"
+          AttributeType: "S"
+      ProvisionedThroughput: 
+        ReadCapacityUnits: 5
+        WriteCapacityUnits: 5
+  
+  GetDataDailyFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Metadata:
+      BuildMethod: makefile
+    Properties:
+      Handler: dist/handlers/covidDaily.handler
+      Policies:
+        # Give Create/Read/Update/Delete Permissions to the SampleTable, see https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-policy-template-list.html#dynamo-db-crud-policy
+        - DynamoDBCrudPolicy:
+            TableName: !Ref CovidTimeSeriesTable
+      Environment:
+        Variables:
+          TABLE_NAME: !Ref CovidTimeSeriesTable
+      Events:
+        CheckWebsiteScheduledEvent:
+          Type: Schedule
+          Properties:
+            Schedule: rate(1 day)
+
+
+  GetDataDailyAPIFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Metadata:
+      BuildMethod: makefile
+    Properties:
+      Handler: dist/handlers/covidDailyAPI.handler
+      Policies:
+        # Give Create/Read/Update/Delete Permissions to the SampleTable, see https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-policy-template-list.html#dynamo-db-crud-policy
+        - DynamoDBCrudPolicy:
+            TableName: !Ref CovidTimeSeriesTable
+      Environment:
+        Variables:
+          TABLE_NAME: !Ref CovidTimeSeriesTable
+      Events:
+        GetDataDailyAPI:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /getDaily/
+            Method: get
+
+
+
 
   # ------------------------------------END OF SCRAPING----------------------------------------------------------------
 
@@ -114,4 +175,26 @@ Outputs:
     Description: "Implicit IAM Role created for Scarping function"
     Value: !GetAtt ScarpingFunctionRole.Arn
   # ------------------------------------END OF SCRAPING----------------------------------------------------------------
+  
+  # ------------------------------------------------INSERT AND VIEW DAILY DATA--------------------------------------------------------
+  GetDataDailyFunction:
+    Description: "Covid Lambda Function ARN"
+    Value: !GetAtt GetDataDailyFunctionFunction.Arn
 
+  GetDataDailyFunctionIamRole:
+    Description: "Implicit IAM Role created for Covid Function"
+    Value: !GetAtt GetDataDailyFunctionRole.Arn
+  
+  GetDataDailyAPI:
+    Description: "API Gateway endpoint URL for Prod stage"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/prod/getDaily/"
+
+  GetDataDailyAPIFunction:
+    Description: "Covid Lambda Function ARN"
+    Value: !GetAtt GetDataDailyAPIFunction.Arn
+
+  GetDataDailyAPIFunctionIamRole:
+    Description: "Implicit IAM Role created for Covid Function"
+    Value: !GetAtt GetDataDailyAPIFunctionRole.Arn
+  
+  # ------------------------------------------------END INSERT AND VIEW DAILY DATA--------------------------------------------------------

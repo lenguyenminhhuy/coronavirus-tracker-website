@@ -1,13 +1,16 @@
 .PHONY: build-RuntimeDependenciesLayer build-lambda-common
-.PHONY: build-ScarpingFunction build-CovidFunction 
+.PHONY: build-ScarpingFunction build-CovidFunction build-GetDataDailyFunction build-GetDataDailyAPIFunction
 # .PHONY: build-BrowserAndUtilsLayer
 
 
 build-CovidFunction:
 	$(MAKE) HANDLER=src/handlers/hello.ts build-lambda-common
 
-# build-BrowserAndUtilsLayer:
-# 	$(MAKE) UTIL_HANDLER=src/utils/ build-lambda-common
+build-GetDataDailyFunction:
+	$(MAKE) HANDLER=src/handlers/covidDaily.ts build-lambda-common
+
+build-GetDataDailyAPIFunction:
+	$(MAKE) HANDLER=src/handlers/covidDailyAPI.ts build-lambda-common
 
 build-ScarpingFunction:
 	$(MAKE) HANDLER=src/handlers/scraping.ts build-lambda-common
