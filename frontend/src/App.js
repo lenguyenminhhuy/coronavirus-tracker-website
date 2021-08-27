@@ -11,16 +11,16 @@ class App extends Component {
     return (
       <BrowserRouter>
         <Flex
-          h={[null, null, "100vh"]}
+          h={[null, null, "150vh"]}
           flexDir={["column", "column", "row"]}
           overflow="hidden"
           maxW="2000px"
           backgroundColor="#f5f6f8"
         >
-          <Flex w={["100%", "100%", "10%", "15%", "15%"]}>
+          <Flex w={["100%", "100%", "10%", "15%", "15%"]} pos="sticky">
             <Nav />
           </Flex>
-          <Flex w={["100%", "100%", "85%"]} p="2%">
+          <Flex w={["100%", "100%", "100%"]} p="1.5vh">
             <Switch>
               <Route exact path="/" component={WorldMap} />
               <Route path="/analysis" component={Analysis} />

@@ -13,7 +13,12 @@ import {
   Icon,
   Link,
   Box,
+  LinkBox,
+  Button,
+  NextLink,
+  LinkOverlay,
   Divider,
+  IconButton,
 } from "@chakra-ui/react";
 // import { BiWorld } from "react-icons/bi";
 import { FcComboChart, FcNews } from "react-icons/fc";
@@ -27,8 +32,9 @@ const Sidebar = () => {
     <Flex
       w="100%"
       h={[null, null, "100vh"]}
-      boxShadow="0 4px 12px 0 rgba(0,0,0,0.05)"
-      borderRadius="0 20px 20px 0"
+      left="0"
+      boxShadow="0 4px 12px 0 rgba(0,0,0,0.02)"
+      borderRightRadius={["0", "0", "20px"]}
       backgroundColor="#fff"
       color="#020202"
       flexDir="column"
@@ -51,90 +57,87 @@ const Sidebar = () => {
           flexDir={["column"]}
           align={["center", "center", "center", "flex-start", "flex-start"]}
           justifyContent="center"
+          alignItems="center"
         >
-          {/* <NavItem icon={GiWorld} title="Our World" /> */}
-          <Flex
-            className="sidebar-items active"
-            py={2}
-            px="5%"
-            alignSelf="center"
+          <Link
+            _hover={{ textDecor: "none", backgroundColor: "#eeeeee" }}
+            href="/"
+            w="75%"
+            mb={35}
+            p={2}
+            borderRadius="20px"
           >
-            <Link display={["flex", "flex", "flex", "flex", "flex"]}>
-              <Icon as={GiWorld} fontSize="3xl" color="#0F52BA"></Icon>
-            </Link>
-            <Link
-              _hover={{ textDecor: "none" }}
-              display={["flex", "flex", "none", "flex", "flex"]}
-            >
-              <Text>Our world</Text>
-            </Link>
-          </Flex>
-          <Flex className="sidebar-items" py={2} px="5%" alignSelf="center">
-            <Link display={["flex", "flex", "flex", "flex", "flex"]}>
-              <Icon as={FcComboChart} fontSize="3xl"></Icon>
-            </Link>
-            <Link
-              _hover={{ textDecor: "none" }}
-              display={["flex", "flex", "none", "flex", "flex"]}
-              href="/analysis"
-              passHref
-            >
-              <Text>Analysis</Text>
-            </Link>
-          </Flex>
-          <Flex className="sidebar-items" py={2} px="5%" alignSelf="center">
-            <Link display={["flex", "flex", "flex", "flex", "flex"]}>
-              <Icon as={FcNews} fontSize="3xl"></Icon>
-            </Link>
-            <Link
-              _hover={{ textDecor: "none" }}
-              display={["flex", "flex", "none", "flex", "flex"]}
-            >
-              <Text>News</Text>
-            </Link>
-          </Flex>
+            <NavItem icon={GiWorld} title="WorldMap" color="#0F52BA" />
+          </Link>
+          <Link
+            _hover={{ textDecor: "none", backgroundColor: "#eeeeee" }}
+            href="/analysis"
+            w="75%"
+            mb={35}
+            p={2}
+            borderRadius="20px"
+          >
+            <NavItem icon={FcComboChart} title="Analysis" />
+          </Link>
+          <Link
+            _hover={{ textDecor: "none", backgroundColor: "#eeeeee" }}
+            // href="/news"
+            w="75%"
+            mb={35}
+            p={2}
+            borderRadius="20px"
+          >
+            <NavItem icon={FcNews} title="News" />
+          </Link>
         </Flex>
       </Flex>
+
       {/* Nav Bottom */}
       <Flex w="100%" flexDir="column" alignItems="center" mb={4}>
         <Divider color="#e6e6e6" />
+
         <Flex mt={4} align="center">
           <Text textAlign="center">@Corana-virus-Tracking</Text>
         </Flex>
       </Flex>
-      {/* </Flex> */}
     </Flex>
-
-    // <div
-    //   style={{ display: 'flex', height: '100%'}}
-    // >
-    //   <CDBSidebar textColor="" backgroundColor="#fff" style={{boxShadow: '0px 4px 42px rgba(0,0,0,0.07)'}} >
-    //     <CDBSidebarContent className="sidebar-content">
-    //       <CDBSidebarMenu>
-    //         <NavLink exact to="/" activeClassName="">
-    //           <CDBSidebarMenuItem icon="columns">Dashboard</CDBSidebarMenuItem>
-    //         </NavLink>
-    //         <NavLink exact to="/analysis" activeClassName="">
-    //           <CDBSidebarMenuItem   icon="table">Analysis</CDBSidebarMenuItem>
-    //         </NavLink>
-    //         <NavLink exact to='/news' activeClassName="">
-    //           <CDBSidebarMenuItem icon="newspaper">Latest News</CDBSidebarMenuItem>
-    //         </NavLink>
-    //       </CDBSidebarMenu>
-    //     </CDBSidebarContent>
-
-    //     <CDBSidebarFooter style={{ textAlign: 'center' }}>
-    //       <div
-    //         style={{
-    //           padding: '20px 5px',
-    //         }}
-    //       >
-    //         @Corana-virus-Tracking
-    //       </div>
-    //     </CDBSidebarFooter>
-    //   </CDBSidebar>
-    // </div>
   );
 };
+
+// <div style={{ display: "flex", height: "100%" }}>
+//   <CDBSidebar
+//     textColor=""
+//     backgroundColor="#fff"
+//     style={{ boxShadow: "0px 4px 42px rgba(0,0,0,0.07)" }}
+//   >
+//     <CDBSidebarContent className="sidebar-content">
+//       <CDBSidebarMenu>
+//         <NavLink exact to="/" activeClassName="">
+//           <CDBSidebarMenuItem icon="columns">Dashboard</CDBSidebarMenuItem>
+//         </NavLink>
+//         <NavLink exact to="/analysis" activeClassName="">
+//           <CDBSidebarMenuItem icon="table">Analysis</CDBSidebarMenuItem>
+//         </NavLink>
+//         <NavLink exact to="/news" activeClassName="">
+//           <CDBSidebarMenuItem icon="newspaper">
+//             Latest News
+//           </CDBSidebarMenuItem>
+//         </NavLink>
+//       </CDBSidebarMenu>
+//     </CDBSidebarContent>
+
+//     <CDBSidebarFooter style={{ textAlign: "center" }}>
+//       <div
+//         style={{
+//           padding: "20px 5px",
+//         }}
+//       >
+//         @Corana-virus-Tracking
+//       </div>
+//     </CDBSidebarFooter>
+//   </CDBSidebar>
+// </div>
+// );
+// };
 
 export default Sidebar;
