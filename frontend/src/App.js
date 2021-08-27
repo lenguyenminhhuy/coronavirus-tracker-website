@@ -15,12 +15,18 @@ class App extends Component {
           flexDir={["column", "column", "row"]}
           overflow="hidden"
           maxW="2000px"
-          backgroundColor="#f5f6f8"
+          // backgroundColor="#f5f6f8"
+          backgroundColor="#f6f8fc"
         >
-          <Flex w={["100%", "100%", "10%", "15%", "15%"]} pos="sticky">
+          <Flex w={["100%", "100%", "80px", "80px", "250px"]} pos="sticky">
             <Nav />
           </Flex>
-          <Flex w={["100%", "100%", "100%"]} p="1.5vh">
+
+          <Flex
+            w={["100%", "100%", "100%"]}
+            p={["0.5vh", "0.5vh", "1.5vh", "2vh", "3vh"]}
+            // overflow="auto"
+          >
             <Switch>
               <Route exact path="/" component={WorldMap} />
               <Route path="/analysis" component={Analysis} />

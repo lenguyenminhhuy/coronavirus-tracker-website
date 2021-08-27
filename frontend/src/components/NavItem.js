@@ -4,16 +4,11 @@ import { Link } from "react-router-dom";
 
 const NavItem = ({ icon, title, color }) => {
   return (
-    <Flex
-      flexDir="row"
-      textAlign="center"
-      alignItems="center"
-      alignSelf="center"
-    >
+    <Flex flexDir="row" alignItems="center">
       <Flex>
         <Icon fontSize="3xl" as={icon} color={color} />
       </Flex>
-      <Flex>
+      <Flex display={["flex", "flex", "none", "none", "flex"]}>
         <Text m="auto" ml="2" fontSize="2xl">
           {title}
         </Text>

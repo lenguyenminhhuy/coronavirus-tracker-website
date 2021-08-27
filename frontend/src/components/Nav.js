@@ -64,7 +64,7 @@ const Sidebar = () => {
             href="/"
             w="75%"
             mb={35}
-            p={2}
+            p={1}
             borderRadius="20px"
           >
             <NavItem icon={GiWorld} title="WorldMap" color="#0F52BA" />
@@ -74,7 +74,7 @@ const Sidebar = () => {
             href="/analysis"
             w="75%"
             mb={35}
-            p={2}
+            p={1}
             borderRadius="20px"
           >
             <NavItem icon={FcComboChart} title="Analysis" />
@@ -84,7 +84,7 @@ const Sidebar = () => {
             // href="/news"
             w="75%"
             mb={35}
-            p={2}
+            p={1}
             borderRadius="20px"
           >
             <NavItem icon={FcNews} title="News" />
