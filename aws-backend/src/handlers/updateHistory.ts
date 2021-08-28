@@ -27,14 +27,14 @@ async function updateHistory(continent: string) {
               if(computeDaysBetween(rawData[i].date) <= 120) {
                 let obj = {
                   date: rawData[i].date,
-                  totalCases: rawData[i].total_cases? parseInt(rawData[i].total_cases) : 0,
-                  newCases: rawData[i].new_cases? parseInt(rawData[i].new_cases) : 0,
-                  totalDeaths: rawData[i].total_deaths? parseInt(rawData[i].total_deaths) : 0,
-                  newDeaths: rawData[i].new_deaths? parseInt(rawData[i].new_deaths) : 0,
-                  totalTests: rawData[i].total_tests? parseInt(rawData[i].new_tests) : 0,
-                  newTests: rawData[i].new_tests? parseInt(rawData[i].new_tests) : 0,
-                  totalVaccinations: rawData[i].total_vaccinations? parseInt(rawData[i].total_vaccinations) : 0,
-                  newVaccinations: rawData[i].new_vaccinations? parseInt(rawData[i].new_vaccinations) : 0,
+                  totalCases: (!isNaN(rawData[i].total_cases) && rawData[i].total_cases != null) ? parseInt(rawData[i].total_cases) : 0,
+                  newCases: (!isNaN(rawData[i].new_cases) && rawData[i].new_cases != null) ? parseInt(rawData[i].new_cases) : 0,
+                  totalDeaths: (!isNaN(rawData[i].total_deaths) && rawData[i].total_deaths != null) ? parseInt(rawData[i].total_deaths) : 0,
+                  newDeaths: (!isNaN(rawData[i].new_deaths) && rawData[i].new_deaths != null) ? parseInt(rawData[i].new_deaths) : 0,
+                  totalTests: (!isNaN(rawData[i].total_tests) && rawData[i].total_tests!= null) ? parseInt(rawData[i].new_tests) : 0,
+                  newTests: (!isNaN(rawData[i].new_tests) && rawData[i].new_tests != null) ? parseInt(rawData[i].new_tests) : 0,
+                  totalVaccinations: (!isNaN(rawData[i].total_vaccinations) && rawData[i].total_vaccinations != null) ? parseInt(rawData[i].total_vaccinations) : 0,
+                  newVaccinations: (!isNaN(rawData[i].new_vaccinations) && rawData[i].new_vaccinations != null) ? parseInt(rawData[i].new_vaccinations) : 0,
                 }
                 modifyData.push(obj);
               } else {
@@ -44,7 +44,7 @@ async function updateHistory(continent: string) {
             let params = {
               TableName: dynamodbTableName,
               Item: {
-                data: modifyData,
+                data: modifyData.reverse(),
                 country: item,
                 location: res.data[item].location?  res.data[item].location : null,
                 continent: res.data[item].continent? res.data[item].continent : null
