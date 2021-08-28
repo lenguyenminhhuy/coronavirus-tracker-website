@@ -51,7 +51,7 @@ function Analysis() {
       flexDir="column"
       // overflow="auto"
       // minH="100vh"
-      // bg="#999"
+      //  h= bg="#999"
       // justifyContent="space-between"
     >
       {/* HEADING */}
@@ -65,11 +65,11 @@ function Analysis() {
           flexDir={["column", "column", "column", "row-reverse", "row-reverse"]}
           // flexWrap="wrap"
           w="100%"
-          // h={["110vh", "110vh", "100vh", "50vh", "50vh"]}
-          h="420px"
+          h={["840px", "840px", "840px", "420px", "420px"]}
+          // my={["5px", "5px", "5px", "10px", "15px"]}
         >
           <Flex
-            w={["100%", "100%", "100%", "100%", "40%"]}
+            w={["100%", "100%", "100%", "40%", "40%"]}
             h="100%"
             p={["5px", "5px", "5px", "10px", "15px"]}
           >
@@ -81,7 +81,7 @@ function Analysis() {
             </Box>
           </Flex>
           <Flex
-            w={["100%", "100%", "100%", "100%", "60%"]}
+            w={["100%", "100%", "100%", "60%", "60%"]}
             h="100%"
             p={["5px", "5px", "5px", "10px", "15px"]}
           >
@@ -91,7 +91,6 @@ function Analysis() {
               // bg="red"
               bg="#fff"
               borderRadius="15px"
-              pos="relative"
             >
               {/* 2 */}
               {/* <BarChartDailyCase
@@ -99,13 +98,15 @@ function Analysis() {
                 // height="100%"
                 data={mockData}
               /> */}
+              <StatsBoard />
             </Box>
           </Flex>
         </Flex>
         <Flex
           flexDir={["column", "column", "column", "row", "row"]}
           w="100%"
-          h={["110vh", "110vh", "100vh", "50vh", "50vh"]}
+          h={["840px", "840px", "840px", "420px", "420px"]}
+          // my={["5px", "5px", "5px", "10px", "15px"]}
         >
           <Flex
             w={["100%", "100%", "100%", "100%", "50%"]}
@@ -115,6 +116,7 @@ function Analysis() {
             <Box w="100%" h="100%" bg="#fff" borderRadius="15px">
               {/* 3 */}
               {/* <BarChartContinent /> */}
+              <StatsBoard />
             </Box>
           </Flex>
           <Flex
@@ -125,14 +127,16 @@ function Analysis() {
             <Box w="100%" h="100%" bg="#fff" borderRadius="15px">
               {/* 4 */}
               {/* <AreaChartARD /> */}
+              <StatsBoard />
             </Box>
           </Flex>
         </Flex>
-        <Flex flexDir="column" w="100%" h="50vh">
+        <Flex flexDir="column" w="100%" h="420px">
           <Flex w="100%" h="100%" p={["5px", "5px", "5px", "10px", "15px"]}>
             <Box w="100%" h="100%" bg="#fff" borderRadius="15px">
               {/* 5 */}
               {/* <BarChartCompound data={mockData} country="Vietnam" /> */}
+              <StatsBoard />
             </Box>
           </Flex>
         </Flex>
@@ -142,54 +146,6 @@ function Analysis() {
       {/* <BarChartContinent /> */}
       {/* <BarChartCompound /> */}
       {/* <AreaChartARD /> */}
-      {/* <Flex h="50%" flexDir="row" justifyContent="space-between">
-        <Flex
-          w="25%"
-          m="1vh"
-          borderRadius="15px"
-          boxShadow="0px 4px 10px rgba(0,0,0,0.1)" */}
-      {/* // overflow="auto" // > */}
-      {/* <StatsBoard w="100%" /> */}
-      {/* </Flex>
-        {data ? (
-          <Flex
-            w="75%"
-            m="1vh"
-            borderRadius="15px"
-            boxShadow="0px 4px 10px rgba(0,0,0,0.1)" */}
-      {/* // overflow="auto" > */}
-      {/* <Box> */}
-      {/* <BarChartDailyCase data={data} /> */}
-      {/* </Box> */}
-      {/* </Flex>
-        ) : null}
-      </Flex> */}
-      {/* <Flex
-        h="48%"
-        flexDir="column"
-        // mt={6}
-        m="1vh"
-        mb="3vh"
-        borderRadius="15px"
-        boxShadow="0px 4px 10px rgba(0,0,0,0.1)"
-      > */}
-      {/* <Flex overflow="auto"> */}
-      {/* <BarChartContinent
-          data={mockData}
-          continent={continent}
-          mode="total_cases"
-        /> */}
-      {/* </Flex> */}
-      {/* <Flex w="20vh">
-        <Select onChange={(value) => setContinent(value.target.value)}>
-          <option value="Asia">Asia</option>
-          <option value="Africa">Africa</option>
-          <option value="Europe">Europe</option>
-          <option value="South America">South America</option>
-          <option value="North America">North America</option>
-        </Select>
-      </Flex> */}
-      {/* </Flex> */}
     </Flex>
     // <div>
     //     <Box margin="0 auto" maxW='50%' boxShadow="0px 4px 10px rgba(0,0,0,0.1)">

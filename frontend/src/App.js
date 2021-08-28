@@ -37,7 +37,7 @@ class App extends Component {
             ]}
             m="auto"
             mr="0"
-            mt={["350px", "350px", "0", "0", "0"]}
+            mt={["320px", "320px", "0", "0", "0"]}
             p={["5px", "5px", "15px", "20px", "30px"]}
             // overflow="auto"
           >
