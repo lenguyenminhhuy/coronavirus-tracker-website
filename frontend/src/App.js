@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import Nav from "./components/Nav";
 import WorldMap from "./pages/Home";
-import { Flex, Grid, GridItem } from "@chakra-ui/react";
+import { calc, Flex, Grid, GridItem } from "@chakra-ui/react";
 import Analysis from "./pages/Analysis";
 
 class App extends Component {
@@ -11,19 +11,32 @@ class App extends Component {
     return (
       <BrowserRouter>
         <Flex
-          h={[null, null, "150vh"]}
+          // h={[null, null, "150vh"]}
           flexDir={["column", "column", "row"]}
           overflow="hidden"
           maxW="2000px"
           // backgroundColor="#f5f6f8"
           backgroundColor="#f6f8fc"
         >
-          <Flex w={["100%", "100%", "80px", "80px", "250px"]} pos="sticky">
+          <Flex
+            w={["100%", "100%", "80px", "80px", "250px"]}
+            pos="fixed"
+            zIndex="1000"
+          >
             <Nav />
           </Flex>
 
           <Flex
-            w={["100%", "100%", "100%"]}
+            w={[
+              "100%",
+              "100%",
+              "calc(100% - 80px)",
+              "calc(100% - 80px)",
+              "calc(100% - 250px)",
+            ]}
+            m="auto"
+            mr="0"
+            mt={["500px", "500px", "0", "0", "0"]}
             p={["0.5vh", "0.5vh", "1.5vh", "2vh", "3vh"]}
             // overflow="auto"
           >

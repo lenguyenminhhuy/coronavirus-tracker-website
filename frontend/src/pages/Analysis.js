@@ -81,9 +81,20 @@ function Analysis() {
             h="100%"
             p={["0.5vh", "0.5vh", "0.5vh", "1vh", "1.5vh"]}
           >
-            <Box w="100%" h="100%" bg="red" bg="#fff" borderRadius="15px">
+            <Box
+              w="100%"
+              h="100%"
+              // bg="red"
+              bg="#fff"
+              borderRadius="15px"
+              pos="relative"
+            >
               {/* 2 */}
-              {/* <BarChartDailyCase width="100%" height="100%" data={mockData} /> */}
+              {/* <BarChartDailyCase
+                // width="100%"
+                // height="100%"
+                data={mockData}
+              /> */}
             </Box>
           </Flex>
         </Flex>
