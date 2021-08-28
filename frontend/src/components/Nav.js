@@ -54,7 +54,7 @@ const Sidebar = () => {
           Covid-19 Data Tracker
         </Heading>
         <Flex
-          flexDir={["column"]}
+          flexDir={["row", "row", "column", "column", "column"]}
           align={["center", "center", "center", "flex-start", "flex-start"]}
           justifyContent="center"
           alignItems="center"
@@ -63,6 +63,7 @@ const Sidebar = () => {
             _hover={{ textDecor: "none", backgroundColor: "#eeeeee" }}
             href="/"
             w="75%"
+            mx={["20px", "20px", null, null, null]}
             mb={35}
             p={1}
             borderRadius="20px"
@@ -73,6 +74,7 @@ const Sidebar = () => {
             _hover={{ textDecor: "none", backgroundColor: "#eeeeee" }}
             href="/analysis"
             w="75%"
+            mx={["20px", "20px", null, null, null]}
             mb={35}
             p={1}
             borderRadius="20px"
@@ -83,6 +85,7 @@ const Sidebar = () => {
             _hover={{ textDecor: "none", backgroundColor: "#eeeeee" }}
             // href="/news"
             w="75%"
+            mx={["20px", "20px", null, null, null]}
             mb={35}
             p={1}
             borderRadius="20px"

@@ -1,11 +1,14 @@
 import React from "react";
-import { Flex, Menu, MenuButton, Icon, Text } from "@chakra-ui/react";
-import { Link } from "react-router-dom";
+import { Flex, Icon, Text } from "@chakra-ui/react";
 
 const NavItem = ({ icon, title, color }) => {
   return (
-    <Flex flexDir="row" alignItems="center">
-      <Flex>
+    <Flex
+      flexDir="row"
+      alignItems="center"
+      justifyContent={[null, "center", "center", "center", "flex-start"]}
+    >
+      <Flex justifyContent="center">
         <Icon fontSize="3xl" as={icon} color={color} />
       </Flex>
       <Flex display={["flex", "flex", "none", "none", "flex"]}>

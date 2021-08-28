@@ -130,7 +130,7 @@ table {
 }
 
 ::-webkit-scrollbar {
-  width: 0.5vh;
+  width: 5px;
 }
 
 ::-webkit-scrollbar-thumb {
