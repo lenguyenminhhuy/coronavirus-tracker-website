@@ -1,8 +1,15 @@
 .PHONY: build-RuntimeDependenciesLayer build-lambda-common
-.PHONY: build-CovidFunction
+.PHONY: build-HistoryFunction \build-UpdateHistoryFunction \build-GetCountryListFunction
 
-build-CovidFunction:
-	$(MAKE) HANDLER=src/handlers/hello.ts build-lambda-common
+build-UpdateHistoryFunction:
+	${MAKE} HANDLER=src/handlers/updateHistory.ts build-lambda-common
+
+build-HistoryFunction:
+	${MAKE} HANDLER=src/handlers/history.ts build-lambda-common
+
+
+build-GetCountryListFunction:
+	${MAKE} HANDLER=src/handlers/getCountryList.ts build-lambda-common
 
 build-lambda-common:
 	yarn install
