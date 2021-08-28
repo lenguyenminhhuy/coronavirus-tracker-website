@@ -11,10 +11,10 @@ ship_process() {
     rm -rf .aws-sam
     echo "=> Remove .aws-sam completed! ✅"
     echo "Start the DEV build process of .aws-sam folder ⏳"
-    sam.cmd build -t template-dev.yaml
+    sam.cmd build --config-env dev
     echo "=> Build DEV completed! ✅"
     echo "Start the deployment process to AWS CloudFormation ⏳"
-    sam.cmd deploy --config-file samconfig-dev.toml --confirm-changeset
+    sam.cmd deploy --config-file dev
     echo "=> Deploy DEV completed! ✅"
   else
     echo "Removing .aws-sam before build and deployment ⏳"

@@ -1,13 +1,17 @@
 .PHONY: build-RuntimeDependenciesLayer build-lambda-common
 .PHONY: build-CovidFunction \
-				build-SendDailyEmail 
+				build-SendDailyEmailFunction \
+				build-SubscribeEmailFunction
 				
 
 build-CovidFunction:
 	$(MAKE) HANDLER=src/handlers/hello.ts build-lambda-common
 
 build-SendDailyEmailFunction:
-	$(MAKE) HANDLER=src/handlers/send-daily-email.ts build-lambda-common
+	$(MAKE) HANDLER=src/handlers/email-handlers/send-daily-email.ts build-lambda-common
+
+build-SubscribeEmailFunction:
+	$(MAKE) HANDLER=src/handlers/email-handlers/subscribe-email.ts build-lambda-common
 
 build-lambda-common:
 	yarn install

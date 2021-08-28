@@ -1,4 +1,6 @@
 dist
 node_modules
 .aws-sam
-config.json
+env.json
+env.prod.json
+docker

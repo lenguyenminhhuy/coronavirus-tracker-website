@@ -3,20 +3,26 @@ Transform: AWS::Serverless-2016-10-31
 Description: >
   coronavirus-tracker-website-dev-stack
   CloudFormation Template for SAM (Dev Environment)
+
 # More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
 Globals:
   Function:
     Layers:
       - !Ref RuntimeDependenciesLayer
+    Runtime: nodejs14.x
     Environment:
       Variables:
-        COVID_FULL_TABLE: "covid-full"
-    Runtime: nodejs14.x
+        ENVIRONMENT_TYPE:
+          Type: String
+          Default: "Dev"
+        HELLO_ENV:
+          Type: String
+          Default: "Covid"
     MemorySize: 128
-    Timeout: 300
+    Timeout: 180
 
 Resources:
-  # Covid Lambda Function
+  ## Covid Lambda Function ##
   CovidFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Metadata:
@@ -31,13 +37,13 @@ Resources:
             Path: /covid
             Method: GET
 
-  # Daily send email function
+  ## Daily send email function ##
   SendDailyEmailFunction:
     Type: AWS::Serverless::Function
     Metadata:
       BuildMethod: makefile
     Properties:
-      Handler: dist/handlers/send-daily-email.handler
+      Handler: dist/handlers/email-handlers/send-daily-email.handler
       Description: Daily scheduled email sending function to subscribers
       Role: !GetAtt SendDailyEmailIamRole.Arn
       Events:
@@ -82,6 +88,40 @@ Resources:
                   - "*"
           PolicyName: AWSLambdaBasicExecutionRole
 
+  ## Subscribe email function ##
+  SubscribeEmailFunction:
+    Type: AWS::Serverless::Function
+    Metadata:
+      BuildMethod: makefile
+    Properties:
+      Handler: dist/handlers/email-handlers/subscribe-email.handler
+      Description: Daily scheduled email sending function to subscribers
+      Events:
+        SubscribeEmailAPI:
+          Type: Api
+          Properties:
+            Path: /subscribe
+            Method: POST
+
+  # DynamoDB Email Subscription table
+  EmailSubscriptionTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      KeySchema:
+        - AttributeName: "Email"
+          KeyType: "HASH"
+        - AttributeName: "CreatedAt"
+          KeyType: "RANGE"
+      AttributeDefinitions:
+        - AttributeName: "Email"
+          AttributeType: "S"
+        - AttributeName: "CreatedAt"
+          AttributeType: "S"
+      ProvisionedThroughput:
+        ReadCapacityUnits: 5
+        WriteCapacityUnits: 5
+      TableName: "emailSubscription"
+
   # Shared layer with Lambda runtime dependencies
   RuntimeDependenciesLayer:
     Type: AWS::Serverless::LayerVersion
@@ -114,3 +154,8 @@ Outputs:
   SendDailyEmailFunction:
     Description: "Send Email Function ARN"
     Value: !GetAtt SendDailyEmailFunction.Arn
+
+  # Section for DynamoDB Table of Email Subscription
+  EmailSubscriptionTable:
+    Description: "DynamoDB's Table for Email Subscriptions"
+    Value: !GetAtt EmailSubscriptionTable.Arn
