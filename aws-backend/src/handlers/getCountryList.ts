@@ -1,7 +1,7 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult  } from "aws-lambda";
 var AWS = require('aws-sdk');
 
-const dynamodbTableName = 'covid';
+const dynamodbTableName = 'covid-history';
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 
 type scanCountryListParams = {

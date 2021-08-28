@@ -23,6 +23,7 @@ Resources:
     Metadata:
       BuildMethod: makefile
     Properties:
+      MemorySize: 512
       Handler: dist/handlers/updateHistory.handler
       Description: A simple example function for Hello Covid API
       Policies:
@@ -64,6 +65,7 @@ Resources:
                 Schedule: "cron(30 3 * * ? *)"
                 Input: "{\"continent\": \"World\"}"
                 Enabled: false
+  
   HistoryFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Metadata:
@@ -77,7 +79,7 @@ Resources:
         CovidDataAPI:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
-            Path: /history
+            Path: /api/history
             Method: GET
 
   GetCountryListFunction:
@@ -93,7 +95,92 @@ Resources:
         CovidDataAPI:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
-            Path: /countries
+            Path: /api/countries
+            Method: GET
+ # ------------------------------------SCRAPING PART----------------------------------------------------------------
+  
+  BrowserAndUtilsLayer:
+    Type: AWS::Serverless::LayerVersion
+    Properties:
+      LayerName: BrowserAndUtilsLayer
+      Description: Holds helper functions for application
+      ContentUri: dist/utils/
+      CompatibleRuntimes:
+        - nodejs14.x
+      RetentionPolicy: Delete
+
+  ScarpingDataFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Metadata:
+      BuildMethod: makefile
+    Properties:
+      Handler: dist/handlers/scraping.handler
+      MemorySize: 4096
+      Layers:
+        - !Ref BrowserAndUtilsLayer
+      Events:
+        ScarpingApi:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /api/list
+            Method: GET
+    
+    # ------------------------------------------TABLE----------------------------------------------------------
+  CovidTimeSeriesTable:
+    Type: AWS::DynamoDB::Table
+    Properties: 
+      TableName: "CovidTimeSeriesTable2"
+      KeySchema: 
+        - AttributeName: "iso_code"
+          KeyType: "HASH"
+        - AttributeName: "updated_date"
+          KeyType: "RANGE"
+      AttributeDefinitions:
+        - AttributeName: "iso_code"
+          AttributeType: "S"
+        - AttributeName: "updated_date"
+          AttributeType: "S"
+      ProvisionedThroughput: 
+        ReadCapacityUnits: 5
+        WriteCapacityUnits: 5
+  
+  GetDailyFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Metadata:
+      BuildMethod: makefile
+    Properties:
+      Handler: dist/handlers/covidDaily.handler
+      Policies:
+        # Give Create/Read/Update/Delete Permissions to the SampleTable, see https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-policy-template-list.html#dynamo-db-crud-policy
+        - DynamoDBCrudPolicy:
+            TableName: !Ref CovidTimeSeriesTable
+      Environment:
+        Variables:
+          TABLE_NAME: !Ref CovidTimeSeriesTable
+      Events:
+        CheckWebsiteScheduledEvent:
+          Type: Schedule
+          Properties:
+            Schedule: rate(1 day)
+
+  GetDailyAPIFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Metadata:
+      BuildMethod: makefile
+    Properties:
+      Handler: dist/handlers/covidDailyAPI.handler
+      Policies:
+        # Give Create/Read/Update/Delete Permissions to the SampleTable, see https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-policy-template-list.html#dynamo-db-crud-policy
+        - DynamoDBCrudPolicy:
+            TableName: !Ref CovidTimeSeriesTable
+      Environment:
+        Variables:
+          TABLE_NAME: !Ref CovidTimeSeriesTable
+      Events:
+        GetDataDailyAPI:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /api/daily
             Method: GET
   
   # Shared layer with Lambda runtime dependencies
@@ -113,7 +200,7 @@ Resources:
 Outputs:
   CovidAPI:
     Description: "API Gateway endpoint URL for Prod stage"
-    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/api"
 
   UpdateHistoryFunction:
     Description: "Covid Lambda Function ARN"
@@ -138,3 +225,33 @@ Outputs:
   GetCountryListFunctionIamRole:
     Description: "Covid Lambda Function ARN"
     Value: !GetAtt GetCountryListFunctionRole.Arn
+
+  # # ------------------------------SCRAPING PART-------------------------------------------------------
+  ScarpingDataFunction:
+    Description: "Scarping Lambda Function ARN"
+    Value: !GetAtt ScarpingDataFunction.Arn
+  
+  ScarpingDataFunctionIamRole:
+    Description: "Implicit IAM Role created for Scarping function"
+    Value: !GetAtt ScarpingDataFunctionRole.Arn
+
+  # # ------------------------------------END OF SCRAPING----------------------------------------------------------------
+  
+  # ------------------------------------------------INSERT AND VIEW DAILY DATA--------------------------------------------------------
+  GetDailyFunction:
+    Description: "Covid Lambda Function ARN"
+    Value: !GetAtt GetDailyFunction.Arn
+
+  GetDailyFunctionIamRole:
+    Description: "Implicit IAM Role created for Covid Function"
+    Value: !GetAtt GetDailyFunctionRole.Arn
+  
+  GetDailyAPIFunction:
+    Description: "Covid Lambda Function ARN"
+    Value: !GetAtt GetDailyAPIFunction.Arn
+
+  GetDailyAPIFunctionIamRole:
+    Description: "Implicit IAM Role created for Covid Function"
+    Value: !GetAtt GetDailyAPIFunctionRole.Arn
+  
+  # ------------------------------------------------END INSERT AND VIEW DAILY DATA--------------------------------------------------------

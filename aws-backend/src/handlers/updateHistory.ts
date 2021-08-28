@@ -2,7 +2,7 @@ import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda";
 import axios from 'axios';
 var AWS = require('aws-sdk');
 
-const dynamodbTableName = 'covid';
+const dynamodbTableName = 'covid-history';
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 
 function computeDaysBetween(day: string) {
@@ -25,7 +25,18 @@ async function updateHistory(continent: string) {
             let rawData = res.data[item].data
             for (let i = rawData.length - 1; i >= 0; i--) {
               if(computeDaysBetween(rawData[i].date) <= 120) {
-                modifyData.push(rawData[i])
+                let obj = {
+                  date: rawData[i].date,
+                  totalCases: (!Number.isNaN(parseFloat(rawData[i].total_cases)) ? parseFloat(rawData[i].total_cases) : 0).toString(),
+                  newCases: (!Number.isNaN(parseFloat(rawData[i].new_cases)) ? parseFloat(rawData[i].new_cases) : 0).toString(),
+                  totalDeaths: (!Number.isNaN(parseFloat(rawData[i].total_deaths)) ? parseFloat(rawData[i].total_deaths) : 0).toString(),
+                  newDeaths: (!Number.isNaN(parseFloat(rawData[i].new_deaths)) ? parseFloat(rawData[i].new_deaths) : 0).toString(),
+                  totalTests: (!Number.isNaN(parseFloat(rawData[i].total_tests)) ? parseFloat(rawData[i].total_tests) : 0).toString(),
+                  newTests: (!Number.isNaN(parseFloat(rawData[i].new_tests)) ? parseFloat(rawData[i].new_tests) : 0).toString(),
+                  totalVaccinations: (!Number.isNaN(parseFloat(rawData[i].total_vaccinations)) ? parseFloat(rawData[i].total_vaccinations) : 0).toString(),
+                  newVaccinations: (!Number.isNaN(parseFloat(rawData[i].new_vaccinations)) ? parseFloat(rawData[i].new_vaccinations) : 0).toString(),
+                }
+                modifyData.push(obj);
               } else {
                 break;
               }
