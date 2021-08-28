@@ -27,14 +27,14 @@ async function updateHistory(continent: string) {
               if(computeDaysBetween(rawData[i].date) <= 120) {
                 let obj = {
                   date: rawData[i].date,
-                  totalCases: (!Number.isNaN(parseFloat(rawData[i].total_cases)) ? parseFloat(rawData[i].total_cases) : 0).toString(),
-                  newCases: (!Number.isNaN(parseFloat(rawData[i].new_cases)) ? parseFloat(rawData[i].new_cases) : 0).toString(),
-                  totalDeaths: (!Number.isNaN(parseFloat(rawData[i].total_deaths)) ? parseFloat(rawData[i].total_deaths) : 0).toString(),
-                  newDeaths: (!Number.isNaN(parseFloat(rawData[i].new_deaths)) ? parseFloat(rawData[i].new_deaths) : 0).toString(),
-                  totalTests: (!Number.isNaN(parseFloat(rawData[i].total_tests)) ? parseFloat(rawData[i].total_tests) : 0).toString(),
-                  newTests: (!Number.isNaN(parseFloat(rawData[i].new_tests)) ? parseFloat(rawData[i].new_tests) : 0).toString(),
-                  totalVaccinations: (!Number.isNaN(parseFloat(rawData[i].total_vaccinations)) ? parseFloat(rawData[i].total_vaccinations) : 0).toString(),
-                  newVaccinations: (!Number.isNaN(parseFloat(rawData[i].new_vaccinations)) ? parseFloat(rawData[i].new_vaccinations) : 0).toString(),
+                  totalCases: rawData[i].total_cases? parseInt(rawData[i].total_cases) : 0,
+                  newCases: rawData[i].new_cases? parseInt(rawData[i].new_cases) : 0,
+                  totalDeaths: rawData[i].total_deaths? parseInt(rawData[i].total_deaths) : 0,
+                  newDeaths: rawData[i].new_deaths? parseInt(rawData[i].new_deaths) : 0,
+                  totalTests: rawData[i].total_tests? parseInt(rawData[i].new_tests) : 0,
+                  newTests: rawData[i].new_tests? parseInt(rawData[i].new_tests) : 0,
+                  totalVaccinations: rawData[i].total_vaccinations? parseInt(rawData[i].total_vaccinations) : 0,
+                  newVaccinations: rawData[i].new_vaccinations? parseInt(rawData[i].new_vaccinations) : 0,
                 }
                 modifyData.push(obj);
               } else {
@@ -75,7 +75,7 @@ exports.handler = async (
         await updateHistory(event.continent);
         response = "Updated";
         console.log(response);
-        await sleep(10000);
+        await sleep(20000);
         return {
             statusCode: 200,
             body: JSON.stringify(response),
