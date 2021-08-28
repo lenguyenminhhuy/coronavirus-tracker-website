@@ -1,11 +1,14 @@
 import "source-map-support";
 import aws from "aws-sdk";
 import { SendEmailRequest, SendEmailResponse } from "aws-sdk/clients/ses";
+import { APIGatewayProxyEvent } from "aws-lambda";
 
 // // Provide credentials
 // aws.config.loadFromPath("../../config.json");
 
-exports.handler = async (): Promise<void> => {
+exports.handler = (event: APIGatewayProxyEvent): void => {
+  // console.log("=> Print event...");
+  console.log(event);
   // Initialize SES service
   const ses = new aws.SES({ region: "us-east-2" });
 
@@ -53,11 +56,23 @@ exports.handler = async (): Promise<void> => {
   };
 
   // Send Email operation
-  ses.sendEmail(mailParams, (err, data: SendEmailResponse) => {
-    if (err) {
-      console.log(err.message);
-    } else {
-      console.log("Email sent! Message ID: ", data.MessageId);
-    }
-  });
+  const sendPromise = ses
+    .sendEmail(mailParams, (err, data: SendEmailResponse) => {
+      if (err) {
+        console.log(err.message);
+      } else {
+        console.log("Email sent! Message ID: ", data.MessageId);
+      }
+    })
+    .promise();
+
+  // Handle promisify
+  sendPromise
+    .then((data) => {
+      console.log(data);
+    })
+    .catch((err) => {
+      console.log(err, err.stack);
+    });
+  // console.log("=> Successfully sent ...");
 };

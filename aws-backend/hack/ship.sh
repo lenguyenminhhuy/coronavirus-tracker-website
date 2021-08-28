@@ -1,25 +1,34 @@
 #!/bin/bash
 
+
+
 #### Ship process ####
 ship_process() {
   local mode="${1}"
   if [ "${mode}" == "dev" ] 
   then
-    echo "Start the DEV build process of .aws-sam folder..."
+    echo "Removing .aws-sam before build and deployment ⏳"
+    rm -rf .aws-sam
+    echo "=> Remove .aws-sam completed! ✅"
+    echo "Start the DEV build process of .aws-sam folder ⏳"
     sam.cmd build -t template-dev.yaml
     echo "=> Build DEV completed! ✅"
-    echo "Start the deployment process to AWS CloudFormation..."
+    echo "Start the deployment process to AWS CloudFormation ⏳"
     sam.cmd deploy --config-file samconfig-dev.toml --confirm-changeset
     echo "=> Deploy DEV completed! ✅"
   else
-    echo "Start the PROD build process of .aws-sam folder..."
+    echo "Removing .aws-sam before build and deployment ⏳"
+    rm -rf .aws-sam
+    echo "=> Remove .aws-sam completed! ✅"
+    echo "Start the PROD build process of .aws-sam folder ⏳"
     sam.cmd build
     echo "=> Build PROD completed! ✅"
-    echo "Start the deployment process to AWS CloudFormation..."
+    echo "Start the deployment process to AWS CloudFormation ⏳"
     sam.cmd deploy
     echo "=> Deploy PROD completed! ✅"
   fi
 }
+
 
 ship() {
   local mode="${1}"

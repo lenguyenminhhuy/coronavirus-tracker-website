@@ -41,10 +41,10 @@ Resources:
       Description: Daily scheduled email sending function to subscribers
       Role: !GetAtt SendDailyEmailIamRole.Arn
       Events:
-        SendDailyEmailFunction:
+        DailyScheduleRule:
           Type: Schedule
           Properties:
-            Schedule: rate(60 minutes)
+            Schedule: rate(24 hours)
 
   # Role for Send Email function
   SendDailyEmailIamRole:
