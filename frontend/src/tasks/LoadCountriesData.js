@@ -17,8 +17,8 @@ class LoadCountryData {
       header: true,
       complete: (result) => {this.#processCovidData(result.data)},
     });
-    
-  };  
+  }; 
+
   #processCovidData = (covidCountries) => {
     for (let i = 0; i < features.length; i++) {
       const country = features[i];
@@ -28,31 +28,34 @@ class LoadCountryData {
         );
 
       country.properties.confirmed = 0;
-      country.properties.confirmedText = 0;
+      country.properties.total_cases = 0;
+
+      country.properties.deaths = 0;
+      country.properties.total_deaths = 0;
+
+      country.properties.tested = 0;
+      country.properties.total_tests = 0;
+
+      country.properties.vaccinated = 0;
+      country.properties.total_vaccinations = 0;
       
 
       if (covidCountry != null) {
-        if('total_cases' in covidCountry){
           let confirmed = Number(covidCountry.total_cases);
           country.properties.confirmed = confirmed;
-          country.properties.confirmedText = ("\n Total cases").concat(this.#formatNumberWithCommas(confirmed));
-        }
-        // if('total_deaths' in covidCountry){
-        //   let confirmed = Number(covidCountry.total_deaths);
-        //   country.properties.confirmed = confirmed;
-        //   country.properties.confirmedText = ("\n Total deaths").concat(this.#formatNumberWithCommas(confirmed));
-        // }
-        // if('people_vaccincated' in covidCountry){
-        //   let confirmed = Number(covidCountry.people_vaccincated);
-        //   country.properties.confirmed = confirmed;
-        //   country.properties.confirmedText = ("\n People vaccinated").concat(this.#formatNumberWithCommas(confirmed));
-        // }
-        // if('new_cases' in covidCountry){
-        //   let confirmed = Number(covidCountry.new_cases);
-        //   country.properties.confirmed = confirmed;
-        //   country.properties.confirmedText = ("\n New cases").concat(this.#formatNumberWithCommas(confirmed));
-        // }
-          
+          country.properties.total_cases = ("\n Total cases ").concat(this.#formatNumberWithCommas(confirmed));
+
+          let deaths = Number(covidCountry.total_deaths);
+          country.properties.deaths = deaths;
+          country.properties.total_deaths = ("\n Total deaths ").concat(this.#formatNumberWithCommas(deaths));
+
+          let tested = Number(covidCountry.total_tests);
+          country.properties.tested = tested;
+          country.properties.total_tests = ("\n Total tested cases ").concat(this.#formatNumberWithCommas(tested));
+
+          let vaccinated = Number(covidCountry.total_vaccinations);
+          country.properties.vaccinated = vaccinated;
+          country.properties.total_vaccinations = ("\n Total vaccinations ").concat(this.#formatNumberWithCommas(vaccinated));
     }
       this.#setCountryColor(country);
     }

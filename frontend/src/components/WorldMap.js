@@ -19,12 +19,15 @@ const WorldMap = ({countries}) => {
     fillOpacity: 1,
   };
 
-  const onEachCountry = (country, layer) => {
+  const onEachCountry = (country, layer, mode='total_deaths') => {
     layer.options.fillColor = country.properties.color;
     const name = country.properties.ADMIN;
-    const confirmedText = country.properties.confirmedText;
 
-    layer.bindPopup(`${name}${confirmedText}`);
+    // const confirmedText = country.properties.confirmedText;
+    const displayText = country.properties[mode];
+
+    // layer.bindPopup(`${name}${confirmedText}`);
+    layer.bindPopup(`${name}${displayText}`);
     layer.on('mouseover', function (e) {
       this.openPopup();
     });
