@@ -8,20 +8,25 @@ import legendItems from "../legends/LegendItems";
 import MapFilter from "./MapFilter";
 import axios from "axios";
 
-const Summary = () => {
-  const [countries, setCountries] = useState([]);
+function Summary() {
+
   const [data, setData] = useState([]);
 
   const legendItemsReverse = [...legendItems].reverse();
-  useEffect(() => {axios.get('https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/latest/owid-covid-latest.json')
-                .then(res=>{setData(res.data)})});
+
+  const [countries, setCountries] = useState([]);
 
   const load = () => {
-    const countryData = new LoadCountryData();
-    countryData.load((countries) => {setCountries(countries)});
+    console.log("load");
+    const loadCountriesData= new LoadCountryData();
+    loadCountriesData.load(setCountries);
   };
+  useEffect(() => {
+    load();
+    }, []);
 
-  useEffect(load, []);
+  useEffect(() => {axios.get('https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/latest/owid-covid-latest.json')
+  .then(res => { setData(res.data) })}, []);
 
   return (
     <div>

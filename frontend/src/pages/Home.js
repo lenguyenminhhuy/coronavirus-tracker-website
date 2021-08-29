@@ -9,7 +9,7 @@ function WorldMap() {
   useEffect(() => {
     axios.get('https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/latest/owid-covid-latest.json')
     .then((res) => {setInformation(res.data.OWID_WRL)})
-  });
+  }, []);
 
   const dataHighlight = useMemo(() => {
     if (information){
@@ -33,6 +33,8 @@ function WorldMap() {
     }
     return []; 
   }, [information])
+
+  
     return (
     <div className="App">
       <div>

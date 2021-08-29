@@ -1,17 +1,14 @@
 import papa from "papaparse";
-import React from "react";
 import legendItems from "../legends/LegendItems";
 import { features } from "../data/countries.json";
-import MapFilter from "../components/MapFilter";
-import axios from 'axios';
+
 
 class LoadCountryData { 
   api = 'https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/latest/owid-covid-latest.csv';
   setState = null;
-  setMode = null;
-  load = (setState, setMode) => {
-    this.setState = setState;
-    this.setMode = setMode;
+  
+  load = (countries) => {
+    this.setState = countries;
     papa.parse(this.api, {
       download: true,
       header: true,
