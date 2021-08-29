@@ -46,14 +46,7 @@ function Analysis() {
   }, [continent]);
 
   return (
-    <Flex
-      w="100%"
-      flexDir="column"
-      // overflow="auto"
-      // minH="100vh"
-      //  h= bg="#999"
-      // justifyContent="space-between"
-    >
+    <Flex w="100%" flexDir="column">
       {/* HEADING */}
       <Flex flexDir="row" w="100%">
         <Heading color="#000">Analysis</Heading>
@@ -66,7 +59,6 @@ function Analysis() {
           // flexWrap="wrap"
           w="100%"
           h={["840px", "840px", "840px", "420px", "420px"]}
-          // my={["5px", "5px", "5px", "10px", "15px"]}
         >
           <Flex
             w={["100%", "100%", "100%", "40%", "40%"]}
@@ -85,20 +77,13 @@ function Analysis() {
             h="100%"
             p={["5px", "5px", "5px", "10px", "15px"]}
           >
-            <Box
-              w="100%"
-              h="100%"
-              // bg="red"
-              bg="#fff"
-              borderRadius="15px"
-            >
+            <Box w="100%" h="100%" bg="#fff" borderRadius="15px">
               {/* 2 */}
               {/* <BarChartDailyCase
                 // width="100%"
                 // height="100%"
                 data={mockData}
               /> */}
-              <StatsBoard />
             </Box>
           </Flex>
         </Flex>
@@ -106,7 +91,6 @@ function Analysis() {
           flexDir={["column", "column", "column", "row", "row"]}
           w="100%"
           h={["840px", "840px", "840px", "420px", "420px"]}
-          // my={["5px", "5px", "5px", "10px", "15px"]}
         >
           <Flex
             w={["100%", "100%", "100%", "100%", "50%"]}
@@ -116,7 +100,6 @@ function Analysis() {
             <Box w="100%" h="100%" bg="#fff" borderRadius="15px">
               {/* 3 */}
               {/* <BarChartContinent /> */}
-              <StatsBoard />
             </Box>
           </Flex>
           <Flex
@@ -127,7 +110,6 @@ function Analysis() {
             <Box w="100%" h="100%" bg="#fff" borderRadius="15px">
               {/* 4 */}
               {/* <AreaChartARD /> */}
-              <StatsBoard />
             </Box>
           </Flex>
         </Flex>
@@ -136,7 +118,6 @@ function Analysis() {
             <Box w="100%" h="100%" bg="#fff" borderRadius="15px">
               {/* 5 */}
               {/* <BarChartCompound data={mockData} country="Vietnam" /> */}
-              <StatsBoard />
             </Box>
           </Flex>
         </Flex>
