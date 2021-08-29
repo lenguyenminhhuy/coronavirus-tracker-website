@@ -31,14 +31,24 @@ async function processData(data) {
 function Analysis() {
   const [data, setData] = useState([]);
   const [continent, setContinent] = useState("Asia");
+  const [historyData, setHistoryData] = useState([]);
+  const [countryList, setCountryList] = useState("");
+  const [countryHistoryData, setCountryHistoryData] = useState("");
 
   useEffect(() => {
-    axios.get("https://api.covid19api.com/country/south-africa").then((res) => {
-      processData(res.data).then((processedData) => {
-        setData(processedData);
-      });
+      axios.get("https://79dvu6wjq3.execute-api.us-east-2.amazonaws.com/Prod/api/countries")
+      .then((res) => {
+          setCountryList(res.data)
+          setCountryHistoryData(res.data[0].country)
+      })
+  },[])
+
+  useEffect(() => {
+    axios.get(`https://79dvu6wjq3.execute-api.us-east-2.amazonaws.com/Prod/api/history?country=${countryHistoryData}`).then((res) => {
+      setHistoryData(res.data.data)
+      console.log(res.data);
     });
-  }, []);
+  }, [countryHistoryData]);
 
   useEffect(() => {
     console.log(continent);
@@ -80,7 +90,7 @@ function Analysis() {
             w={["100%", "100%", "100%", "100%", "60%"]}
             h="100%"
             p={["0.5vh", "0.5vh", "0.5vh", "1vh", "1.5vh"]}
-          >
+          > 
             <Box
               w="100%"
               h="100%"
@@ -88,13 +98,22 @@ function Analysis() {
               bg="#fff"
               borderRadius="15px"
               pos="relative"
-            >
+              >
+            <Select onChange={(value) => setCountryHistoryData(value.target.value)}>
+                {countryList?
+                    countryList.map(c => (
+                        <option key={c.country} value={c.country}>{c.location}</option>
+                    ))
+                :
+                null
+                }
+            </Select>
               {/* 2 */}
-              {/* <BarChartDailyCase
+              <BarChartDailyCase
                 // width="100%"
                 // height="100%"
-                data={mockData}
-              /> */}
+                data={historyData}
+              />
             </Box>
           </Flex>
         </Flex>
@@ -132,12 +151,11 @@ function Analysis() {
           >
             <Box w="100%" h="100%" bg="red" bg="#fff" borderRadius="15px">
               {/* 5 */}
-              {/* <BarChartCompound data={mockData} country="Vietnam" /> */}
+                    {/* <BarChartDailyCase data={data} /> */}
             </Box>
           </Flex>
         </Flex>
       </Flex>
-      {/* <BarChartDailyCase /> */}
       {/* <StatsBoard /> */}
       {/* <BarChartContinent /> */}
       {/* <BarChartCompound /> */}
