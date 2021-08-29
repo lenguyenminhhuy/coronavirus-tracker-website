@@ -56,19 +56,12 @@ exports.handler = (event: APIGatewayProxyEvent): void => {
   };
 
   // Send Email operation
-  const sendPromise = ses
-    .sendEmail(mailParams, (err, data: SendEmailResponse) => {
-      if (err) {
-        console.log(err.message);
-      } else {
-        console.log("Email sent! Message ID: ", data.MessageId);
-      }
-    })
-    .promise();
+  const sendPromise = ses.sendEmail(mailParams).promise();
 
   // Handle promisify
   sendPromise
     .then((data) => {
+      console.log("Email sent successfully!");
       console.log(data);
     })
     .catch((err) => {

@@ -19,7 +19,7 @@ capabilities = "CAPABILITY_IAM"
 [dev.local_start_api]
 [dev.local_start_api.parameters]
 profile = "default"
-skip_pull_image = true
+skip_pull_image = false
 env_vars = "env.json"
 docker_network = "aws-backend_lambda-local"
 
