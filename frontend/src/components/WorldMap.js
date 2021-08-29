@@ -3,15 +3,15 @@ import { Map, GeoJSON } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import "./WorldMap.css";
 import { TileLayer } from "react-leaflet";
-import Legend from "./Legend";
 
-const WorldMap = ({countries}) => {
+
+const WorldMap = ({countries, options}) => {
+
   const state = {
       lat: 50,
       lng: 10,
       zoom: 1.5
     };
-
   const mapStyle = {
     fillColor: "white",
     weight: 1,
@@ -19,14 +19,13 @@ const WorldMap = ({countries}) => {
     fillOpacity: 1,
   };
 
-  const onEachCountry = (country, layer, mode='total_deaths') => {
+  const onEachCountry = (country, layer) => {
+
     layer.options.fillColor = country.properties.color;
     const name = country.properties.ADMIN;
 
-    // const confirmedText = country.properties.confirmedText;
-    const displayText = country.properties[mode];
+    const displayText = country.properties[options];
 
-    // layer.bindPopup(`${name}${confirmedText}`);
     layer.bindPopup(`${name}${displayText}`);
     layer.on('mouseover', function (e) {
       this.openPopup();
@@ -38,7 +37,8 @@ const WorldMap = ({countries}) => {
   
   return (
     <div>
-    <Map style={{ height: "80vh", width: "95%", border: "1px solid black"}} zoom={state.zoom} center={[state.lat, state.lng]}>
+
+      <Map style={{ height: "80vh", width: "95%", border: "1px solid black"}} zoom={state.zoom} center={[state.lat, state.lng]}>
       <GeoJSON
         style={mapStyle}
         data={countries}

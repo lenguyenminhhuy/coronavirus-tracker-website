@@ -31,21 +31,21 @@ function MapFilter({ data, defaultMode }) {
   useEffect(() => {
     selectData(data, mode).then((res) => {
       setDisplayData(res);
+      console.log("resss", res)
     });
   }, [mode]);
 
   console.log("Current mode: " + mode);
   console.log(displayedData);
 
-  const handleChange = (e) => {
-    setMode(e.target.value);
-  }
   return (
       <Select
         width="95%"
         marginBottom="5px"
         value={mode}
-        onChange={handleChange}
+        onChange={(e) => {
+          setMode(e.target.value);
+        }}
       >
         <option value={modes[0].value}>{modes[0].label}</option>
         <option value={modes[1].value}>{modes[1].label}</option>
