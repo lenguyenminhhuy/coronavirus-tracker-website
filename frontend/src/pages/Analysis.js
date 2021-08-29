@@ -9,6 +9,7 @@ import {
   Select,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
+import { ResponsiveContainer } from "recharts";
 import BarChartDailyCase from "../components/BarChartDailyCase";
 import StatsBoard from "../components/StatsBoard";
 import axios from "axios";
@@ -74,23 +75,26 @@ function Analysis() {
           flexDir={["column", "column", "column", "row-reverse", "row-reverse"]}
           // flexWrap="wrap"
           w="100%"
-          h={["110vh", "110vh", "100vh", "50vh", "50vh"]}
+          // h={["110vh", "110vh", "100vh", "50vh", "50vh"]}
+          h="420px"
         >
           <Flex
             w={["100%", "100%", "100%", "100%", "40%"]}
             h="100%"
-            p={["0.5vh", "0.5vh", "0.5vh", "1vh", "1.5vh"]}
+            p={["5px", "5px", "5px", "10px", "15px"]}
           >
-            <Box w="100%" h="100%" bg="red" bg="#fff" borderRadius="15px">
+            <Box w="100%" h="100%" bg="#fff" borderRadius="15px">
               {/* 1 */}
+              {/* <ResponsiveContainer width="100%" height="100%"> */}
               <StatsBoard />
+              {/* </ResponsiveContainer> */}
             </Box>
           </Flex>
           <Flex
             w={["100%", "100%", "100%", "100%", "60%"]}
             h="100%"
-            p={["0.5vh", "0.5vh", "0.5vh", "1vh", "1.5vh"]}
-          > 
+            p={["5px", "5px", "5px", "10px", "15px"]}
+          >
             <Box
               w="100%"
               h="100%"
@@ -125,9 +129,9 @@ function Analysis() {
           <Flex
             w={["100%", "100%", "100%", "100%", "50%"]}
             h="100%"
-            p={["0.5vh", "0.5vh", "0.5vh", "1vh", "1.5vh"]}
+            p={["5px", "5px", "5px", "10px", "15px"]}
           >
-            <Box w="100%" h="100%" bg="red" bg="#fff" borderRadius="15px">
+            <Box w="100%" h="100%" bg="#fff" borderRadius="15px">
               {/* 3 */}
               {/* <BarChartContinent /> */}
             </Box>
@@ -135,21 +139,17 @@ function Analysis() {
           <Flex
             w={["100%", "100%", "100%", "100%", "50%"]}
             h="100%"
-            p={["0.5vh", "0.5vh", "0.5vh", "1vh", "1.5vh"]}
+            p={["5px", "5px", "5px", "10px", "15px"]}
           >
-            <Box w="100%" h="100%" bg="red" bg="#fff" borderRadius="15px">
+            <Box w="100%" h="100%" bg="#fff" borderRadius="15px">
               {/* 4 */}
               {/* <AreaChartARD /> */}
             </Box>
           </Flex>
         </Flex>
         <Flex flexDir="column" w="100%" h="50vh">
-          <Flex
-            w="100%"
-            h="100%"
-            p={["0.5vh", "0.5vh", "0.5vh", "1vh", "1.5vh"]}
-          >
-            <Box w="100%" h="100%" bg="red" bg="#fff" borderRadius="15px">
+          <Flex w="100%" h="100%" p={["5px", "5px", "5px", "10px", "15px"]}>
+            <Box w="100%" h="100%" bg="#fff" borderRadius="15px">
               {/* 5 */}
                     {/* <BarChartDailyCase data={data} /> */}
             </Box>

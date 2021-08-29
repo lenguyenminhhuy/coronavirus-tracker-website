@@ -19,6 +19,7 @@ class App extends Component {
           backgroundColor="#f6f8fc"
         >
           <Flex
+            h={["300px", "300px", null, null, null]}
             w={["100%", "100%", "80px", "80px", "250px"]}
             pos="fixed"
             zIndex="1000"
@@ -36,8 +37,8 @@ class App extends Component {
             ]}
             m="auto"
             mr="0"
-            mt={["500px", "500px", "0", "0", "0"]}
-            p={["0.5vh", "0.5vh", "1.5vh", "2vh", "3vh"]}
+            mt={["350px", "350px", "0", "0", "0"]}
+            p={["5px", "5px", "15px", "20px", "30px"]}
             // overflow="auto"
           >
             <Switch>
