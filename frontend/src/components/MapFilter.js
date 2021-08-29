@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Select } from "@chakra-ui/react";
-import styled from "styled-components";
 
 async function selectData(data, mode) {
   let selectedArray = [];
@@ -9,6 +8,7 @@ async function selectData(data, mode) {
   dataKeys.forEach((key) => {
     let temp = {};
     temp["country"] = data[key].location;
+    temp['iso_code'] = key;
     temp[mode] = data[key][mode];
     if (temp[mode] === null) {
       temp[mode] = "No data";
@@ -37,15 +37,15 @@ function MapFilter({ data, defaultMode }) {
   console.log("Current mode: " + mode);
   console.log(displayedData);
 
-
+  const handleChange = (e) => {
+    setMode(e.target.value);
+  }
   return (
       <Select
         width="95%"
         marginBottom="5px"
         value={mode}
-        onChange={(e) => {
-          setMode(e.target.value);
-        }}
+        onChange={handleChange}
       >
         <option value={modes[0].value}>{modes[0].label}</option>
         <option value={modes[1].value}>{modes[1].label}</option>

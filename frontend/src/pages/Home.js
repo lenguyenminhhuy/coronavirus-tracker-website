@@ -8,8 +8,7 @@ function WorldMap() {
 
   useEffect(() => {
     axios.get('https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/latest/owid-covid-latest.json')
-    .then((res) => {console.log('dataa',res.data.OWID_WRL);
-    setInformation(res.data.OWID_WRL)})
+    .then((res) => {setInformation(res.data.OWID_WRL)})
   });
 
   const dataHighlight = useMemo(() => {

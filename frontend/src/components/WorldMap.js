@@ -5,7 +5,7 @@ import "./WorldMap.css";
 import { TileLayer } from "react-leaflet";
 import Legend from "./Legend";
 
-const WorldMap = ({ countries }) => {
+const WorldMap = ({countries}) => {
   const state = {
       lat: 50,
       lng: 10,
