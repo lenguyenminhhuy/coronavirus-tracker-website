@@ -1,59 +1,19 @@
 import {
   Flex,
   Heading,
-  Text,
-  Icon,
-  Link,
   Box,
-  Divider,
-  Select,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
-import { ResponsiveContainer } from "recharts";
 import BarChartDailyCase from "../components/BarChartDailyCase";
 import StatsBoard from "../components/StatsBoard";
 import axios from "axios";
 import BarChartContinent from "../components/BarChartContinent";
 import BarChartCompound from "../components/BarChartCompound";
 import AreaChartARD from "../components/AreaChartARD";
-import mockData from "../mock-data.json";
-
-async function processData(data) {
-  let array = [];
-  for (let i = 0; i < data.length; i++) {
-    let obj = {};
-    obj["date"] = data[i].Date;
-    obj["positive"] = data[i].Confirmed;
-    array.push(obj);
-  }
-  return array;
-}
+import SubscribeModal from "../components/shared/SubscribeModal";
+import colors from "../constants/colors";
 
 function Analysis() {
-  const [data, setData] = useState([]);
-  const [continent, setContinent] = useState("Asia");
-  const [historyData, setHistoryData] = useState([]);
-  const [countryList, setCountryList] = useState("");
-  const [countryHistoryData, setCountryHistoryData] = useState("");
-
-  useEffect(() => {
-      axios.get("https://79dvu6wjq3.execute-api.us-east-2.amazonaws.com/Prod/api/countries")
-      .then((res) => {
-          setCountryList(res.data)
-          setCountryHistoryData(res.data[0].country)
-      })
-  },[])
-
-  useEffect(() => {
-    axios.get(`https://79dvu6wjq3.execute-api.us-east-2.amazonaws.com/Prod/api/history?country=${countryHistoryData}`).then((res) => {
-      setHistoryData(res.data.data)
-      console.log(res.data);
-    });
-  }, [countryHistoryData]);
-
-  useEffect(() => {
-    console.log(continent);
-  }, [continent]);
 
   return (
     <Flex
@@ -68,7 +28,6 @@ function Analysis() {
       <Flex flexDir="row" w="100%">
         <Heading color="#000">Analysis</Heading>
       </Flex>
-
       {/* GRID DASHBOARD */}
       <Flex flexDir="column">
         <Flex
@@ -103,20 +62,11 @@ function Analysis() {
               borderRadius="15px"
               pos="relative"
               >
-            <Select onChange={(value) => setCountryHistoryData(value.target.value)}>
-                {countryList?
-                    countryList.map(c => (
-                        <option key={c.country} value={c.country}>{c.location}</option>
-                    ))
-                :
-                null
-                }
-            </Select>
               {/* 2 */}
               <BarChartDailyCase
                 // width="100%"
                 // height="100%"
-                data={historyData}
+                mode={1}
               />
             </Box>
           </Flex>
@@ -151,7 +101,7 @@ function Analysis() {
           <Flex w="100%" h="100%" p={["5px", "5px", "5px", "10px", "15px"]}>
             <Box w="100%" h="100%" bg="#fff" borderRadius="15px">
               {/* 5 */}
-                    {/* <BarChartDailyCase data={data} /> */}
+                <BarChartDailyCase />
             </Box>
           </Flex>
         </Flex>

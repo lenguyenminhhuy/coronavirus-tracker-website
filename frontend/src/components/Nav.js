@@ -10,24 +10,21 @@ import {
   Flex,
   Heading,
   Text,
-  Icon,
   Link,
-  Box,
-  LinkBox,
   Button,
-  NextLink,
-  LinkOverlay,
   Divider,
-  IconButton,
+  useDisclosure
 } from "@chakra-ui/react";
 // import { BiWorld } from "react-icons/bi";
 import { FcComboChart, FcNews } from "react-icons/fc";
 import { GiWorld } from "react-icons/gi";
-import { NavLink } from "react-router-dom";
 import NavItem from "./NavItem";
 import "./Nav.css";
+import SubscribeModal from "./shared/SubscribeModal";
 
 const Sidebar = () => {
+  const {isOpen, onOpen, onClose} = useDisclosure();
+
   return (
     <Flex
       w="100%"
@@ -94,13 +91,13 @@ const Sidebar = () => {
           </Link>
         </Flex>
       </Flex>
-
+      <SubscribeModal  isOpen={isOpen} onClose={onClose} />
       {/* Nav Bottom */}
       <Flex w="100%" flexDir="column" alignItems="center" mb={4}>
         <Divider color="#e6e6e6" />
 
-        <Flex mt={4} align="center">
-          <Text textAlign="center">@Corana-virus-Tracking</Text>
+        <Flex mt={4} w="100%" align="center">
+          <Button w="100%" border="none" onClick={onOpen}>Subscribe</Button>
         </Flex>
       </Flex>
     </Flex>
