@@ -11,6 +11,11 @@ function WorldMap() {
     .then((res) => {setInformation(res.data.OWID_WRL)})
   }, []);
 
+  useEffect(() => {
+    axios.get('https://79dvu6wjq3.execute-api.us-east-2.amazonaws.com/Prod/api/daily')
+    .then((res) => {console.log("test api",res)})
+  }, []);
+
   const dataHighlight = useMemo(() => {
     if (information){
       return [

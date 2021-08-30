@@ -2,6 +2,7 @@ import { Grid } from '@chakra-ui/react';
 import React from 'react';
 import Cards from './Cards';
 export default function Highlight( {infor} ) {
+    console.log('infor: ', infor);
     return  (
     <Grid templateColumns="repeat(3, 1fr)" gap={3}>
         { 

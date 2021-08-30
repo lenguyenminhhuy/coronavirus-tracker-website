@@ -19,15 +19,18 @@ import {
   LinkOverlay,
   Divider,
   IconButton,
+  useDisclosure
 } from "@chakra-ui/react";
 // import { BiWorld } from "react-icons/bi";
 import { FcComboChart, FcNews } from "react-icons/fc";
 import { GiWorld } from "react-icons/gi";
 import { NavLink } from "react-router-dom";
 import NavItem from "./NavItem";
+import SubscribeModal from "./shared/SubscribeModal";
 import "./Nav.css";
 
 const Sidebar = () => {
+  const {isOpen, onOpen, onClose} = useDisclosure();
   return (
     <Flex
       w="100%"
@@ -96,7 +99,10 @@ const Sidebar = () => {
           </Link>
         </Flex>
       </Flex>
-
+      <Box>
+        <Button onClick={onOpen}>Subscribe News</Button>
+        <SubscribeModal isOpen={isOpen} onClose={onClose}/>
+      </Box>
       {/* Nav Bottom */}
       <Flex w="100%" flexDir="column" alignItems="center" mb={4}>
         <Divider color="#e6e6e6" />
@@ -110,4 +116,3 @@ const Sidebar = () => {
 };
 
 export default Sidebar;
-

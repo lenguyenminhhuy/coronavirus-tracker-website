@@ -1,8 +1,24 @@
 .PHONY: build-RuntimeDependenciesLayer build-lambda-common
-.PHONY: build-CovidFunction
+.PHONY: build-HistoryFunction \build-UpdateHistoryFunction \build-GetCountryListFunction \build-ScarpingDataFunction \build-GetDailyFunction \build-GetDailyAPIFunction
 
-build-CovidFunction:
-	$(MAKE) HANDLER=src/handlers/hello.ts build-lambda-common
+build-UpdateHistoryFunction:
+	${MAKE} HANDLER=src/handlers/updateHistory.ts build-lambda-common
+
+build-HistoryFunction:
+	${MAKE} HANDLER=src/handlers/history.ts build-lambda-common
+
+build-GetCountryListFunction:
+	${MAKE} HANDLER=src/handlers/getCountryList.ts build-lambda-common
+
+build-GetDailyFunction:
+	$(MAKE) HANDLER=src/handlers/covidDaily.ts build-lambda-common
+
+build-GetDailyAPIFunction:
+	$(MAKE) HANDLER=src/handlers/covidDailyAPI.ts build-lambda-common
+
+build-ScarpingDataFunction:
+	$(MAKE) HANDLER=src/handlers/scraping.ts build-lambda-common
+
 
 build-lambda-common:
 	yarn install
@@ -16,3 +32,6 @@ build-RuntimeDependenciesLayer:
 	cp package.json yarn.lock "$(ARTIFACTS_DIR)/nodejs/"
 	yarn install --production --cwd "$(ARTIFACTS_DIR)/nodejs/"
 	rm "$(ARTIFACTS_DIR)/nodejs/package.json"
+
+
+

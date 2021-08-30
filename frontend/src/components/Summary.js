@@ -5,16 +5,14 @@ import WorldMap from "./WorldMap";
 import LoadCountryData from "../tasks/LoadCountriesData";
 import Legend from "./Legend";
 import legendItems from "../legends/LegendItems";
-import MapFilter from "./MapFilter";
 import { Select } from "@chakra-ui/select";
-import axios from "axios";
 
 function Summary() {
   let modes = [
-    { label: "Total cases", value: "total_cases" },
+    { label: "Total confirmed cases", value: "total_cases" },
     { label: "Total deaths", value: "total_deaths" },
     { label: "Vaccinated cases", value: "people_vaccinated" },
-    { label: "New cases", value: "new_cases" },
+    { label: "Total tested case", value: "total_tests" },
   ];
   async function selectData(data, mode) {
     let selectedArray = [];
@@ -33,24 +31,7 @@ function Summary() {
     return selectedArray;
   }
 
-  const [mode, setMode] = useState('total_deaths');
-  const [displayedData, setDisplayData] = useState([]);
-
-  useEffect(() => {
-    selectData(data, mode).then((res) => {
-      setDisplayData(res);
-      console.log("res",res)
-    });
-  }, [mode]);
-  
-
-  console.log("Current mode: " + mode);
-  console.log(displayedData);
-
-
-  const [data, setData] = useState([]);
-  useEffect(() => {axios.get('https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/latest/owid-covid-latest.json')
-  .then(res => { setData(res.data) })}, []);
+  const [mode, setMode] = useState('total_cases');
 
   const handleChange = ((e) => {
     setMode(e.target.value);
@@ -77,7 +58,7 @@ function Summary() {
         <div>
           {/* <MapFilter data={data} defaultMode={"total_deaths"} /> */}
           <Select
-            width="95%"
+            width="100%%"
             marginBottom="5px"
             value={mode}
             onChange={handleChange}
