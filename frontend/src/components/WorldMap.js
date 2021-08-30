@@ -1,19 +1,17 @@
-import {
-  Flex,
-  Heading,
-  Text,
-  Icon,
-  Link,
-  Box,
-  Divider,
-  Select,
-} from "@chakra-ui/react";
-import React from "react";
+import React, {useEffect} from "react";
 import { Map, GeoJSON } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import "./WorldMap.css";
+import { TileLayer } from "react-leaflet";
 
-const WorldMap = ({ countries }) => {
+
+const WorldMap = ({countries, options}) => {
+
+  const state = {
+      lat: 50,
+      lng: 10,
+      zoom: 1.5
+    };
   const mapStyle = {
     fillColor: "white",
     weight: 1,
@@ -21,18 +19,13 @@ const WorldMap = ({ countries }) => {
     fillOpacity: 1,
   };
 
-  const onEachCountry = (country, layer) => {
+  const onDeaths = (country, layer) => {
+    let name = country.properties.ADMIN
     layer.options.fillColor = country.properties.color;
-    const name = country.properties.ADMIN;
-    const confirmedText = country.properties.confirmedText;
+    let displayText = country.properties['total_deaths'];   
 
-    // layer.popup()
-    // .setLatLng(country.properties)
-    // .setContent(`${name}${confirmedText}`)
-    // .openOn();
-    console.log("country", country.properties);
-    layer.bindPopup(`${name}${confirmedText}`);
-    layer.on("mouseover", function (e) {
+    layer.bindPopup(`${name}${displayText}`);
+    layer.on('mouseover', function (e) {
       this.openPopup();
     });
     layer.on("mouseout", function (e) {
@@ -40,17 +33,86 @@ const WorldMap = ({ countries }) => {
     });
   };
 
+
+  
+  const onVaccinated = (country, layer) => {
+    let name = country.properties.ADMIN
+    layer.options.fillColor = country.properties.color;
+    let displayText = country.properties['total_vaccinations'];   
+     
+    layer.bindPopup(`${name}${displayText}`);
+    layer.on('mouseover', function (e) {
+      this.openPopup();
+    });
+    layer.on("mouseout", function (e) {
+      this.closePopup();
+    });
+  }
+
+
+  const onCases = (country, layer) => {
+    let name = country.properties.ADMIN
+    layer.options.fillColor = country.properties.color;
+    let displayText = country.properties['total_cases'];   
+     
+    layer.bindPopup(`${name}${displayText}`);
+    layer.on('mouseover', function (e) {
+      this.openPopup();
+    });
+    layer.on("mouseout", function (e) {
+      this.closePopup();
+    });
+  };
+
+  useEffect(() => {
+    console.log(options);
+    console.log(countries);
+  },[options])
+
+  const switchCase = (mode) => {
+    switch(mode) {
+      case 'total_cases':
+        return onCases;
+      case 'total_deaths':
+        return onDeaths;
+      case 'people_vaccinated':
+        return onVaccinated;
+    }
+  }
+
   return (
-    <Flex flexDir="column" overflow="auto" minH="100vh">
-      <Map style={{ height: "50vh" }} zoom={2} center={[20, 60]}>
-        <GeoJSON
-          style={mapStyle}
-          data={countries}
-          onEachFeature={onEachCountry}
+    <div>
+
+      <Map style={{ height: "80vh", width: "95%", border: "1px solid black"}} zoom={state.zoom} center={[state.lat, state.lng]}>
+      {/* {options == 'total_cases' ?
+              <GeoJSON
+              key="test"
+              style={mapStyle}
+              data={countries}
+              onEachFeature={onEachCountry2}
+            />
+            :
+            <GeoJSON
+            key="shit"
+            style={mapStyle}
+            data={countries}
+            onEachFeature={onEachCountry}
+          />
+      } */}
+       <GeoJSON
+            key={options}
+            style={mapStyle}
+            data={countries}
+            onEachFeature={switchCase(options)}/>
+       <TileLayer
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         />
-      </Map>
-    </Flex>
+        </Map>
+    </div>
+
   );
+
 };
 
 export default WorldMap;

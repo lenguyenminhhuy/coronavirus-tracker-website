@@ -1,6 +1,5 @@
 import axios from 'axios';
-import React, { Component, useMemo, useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useMemo, useState, useEffect } from 'react';
 import Highlight from '../components/Highlight';
 import Summary from '../components/Summary';
 
@@ -8,35 +7,36 @@ function WorldMap() {
   const [information, setInformation] = useState([]);
 
   useEffect(() => {
-    axios.get('https://api.covid19api.com/summary')
-    .then((res) => {console.log('dataa',res.data.Global);
-    setInformation(res.data.Global)})
-  });
+    axios.get('https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/latest/owid-covid-latest.json')
+    .then((res) => {setInformation(res.data.OWID_WRL)})
+  }, []);
 
   const dataHighlight = useMemo(() => {
     if (information){
       return [
         {
           title: "Total confirmed cases",
-          count: information.TotalConfirmed,
+          count: information.total_cases,
           type: 'confirmed'
       },
       {
           title: "Total death cases",
-          count: information.TotalDeaths,
+          count: information.total_deaths,
           type: 'death'
       },
+      {
+        title: "Total vaccinated cases",
+        count: information.total_vaccinations,
+        type: 'vaccinated'
+    },
       ];
     }
     return []; 
   }, [information])
+
+  
     return (
     <div className="App">
-      <h1>Project Home</h1>
-      {/* Link to List.js */}
-        <button variant="raised" href="list.js">
-            My List
-        </button>
       <div>
         <Highlight infor={dataHighlight}/>
         <Summary />

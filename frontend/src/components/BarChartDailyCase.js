@@ -11,7 +11,7 @@ import {
   ResponsiveContainer,
   Line
 } from "recharts";
-import { Box, Select, RadioGroup, Stack, Radio } from '@chakra-ui/react'
+import { Box, Select, RadioGroup, Stack, Radio, Flex } from '@chakra-ui/react'
 import CustomAxisX from "./shared/CustomAxisX";
 import CustomTooltip from "./shared/CustomTooltip";
 import normalizeCamelCase from "../utils/normalizeCamelCase";
@@ -58,8 +58,7 @@ function BarChartDailyCase({
     return (
       // <React.Fragment>
       <Box w="100%" h="100%">
-
-            <Box>
+          <Flex flexDirection="row">
             <Select borderTop="none" borderRight="none" borderLeft="none" w="40%" borderRadius={0} borderColor={colors.grayDefault} onChange={(value) => setCountryHistoryData(value.target.value)}>
                 {countryList?
                     countryList.map(c => (
@@ -75,7 +74,7 @@ function BarChartDailyCase({
                   <Radio value="totalDeaths">Total Deaths</Radio>
               </Stack>
             </RadioGroup>
-            </Box>
+          </Flex>
  <ResponsiveContainer width="90%" height="90%" position="absolute">
         <ComposedChart
           width="100%"

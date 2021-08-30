@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
     Box,
     useDisclosure,
@@ -11,13 +11,26 @@ import {
     ModalCloseButton,
     Button,
     Input,
-    Text
-    }
+    Text,
+    FormControl,
+    Field,
+    FormLabel,
+}
 from '@chakra-ui/react';
 import PropTypes from 'prop-types';
 import colors from '../../constants/colors'
 
 function SubscribeModal ({isOpen, onClose}) {
+
+    const [loading, setLoading] = useState(false);
+    const [email, setEmail] = useState("");
+
+    function subscribe(input) {
+        setLoading(true);
+        setTimeout(() => {
+            setLoading(false);
+        }, 5000)
+    }
 
     return (
         <Box>
@@ -32,10 +45,13 @@ function SubscribeModal ({isOpen, onClose}) {
                     </Text>
                 </ModalBody>
                 <ModalFooter>
-                    <Input type="email" placeholder="Enter your email" borderColor={colors.grayLight}/>
-                    <Button pr={10} pl={10} _hover={{backgroundColor: colors.redDarker}} borderColor={colors.redDark} backgroundColor={colors.redDark} color={colors.grayLighter} mr={3} onClick={onClose}>
+                <FormControl>
+                    <Input required type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Enter your email" borderColor={colors.grayLight}/>
+                    <Button type="submit" isLoading={loading} pr={10} pl={10} _hover={{backgroundColor: colors.redDarker}} borderColor={colors.redDark} backgroundColor={colors.redDark} color={colors.grayLighter} mr={3} onClick={() => subscribe(email)}>
                     Subscribe
                     </Button>
+                </FormControl>
+
                 </ModalFooter>
                 </ModalContent>
             </Modal>

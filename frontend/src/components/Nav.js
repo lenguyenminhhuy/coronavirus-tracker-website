@@ -10,21 +10,27 @@ import {
   Flex,
   Heading,
   Text,
+  Icon,
   Link,
+  Box,
+  LinkBox,
   Button,
+  NextLink,
+  LinkOverlay,
   Divider,
+  IconButton,
   useDisclosure
 } from "@chakra-ui/react";
 // import { BiWorld } from "react-icons/bi";
 import { FcComboChart, FcNews } from "react-icons/fc";
 import { GiWorld } from "react-icons/gi";
+import { NavLink } from "react-router-dom";
 import NavItem from "./NavItem";
-import "./Nav.css";
 import SubscribeModal from "./shared/SubscribeModal";
+import "./Nav.css";
 
 const Sidebar = () => {
   const {isOpen, onOpen, onClose} = useDisclosure();
-
   return (
     <Flex
       w="100%"
@@ -45,8 +51,10 @@ const Sidebar = () => {
           mt={50}
           mb={[25, 50, 90]}
           fontSize="2xl"
-          alignSelf="center"
+          alignSelf="left"
           letterSpacing="tight"
+          marginLeft="2vh"
+
         >
           Covid-19 Data Tracker
         </Heading>
@@ -91,53 +99,20 @@ const Sidebar = () => {
           </Link>
         </Flex>
       </Flex>
-      <SubscribeModal  isOpen={isOpen} onClose={onClose} />
+      <Box>
+        <Button onClick={onOpen}>Subscribe News</Button>
+        <SubscribeModal isOpen={isOpen} onClose={onClose}/>
+      </Box>
       {/* Nav Bottom */}
       <Flex w="100%" flexDir="column" alignItems="center" mb={4}>
         <Divider color="#e6e6e6" />
 
-        <Flex mt={4} w="100%" align="center">
-          <Button w="100%" border="none" onClick={onOpen}>Subscribe</Button>
+        <Flex mt={4} align="center">
+          <Text textAlign="center">@Team42-COSC2638</Text>
         </Flex>
       </Flex>
     </Flex>
   );
 };
-
-// <div style={{ display: "flex", height: "100%" }}>
-//   <CDBSidebar
-//     textColor=""
-//     backgroundColor="#fff"
-//     style={{ boxShadow: "0px 4px 42px rgba(0,0,0,0.07)" }}
-//   >
-//     <CDBSidebarContent className="sidebar-content">
-//       <CDBSidebarMenu>
-//         <NavLink exact to="/" activeClassName="">
-//           <CDBSidebarMenuItem icon="columns">Dashboard</CDBSidebarMenuItem>
-//         </NavLink>
-//         <NavLink exact to="/analysis" activeClassName="">
-//           <CDBSidebarMenuItem icon="table">Analysis</CDBSidebarMenuItem>
-//         </NavLink>
-//         <NavLink exact to="/news" activeClassName="">
-//           <CDBSidebarMenuItem icon="newspaper">
-//             Latest News
-//           </CDBSidebarMenuItem>
-//         </NavLink>
-//       </CDBSidebarMenu>
-//     </CDBSidebarContent>
-
-//     <CDBSidebarFooter style={{ textAlign: "center" }}>
-//       <div
-//         style={{
-//           padding: "20px 5px",
-//         }}
-//       >
-//         @Corana-virus-Tracking
-//       </div>
-//     </CDBSidebarFooter>
-//   </CDBSidebar>
-// </div>
-// );
-// };
 
 export default Sidebar;

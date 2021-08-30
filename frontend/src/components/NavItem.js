@@ -9,10 +9,10 @@ const NavItem = ({ icon, title, color }) => {
       justifyContent={[null, "center", "center", "center", "flex-start"]}
     >
       <Flex justifyContent="center">
-        <Icon fontSize="3xl" as={icon} color={color} />
+        <Icon fontSize="2xl" as={icon} color={color} />
       </Flex>
       <Flex display={["flex", "flex", "none", "none", "flex"]}>
-        <Text m="auto" ml="2" fontSize="2xl">
+        <Text m="auto" ml="2" fontSize="2md">
           {title}
         </Text>
       </Flex>

@@ -1,38 +1,38 @@
 .ibFJFt .head-div .icon-suffix {
-  margin: 10px 12px 10px 5px;
-  cursor: pointer;
-}
-
-.my-nav {
-  box-shadow: 0px 4px 42px rgba(0, 0, 0, 0.07);
-}
-
-.active {
-  /* background-color: #eeeeee; */
-  /* color: blueviolet; */
-}
-
-.sidebar-items {
-  width: 80%;
-
-  align-items: center;
-  border-radius: 20px;
-
-  color: rgb(0, 0, 0);
-  font-size: large;
-
-  cursor: pointer;
-}
-
-.sidebar-items p {
-  margin: auto;
-  margin-left: 1em;
-}
-
-.sidebar-items:hover {
-  /* background-color: #eeeeee; */
-}
-
-.sidebar-items:not(:last-child) {
-  margin-bottom: 3em;
-}
+    margin: 10px 12px 10px 5px;
+    cursor: pointer;
+  }
+  
+  .my-nav {
+    box-shadow: 0px 4px 42px rgba(0, 0, 0, 0.07);
+  }
+  
+  .active {
+    /* background-color: #eeeeee; */
+    /* color: blueviolet; */
+  }
+  
+  .sidebar-items {
+    width: 80%;
+  
+    align-items: center;
+    border-radius: 20px;
+  
+    color: rgb(0, 0, 0);
+    font-size: large;
+  
+    cursor: pointer;
+  }
+  
+  .sidebar-items p {
+    margin: auto;
+    margin-left: 1em;
+  }
+  
+  .sidebar-items:hover {
+    /* background-color: #eeeeee; */
+  }
+  
+  .sidebar-items:not(:last-child) {
+    margin-bottom: 3em;
+  }

@@ -6,12 +6,6 @@ import {
 import React, { useEffect, useState } from "react";
 import BarChartDailyCase from "../components/BarChartDailyCase";
 import StatsBoard from "../components/StatsBoard";
-import axios from "axios";
-import BarChartContinent from "../components/BarChartContinent";
-import BarChartCompound from "../components/BarChartCompound";
-import AreaChartARD from "../components/AreaChartARD";
-import SubscribeModal from "../components/shared/SubscribeModal";
-import colors from "../constants/colors";
 
 function Analysis() {
 
