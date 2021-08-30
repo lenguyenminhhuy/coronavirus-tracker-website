@@ -1,8 +1,5 @@
 #!/bin/bash
-
-#!/bin/bash
-
-#### Ship process ####
+#### Clean process ####
 clean_process() {
   local mode="${1}"
   if [ "${mode}" == "dev" ] 

@@ -1,7 +1,4 @@
 #!/bin/bash
-
-
-
 #### Ship process ####
 ship_process() {
   local mode="${1}"
@@ -14,7 +11,7 @@ ship_process() {
     sam.cmd build --config-env dev
     echo "=> Build DEV completed! ✅"
     echo "Start the deployment process to AWS CloudFormation ⏳"
-    sam.cmd deploy --config-file dev
+    sam.cmd deploy --config-env dev
     echo "=> Deploy DEV completed! ✅"
   else
     echo "Removing .aws-sam before build and deployment ⏳"

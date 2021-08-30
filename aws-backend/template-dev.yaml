@@ -2,7 +2,7 @@ AWSTemplateFormatVersion: "2010-09-09"
 Transform: AWS::Serverless-2016-10-31
 Description: >
   coronavirus-tracker-website-dev-stack
-  CloudFormation Template for SAM (Dev Environment)
+  CloudFormation Template for SAM (Development Environment)
 
 # More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
 Globals:
@@ -12,30 +12,30 @@ Globals:
     Runtime: nodejs14.x
     Environment:
       Variables:
-        ENVIRONMENT_TYPE:
-          Type: String
-          Default: "Dev"
-        HELLO_ENV:
-          Type: String
-          Default: "Covid"
-    MemorySize: 128
+        # "Local" | "Dev" | "Prod"
+        ENVIRONMENT_TYPE: "Dev"
+    MemorySize: 256
     Timeout: 180
 
 Resources:
-  ## Covid Lambda Function ##
-  CovidFunction:
-    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
-    Metadata:
-      BuildMethod: makefile
+  # DynamoDB Email Subscription table
+  EmailSubscriptionTable:
+    Type: AWS::DynamoDB::Table
     Properties:
-      Handler: dist/handlers/hello.handler
-      Description: A simple example function for Hello Covid API
-      Events:
-        CovidDataAPI:
-          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
-          Properties:
-            Path: /covid
-            Method: GET
+      KeySchema:
+        - AttributeName: "Email"
+          KeyType: "HASH"
+        - AttributeName: "CreatedAt"
+          KeyType: "RANGE"
+      AttributeDefinitions:
+        - AttributeName: "Email"
+          AttributeType: "S"
+        - AttributeName: "CreatedAt"
+          AttributeType: "S"
+      ProvisionedThroughput:
+        ReadCapacityUnits: 1000
+        WriteCapacityUnits: 10
+      TableName: "emailSubscription"
 
   ## Daily send email function ##
   SendDailyEmailFunction:
@@ -43,9 +43,10 @@ Resources:
     Metadata:
       BuildMethod: makefile
     Properties:
-      Handler: dist/handlers/email-handlers/send-daily-email.handler
+      Handler: dist/handlers/send-daily-email.handler
       Description: Daily scheduled email sending function to subscribers
       Role: !GetAtt SendDailyEmailIamRole.Arn
+      PackageType: Zip
       Events:
         DailyScheduleRule:
           Type: Schedule
@@ -81,6 +82,17 @@ Resources:
             Statement:
               - Effect: Allow
                 Action:
+                  - dynamodb:Query
+                  - dynamodb:DescribeTable
+                  - dynamodb:Scan
+                Resource: !GetAtt EmailSubscriptionTable.Arn
+          PolicyName: DynamoDBBasicAccess
+
+        - PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
                   - logs:CreateLogGroup
                   - logs:CreateLogStream
                   - logs:PutLogEvents
@@ -94,8 +106,10 @@ Resources:
     Metadata:
       BuildMethod: makefile
     Properties:
-      Handler: dist/handlers/email-handlers/subscribe-email.handler
+      Handler: dist/handlers/subscribe-email.handler
       Description: Daily scheduled email sending function to subscribers
+      Role: !GetAtt SubscribeEmailIamRole.Arn
+      PackageType: Zip
       Events:
         SubscribeEmailAPI:
           Type: Api
@@ -103,24 +117,48 @@ Resources:
             Path: /subscribe
             Method: POST
 
-  # DynamoDB Email Subscription table
-  EmailSubscriptionTable:
-    Type: AWS::DynamoDB::Table
+  # Subscribe email IAM Role
+  SubscribeEmailIamRole:
+    Type: AWS::IAM::Role
     Properties:
-      KeySchema:
-        - AttributeName: "Email"
-          KeyType: "HASH"
-        - AttributeName: "CreatedAt"
-          KeyType: "RANGE"
-      AttributeDefinitions:
-        - AttributeName: "Email"
-          AttributeType: "S"
-        - AttributeName: "CreatedAt"
-          AttributeType: "S"
-      ProvisionedThroughput:
-        ReadCapacityUnits: 5
-        WriteCapacityUnits: 5
-      TableName: "emailSubscription"
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - "lambda.amazonaws.com"
+            Action:
+              - "sts:AssumeRole"
+      Path: "/"
+      Policies:
+        - PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - dynamodb:BatchGetItem
+                  - dynamodb:BatchWriteItem
+                  - dynamodb:ConditionCheckItem
+                  - dynamodb:PutItem
+                  - dynamodb:DescribeTable
+                  - dynamodb:DeleteItem
+                  - dynamodb:GetItem
+                  - dynamodb:Scan
+                  - dynamodb:Query
+                  - dynamodb:Query
+                  - dynamodb:UpdateItem
+                Resource:
+                  - !GetAtt EmailSubscriptionTable.Arn
+          PolicyName: DynamoDBTableAccess
+        - PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - ses:*
+                Resource: "*"
+          PolicyName: SESFullAccess
 
   # Shared layer with Lambda runtime dependencies
   RuntimeDependenciesLayer:
@@ -133,27 +171,23 @@ Resources:
       ContentUri: ./
       CompatibleRuntimes:
         - nodejs14.x
-      RetentionPolicy: Retain
-
+      RetentionPolicy: Delete
 # Created resources on AWS
 Outputs:
   # Section for Covid test API
-  CovidAPI:
+  EmailGateway:
     Description: "API Gateway endpoint URL for Prod stage"
     Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/"
-
-  CovidFunction:
-    Description: "Covid Lambda Function ARN"
-    Value: !GetAtt CovidFunction.Arn
-
-  CovidFunctionIamRole:
-    Description: "Implicit IAM Role created for Covid Function"
-    Value: !GetAtt CovidFunctionRole.Arn
 
   # Section for SendDailyEmailFunction
   SendDailyEmailFunction:
     Description: "Send Email Function ARN"
     Value: !GetAtt SendDailyEmailFunction.Arn
+
+  # Section for SubscribeEmailFunction
+  SubscribeEmailFunction:
+    Description: "Subscribe for Daily News Function ARN"
+    Value: !GetAtt SubscribeEmailFunction.Arn
 
   # Section for DynamoDB Table of Email Subscription
   EmailSubscriptionTable:
