@@ -5,7 +5,7 @@ const Legend = ({ legendItems }) => {
   const HoverLegend = styled.div`
     display: flex;
     align-items:stretch;
-    width: 95%;
+    width: 100%;
     &:hover{
       background-color: '#a1b3f0',
     }

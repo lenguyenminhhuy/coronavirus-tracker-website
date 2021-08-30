@@ -12,7 +12,9 @@ class LoadCountryData {
     axios.get(this.api)
     .then((res) => {
       this.#processCovidData(res.data)
-    })
+    }).catch(error => {
+      throw(error);
+  })
   }; 
 
   #processCovidData = (covidCountries) => {

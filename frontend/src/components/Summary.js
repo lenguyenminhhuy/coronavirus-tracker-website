@@ -9,10 +9,10 @@ import { Select } from "@chakra-ui/select";
 
 function Summary() {
   let modes = [
-    { label: "Total cases", value: "total_cases" },
+    { label: "Total confirmed cases", value: "total_cases" },
     { label: "Total deaths", value: "total_deaths" },
     { label: "Vaccinated cases", value: "people_vaccinated" },
-    { label: "New cases", value: "new_cases" },
+    { label: "Total tested case", value: "total_tests" },
   ];
   async function selectData(data, mode) {
     let selectedArray = [];
@@ -58,7 +58,7 @@ function Summary() {
         <div>
           {/* <MapFilter data={data} defaultMode={"total_deaths"} /> */}
           <Select
-            width="95%"
+            width="100%%"
             marginBottom="5px"
             value={mode}
             onChange={handleChange}

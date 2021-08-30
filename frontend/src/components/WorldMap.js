@@ -64,6 +64,21 @@ const WorldMap = ({countries, options}) => {
     });
   };
 
+  const onTest = (country, layer) => {
+    let name = country.properties.ADMIN
+    layer.options.fillColor = country.properties.color;
+    let displayText = country.properties['total_tests'];   
+     
+    layer.bindPopup(`${name}${displayText}`);
+    layer.on('mouseover', function (e) {
+      this.openPopup();
+    });
+    layer.on("mouseout", function (e) {
+      this.closePopup();
+    });
+  };
+
+
   useEffect(() => {
     console.log(options);
     console.log(countries);
@@ -77,13 +92,15 @@ const WorldMap = ({countries, options}) => {
         return onDeaths;
       case 'people_vaccinated':
         return onVaccinated;
+      case 'total_tests':
+        return onTest;
     }
   }
 
   return (
     <div>
 
-      <Map style={{ height: "80vh", width: "95%", border: "1px solid black"}} zoom={state.zoom} center={[state.lat, state.lng]}>
+      <Map style={{ height: "80vh", width: "100%", border: "1px solid black"}} zoom={state.zoom} center={[state.lat, state.lng]}>
       {/* {options == 'total_cases' ?
               <GeoJSON
               key="test"
