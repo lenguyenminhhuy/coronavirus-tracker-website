@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { BarChart, YAxis, XAxis, Tooltip, Legend, Bar } from "recharts";
+import { Box, Center, Select, Flex } from "@chakra-ui/react";
 
 async function processData(data, country) {
   let array = [];
@@ -27,44 +28,46 @@ function BarChartCompound({ data, country }) {
   }, [country]);
 
   return (
-    <BarChart
-      // width={1000}
-      // height={500}
-      width="100%"
-      height="100%"
-      data={chartData}
-      layout="vertical"
-      barCategoryGap={"0%"}
-    >
-      <XAxis type="number" />
-      <YAxis hide={true} dataKey="Country" type="category" interval={0} />
-      <Tooltip />
-      <Legend />
-      <Bar
-        barSize={40}
-        dataKey="total_cases"
-        name="Total Cases"
-        fill="#52006A"
-      />
-      <Bar
-        barSize={40}
-        dataKey="total_deaths"
-        name="Total Deaths"
-        fill="#CD113B"
-      />
-      <Bar
-        barSize={40}
-        dataKey="total_vaccinations"
-        name="Total Vaccinations"
-        fill="#FF7600"
-      />
-      <Bar
-        barSize={40}
-        dataKey="total_tests"
-        name="Total Tests"
-        fill="#FFA900"
-      />
-    </BarChart>
+    <Flex w="100%" h="100%" bg="#fff" borderRadius="20px">
+      <BarChart
+        // width="1000px"
+        // height="500px"
+        // width="100%"
+        // height="100%"
+        data={chartData}
+        layout="vertical"
+        barCategoryGap={"0%"}
+      >
+        <XAxis type="number" />
+        <YAxis hide={true} dataKey="Country" type="category" interval={0} />
+        <Tooltip />
+        <Legend />
+        <Bar
+          barSize={40}
+          dataKey="total_cases"
+          name="Total Cases"
+          fill="#52006A"
+        />
+        <Bar
+          barSize={40}
+          dataKey="total_deaths"
+          name="Total Deaths"
+          fill="#CD113B"
+        />
+        <Bar
+          barSize={40}
+          dataKey="total_vaccinations"
+          name="Total Vaccinations"
+          fill="#FF7600"
+        />
+        <Bar
+          barSize={40}
+          dataKey="total_tests"
+          name="Total Tests"
+          fill="#FFA900"
+        />
+      </BarChart>
+    </Flex>
   );
 }
 

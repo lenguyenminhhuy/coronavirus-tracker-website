@@ -51,9 +51,47 @@ function Analysis() {
       <Flex flexDir="row" w="100%">
         <Heading color="#000">Analysis</Heading>
       </Flex>
+      <Flex flexDir="column" bg="pink.100">
+        <Flex
+          bg="pink.400"
+          flexDir={["column", "column", "column", "row-reverse", "row-reverse"]}
+          // flexWrap="wrap"
+          w="100%"
+          h={["840px", "840px", "840px", "420px", "420px"]}
+        >
+          <Flex
+            bg="blue.400"
+            w={["100%", "100%", "100%", "40%", "40%"]}
+            h="50%"
+            // p={["5px", "5px", "5px", "10px", "15px"]}
+          >
+            <StatsBoard />
+          </Flex>
+        </Flex>
+        {/* <Box flex="1" bg="tomato" h="500px">
+          <Text>
+            Boxxxxxxxxx xxxxxxxxxxxx xxxxxxxxxx xxxxxxxxxxxxxxx xxxxxxxxxxxxx
+            xxxxxxxxxx xxxxxx xxx xxxxxxxx xxxxxx
+          </Text>
+        </Box> */}
+      </Flex>
+    </Flex>
+  );
+}
+{
+  /* HEADING */
+}
+{
+  /* <Flex flexDir="row" w="100%">
+        <Heading color="#000">Analysis</Heading>
+      </Flex> */
+}
 
-      {/* GRID DASHBOARD */}
-      <Flex flexDir="column">
+{
+  /* GRID DASHBOARD */
+}
+{
+  /* <Flex flexDir="column">
         <Flex
           flexDir={["column", "column", "column", "row-reverse", "row-reverse"]}
           // flexWrap="wrap"
@@ -65,26 +103,49 @@ function Analysis() {
             h="100%"
             p={["5px", "5px", "5px", "10px", "15px"]}
           >
-            <Box w="100%" h="100%" bg="#fff" borderRadius="15px">
-              {/* 1 */}
-              {/* <ResponsiveContainer width="100%" height="100%"> */}
-              <StatsBoard />
-              {/* </ResponsiveContainer> */}
-            </Box>
-          </Flex>
+            <Box flex="1" bg="tomato">
+              <Text>Box</Text>
+            </Box> */
+}
+{
+  /* <Box w="100%" h="100%" bg="#fff" borderRadius="15px"> */
+}
+{
+  /* 1 */
+}
+{
+  /* <ResponsiveContainer width="100%" height="100%"> */
+}
+{
+  /* <StatsBoard /> */
+}
+{
+  /* </ResponsiveContainer> */
+}
+{
+  /* </Box> */
+}
+{
+  /* </Flex>
           <Flex
             w={["100%", "100%", "100%", "60%", "60%"]}
             h="100%"
             p={["5px", "5px", "5px", "10px", "15px"]}
           >
-            <Box w="100%" h="100%" bg="#fff" borderRadius="15px">
-              {/* 2 */}
-              {/* <BarChartDailyCase
+            <Box w="100%" h="100%" bg="#fff" borderRadius="15px"> */
+}
+{
+  /* 2 */
+}
+{
+  /* <BarChartDailyCase
                 // width="100%"
                 // height="100%"
                 data={mockData}
-              /> */}
-            </Box>
+              /> */
+}
+{
+  /* </Box>
           </Flex>
         </Flex>
         <Flex
@@ -97,60 +158,91 @@ function Analysis() {
             h="100%"
             p={["5px", "5px", "5px", "10px", "15px"]}
           >
-            <Box w="100%" h="100%" bg="#fff" borderRadius="15px">
-              {/* 3 */}
-              {/* <BarChartContinent /> */}
-            </Box>
+            <Box w="100%" h="100%" bg="#fff" borderRadius="15px"> */
+}
+{
+  /* 3 */
+}
+{
+  /* <BarChartContinent /> */
+}
+{
+  /* </Box>
           </Flex>
           <Flex
             w={["100%", "100%", "100%", "100%", "50%"]}
             h="100%"
             p={["5px", "5px", "5px", "10px", "15px"]}
           >
-            <Box w="100%" h="100%" bg="#fff" borderRadius="15px">
-              {/* 4 */}
-              {/* <AreaChartARD /> */}
-            </Box>
+            <Box w="100%" h="100%" bg="#fff" borderRadius="15px"> */
+}
+{
+  /* 4 */
+}
+{
+  /* <AreaChartARD /> */
+}
+{
+  /* </Box>
           </Flex>
         </Flex>
         <Flex flexDir="column" w="100%" h="420px">
           <Flex w="100%" h="100%" p={["5px", "5px", "5px", "10px", "15px"]}>
-            <Box w="100%" h="100%" bg="#fff" borderRadius="15px">
-              {/* 5 */}
-              {/* <BarChartCompound data={mockData} country="Vietnam" /> */}
-            </Box>
+            <Box w="100%" h="100%" bg="#fff" borderRadius="15px"> */
+}
+{
+  /* 5 */
+}
+{
+  /* <BarChartCompound data={mockData} country="Vietnam" /> */
+}
+{
+  /* </Box>
           </Flex>
         </Flex>
-      </Flex>
-      {/* <BarChartDailyCase /> */}
-      {/* <StatsBoard /> */}
-      {/* <BarChartContinent /> */}
-      {/* <BarChartCompound /> */}
-      {/* <AreaChartARD /> */}
-    </Flex>
-    // <div>
-    //     <Box margin="0 auto" maxW='50%' boxShadow="0px 4px 10px rgba(0,0,0,0.1)">
-    //         <StatsBoard/>
-    //     </Box>
-    //     {data?
-    //     <Box>
-    //         <BarChartDailyCase data={data}/>
-    //     </Box>
-    //             :
-    //         null
-    //     }
-    //     <Box>
-    //         <Select onChange={(value) => setContinent(value.target.value)}>
-    //             <option value="Asia">Asia</option>
-    //             <option value="Africa">Africa</option>
-    //             <option value="Europe">Europe</option>
-    //             <option value="South America">South America</option>
-    //             <option value="North America">North America</option>
-    //         </Select>
-    //         <BarChartContinent data={mockData} continent={continent} mode="total_cases" />
-    //     </Box>
-    // </div>
-  );
+      </Flex> */
 }
+{
+  /* <BarChartDailyCase /> */
+}
+{
+  /* <StatsBoard /> */
+}
+{
+  /* <BarChartContinent /> */
+}
+{
+  /* <BarChartCompound /> */
+}
+{
+  /* <AreaChartARD /> */
+}
+{
+  /* </Flex> */
+}
+// <div>
+//     <Box margin="0 auto" maxW='50%' boxShadow="0px 4px 10px rgba(0,0,0,0.1)">
+//         <StatsBoard/>
+//     </Box>
+//     {data?
+//     <Box>
+//         <BarChartDailyCase data={data}/>
+//     </Box>
+//             :
+//         null
+//     }
+//     <Box>
+//         <Select onChange={(value) => setContinent(value.target.value)}>
+//             <option value="Asia">Asia</option>
+//             <option value="Africa">Africa</option>
+//             <option value="Europe">Europe</option>
+//             <option value="South America">South America</option>
+//             <option value="North America">North America</option>
+//         </Select>
+//         <BarChartContinent data={mockData} continent={continent} mode="total_cases" />
+//     </Box>
+// </div>
+//   );
+// }
 
 export default Analysis;

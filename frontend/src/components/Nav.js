@@ -1,12 +1,5 @@
 import React, { useState } from "react";
 import {
-  CDBSidebar,
-  CDBSidebarContent,
-  CDBSidebarFooter,
-  CDBSidebarMenu,
-  CDBSidebarMenuItem,
-} from "cdbreact";
-import {
   Flex,
   Heading,
   Text,

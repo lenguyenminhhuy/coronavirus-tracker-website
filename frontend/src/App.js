@@ -3,8 +3,9 @@ import React, { Component } from "react";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import Nav from "./components/Nav";
 import WorldMap from "./pages/Home";
-import { calc, Flex, Grid, GridItem } from "@chakra-ui/react";
+import { calc, Flex, Grid, GridItem, Box, Text } from "@chakra-ui/react";
 import Analysis from "./pages/Analysis";
+import Test from "./pages/Test";
 
 class App extends Component {
   render() {
@@ -15,56 +16,30 @@ class App extends Component {
           flexDir={["column", "column", "row"]}
           overflow="hidden"
           maxW="2000px"
-          // backgroundColor="#f5f6f8"
           backgroundColor="#f6f8fc"
         >
           <Flex
+            className="leftColumn"
             h={["300px", "300px", null, null, null]}
             w={["100%", "100%", "80px", "80px", "250px"]}
-            pos="fixed"
-            zIndex="1000"
           >
             <Nav />
           </Flex>
 
           <Flex
-            w={[
-              "100%",
-              "100%",
-              "calc(100% - 80px)",
-              "calc(100% - 80px)",
-              "calc(100% - 250px)",
-            ]}
-            m="auto"
-            mr="0"
-            mt={["320px", "320px", "0", "0", "0"]}
+            className="rightColumn"
+            ml={[null, null, "80px", "80px", "250px"]}
+            mt={["300px", "300px", "0", "0", "0"]}
             p={["5px", "5px", "15px", "20px", "30px"]}
-            // overflow="auto"
+            pt={["15px", "15px", "10px", "10px", "10px"]}
+            bg="gray.300" // test
           >
             <Switch>
               <Route exact path="/" component={WorldMap} />
-              <Route path="/analysis" component={Analysis} />
-              {/* <Route path="/news" component={New} /> */}
+              <Route path="/analysis" component={Test} />
             </Switch>
           </Flex>
         </Flex>
-
-        {/* <Grid templateColumns="repeat(10,1fr)" gap={6}>
-          <GridItem colSpan={1}>
-            <Nav />
-          </GridItem>
-          <GridItem colSpan={9}>
-            <Switch>
-              <Route exact path="/" component={WorldMap} />
-              <Route path="/analysis" component={Analysis} />
-              {/* <Route path="/news" component={New} /> */}
-        {/* </Switch> */}
-        {/* </GridItem> */}
-        {/* <WorldMap /> */}
-        {/* </Route> */}
-        {/* <Analysis /> */}
-        {/* </Route> */}
-        {/* </Grid> */}
       </BrowserRouter>
     );
   }
