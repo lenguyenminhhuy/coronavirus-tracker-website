@@ -1,10 +1,40 @@
 version = 0.1
+
+
 [default]
 [default.deploy]
 [default.deploy.parameters]
+profile = "default"
 stack_name = "coronavirus-tracker-website"
 s3_bucket = "aws-sam-cli-managed-default-samclisourcebucket-hdiz0vebbxyw"
 s3_prefix = "coronavirus-tracker-website"
 region = "us-east-2"
 confirm_changeset = true
 capabilities = "CAPABILITY_IAM"
+
+[dev]
+[dev.build]
+[dev.build.parameters]
+profile = "default"
+template_file = "template-dev.yaml"
+[dev.deploy]
+[dev.deploy.parameters]
+profile = "default"
+stack_name = "coronavirus-tracker-website-dev-stack"
+s3_bucket = "aws-sam-cli-managed-default-samclisourcebucket-hdiz0vebbxyw"
+s3_prefix = "coronavirus-tracker-website-dev-bucket-30-08-2021"
+region = "us-east-2"
+confirm_changeset = true
+capabilities = "CAPABILITY_IAM"
+
+[local]
+[local.build]
+[local.build.parameters]
+profile = "default"
+template_file = "template-dev.yaml"
+[local.local_start_api]
+[local.local_start_api.parameters]
+profile = "default"
+skip_pull_image = true
+env_vars = "env.json"
+docker_network = "aws-backend_lambda-local"

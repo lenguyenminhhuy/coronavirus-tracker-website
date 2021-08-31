@@ -12,7 +12,7 @@ import './Nav.css';
 const Sidebar = () => {
   return (
     <div
-      style={{ display: 'flex', height: '100vh'}}
+      style={{ display: 'flex', height: '100%'}}
     >
       <CDBSidebar textColor="" backgroundColor="#fff" style={{boxShadow: '0px 4px 42px rgba(0,0,0,0.07)'}} >
         <CDBSidebarContent className="sidebar-content">
