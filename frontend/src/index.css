@@ -131,8 +131,6 @@ q:after {
   padding: 0;
 }
 
-@import-normalize;
-
 table {
   border-collapse: collapse;
   border-spacing: 0;

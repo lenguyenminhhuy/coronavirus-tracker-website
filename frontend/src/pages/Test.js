@@ -18,6 +18,7 @@ import BarChartContinent from "../components/BarChartContinent";
 import BarChartCompound from "../components/BarChartCompound";
 import AreaChartARD from "../components/AreaChartARD";
 import mockData from "../mock-data.json";
+import "./Analysis.css";
 
 async function processData(data) {
   let array = [];
@@ -54,26 +55,22 @@ function Test() {
       </Flex>
 
       {/* *** Chart grid *** */}
-      <Flex className="analysisContent" flexDir="column" bg="pink.100">
+      <Flex className="analysisContent" flexDir="column">
         <Flex
           className="analysisRow container1"
           flexDir={["column", "column", "column", "row-reverse", "row-reverse"]}
-          bg="pink.400"
-          // h={["840px", "840px", "840px", "420px", "420px"]}
         >
           <Flex
-            className="chart1"
+            className="analysisChart chart1"
             w={["100%", "100%", "100%", "40%", "40%"]}
             p={["5px", "5px", "5px", "10px", "15px"]}
-            bg="blue.400"
           >
             <StatsBoard />
           </Flex>
           <Flex
-            className="chart2"
+            className="analysisChart chart2"
             w={["100%", "100%", "100%", "60%", "60%"]}
             p={["5px", "5px", "5px", "10px", "15px"]}
-            bg="green.400"
           >
             <StatsBoard />
           </Flex>
@@ -81,23 +78,30 @@ function Test() {
         <Flex
           className="analysisRow container2"
           flexDir={["column", "column", "column", "row", "row"]}
-          bg="pink.400"
         >
           <Flex
-            className="chart3"
+            className="analysisChart chart3"
             w={["100%", "100%", "100%", "50%", "50%"]}
             p={["5px", "5px", "5px", "10px", "15px"]}
-            bg="blue.400"
           >
             <StatsBoard />
+            {/* <AreaChartARD data={mockData} continent="Asia" mode="total_cases" /> */}
           </Flex>
           <Flex
-            className="chart4"
+            className="analysisChart chart4"
             w={["100%", "100%", "100%", "50%", "50%"]}
             p={["5px", "5px", "5px", "10px", "15px"]}
-            bg="yellow.200"
           >
-            <BarChartCompound data={data} country="Vietnam" />
+            <BarChartCompound data={mockData} country="Thailand" />
+          </Flex>
+        </Flex>
+        <Flex className="analysisRow container3" flexDir="column">
+          <Flex
+            className="analysisChart chart5"
+            w="100%"
+            p={["5px", "5px", "5px", "10px", "15px"]}
+          >
+            <BarChartCompound data={mockData} country="Thailand" />
           </Flex>
         </Flex>
       </Flex>

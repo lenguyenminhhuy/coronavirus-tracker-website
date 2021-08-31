@@ -32,7 +32,6 @@ class App extends Component {
             mt={["300px", "300px", "0", "0", "0"]}
             p={["5px", "5px", "15px", "20px", "30px"]}
             pt={["15px", "15px", "10px", "10px", "10px"]}
-            bg="gray.300" // test
           >
             <Switch>
               <Route exact path="/" component={WorldMap} />

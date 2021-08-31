@@ -5,3 +5,8 @@
 .analysisRow {
   /* width: 100%; */
 }
+
+.analysisChart {
+  min-height: 410px;
+  /* box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px; */
+}

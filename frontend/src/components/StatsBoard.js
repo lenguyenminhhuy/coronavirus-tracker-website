@@ -54,7 +54,13 @@ function StatsBoard() {
 
   return (
     // <ResponsiveContainer width="100%" height="100%">
-    <Flex w="100%" h="100%" bg="#fff" borderRadius="20px">
+    <Flex
+      w="100%"
+      h="100%"
+      bg="#fff"
+      borderRadius="15px"
+      style={{ "box-shadow": "rgba(0, 0, 0, 0.16) 0px 1px 4px" }}
+    >
       <Box className={styles.statsBoardContainer} width="100%">
         <Box mb={5}>Statistics on coronavirus</Box>
         <Center mb={5} textAlign="center">
