@@ -1,7 +1,7 @@
 AWSTemplateFormatVersion: "2010-09-09"
 Transform: AWS::Serverless-2016-10-31
 Description: >
-  coronavirus-tracker-website-dev-stack
+  coronavirus-tracker-website
   CloudFormation Template for SAM (Prod Environment)
 
 # More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
@@ -14,8 +14,8 @@ Globals:
       Variables:
         # "Local" | "Dev" | "Prod"
         ENVIRONMENT_TYPE: "Prod"
-    MemorySize: 256
-    Timeout: 180
+    MemorySize: 512
+    Timeout: 100
 
 Resources:
   # DynamoDB Email Subscription table
@@ -171,7 +171,111 @@ Resources:
       ContentUri: ./
       CompatibleRuntimes:
         - nodejs14.x
-      RetentionPolicy: Retention
+      RetentionPolicy: Retain
+  
+
+  # ------------------------------------SCRAPING PART----------------------------------------------------------------
+  # GeneralPuppeteerLayer:
+  #   Type: AWS::Serverless::LayerVersion
+  #   Properties:
+  #       LayerName: GeneralPuppeteerLayer
+  #       Description: Hold Puppeteer library and node modules
+  #       ContentUri: layers/puppeteer/
+  #       CompatibleRuntimes:
+  #       - nodejs14.x
+  #   Metadata:
+  #     BuildMethod: nodejs14.x
+  
+  BrowserAndUtilsLayer:
+    Type: AWS::Serverless::LayerVersion
+    Properties:
+      LayerName: BrowserAndUtilsLayer
+      Description: Holds helper functions for application
+      ContentUri: dist/utils/
+      CompatibleRuntimes:
+        - nodejs14.x
+      RetentionPolicy: Delete
+
+  ScarpingFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Metadata:
+      BuildMethod: makefile
+    Properties:
+      Handler: dist/handlers/scraping.handler
+      MemorySize: 4096
+      Layers:
+        - !Ref BrowserAndUtilsLayer
+      Events:
+        ScarpingApi:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /api/getList/
+            Method: get
+    
+    # ------------------------------------------TABLE----------------------------------------------------------
+  CovidTimeSeriesTable:
+    Type: AWS::DynamoDB::Table
+    Properties: 
+      TableName: "CovidTimeSeriesTable1"
+      KeySchema: 
+        - AttributeName: "iso_code"
+          KeyType: "HASH"
+        - AttributeName: "updated_date"
+          KeyType: "RANGE"
+      AttributeDefinitions:
+        - AttributeName: "iso_code"
+          AttributeType: "S"
+        - AttributeName: "updated_date"
+          AttributeType: "S"
+      ProvisionedThroughput: 
+        ReadCapacityUnits: 5
+        WriteCapacityUnits: 5
+  
+  GetDataDailyFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Metadata:
+      BuildMethod: makefile
+    Properties:
+      Handler: dist/handlers/covidDaily.handler
+      Policies:
+        # Give Create/Read/Update/Delete Permissions to the SampleTable, see https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-policy-template-list.html#dynamo-db-crud-policy
+        - DynamoDBCrudPolicy:
+            TableName: !Ref CovidTimeSeriesTable
+      Environment:
+        Variables:
+          TABLE_NAME: !Ref CovidTimeSeriesTable
+      Events:
+        CheckWebsiteScheduledEvent:
+          Type: Schedule
+          Properties:
+            Schedule: rate(1 day)
+
+
+  GetDataDailyAPIFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Metadata:
+      BuildMethod: makefile
+    Properties:
+      Handler: dist/handlers/covidDailyAPI.handler
+      Policies:
+        # Give Create/Read/Update/Delete Permissions to the SampleTable, see https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-policy-template-list.html#dynamo-db-crud-policy
+        - DynamoDBCrudPolicy:
+            TableName: !Ref CovidTimeSeriesTable
+      Environment:
+        Variables:
+          TABLE_NAME: !Ref CovidTimeSeriesTable
+      Events:
+        GetDataDailyAPI:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /api/getDaily/
+            Method: get
+
+
+
+
+  # ------------------------------------END OF SCRAPING----------------------------------------------------------------
+
 # Created resources on AWS
 Outputs:
   # Section for Covid test API
@@ -188,7 +292,41 @@ Outputs:
   SubscribeEmailFunction:
     Description: "Subscribe for Daily News Function ARN"
     Value: !GetAtt SubscribeEmailFunction.Arn
+  
+  # ------------------------------SCRAPING PART-------------------------------------------------------
+  ScarpingApi:
+    Description: "API Gateway endpoint URL for Prod stage for Hello World function"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/prod/api/getList/"
+  ScarpingFunction:
+    Description: "Scarping Lambda Function ARN"
+    Value: !GetAtt ScarpingFunction.Arn
+  ScarpingFunctionIamRole:
+    Description: "Implicit IAM Role created for Scarping function"
+    Value: !GetAtt ScarpingFunctionRole.Arn
+  # ------------------------------------END OF SCRAPING----------------------------------------------------------------
+  
+  # ------------------------------------------------INSERT AND VIEW DAILY DATA--------------------------------------------------------
+  GetDataDailyFunction:
+    Description: "Covid Lambda Function ARN"
+    Value: !GetAtt GetDataDailyFunction.Arn
 
+  GetDataDailyFunctionIamRole:
+    Description: "Implicit IAM Role created for Covid Function"
+    Value: !GetAtt GetDataDailyFunctionRole.Arn
+  
+  GetDataDailyAPI:
+    Description: "API Gateway endpoint URL for Prod stage"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/prod/api/getList/"
+
+  GetDataDailyAPIFunction:
+    Description: "Covid Lambda Function ARN"
+    Value: !GetAtt GetDataDailyAPIFunction.Arn
+
+  GetDataDailyAPIFunctionIamRole:
+    Description: "Implicit IAM Role created for Covid Function"
+    Value: !GetAtt GetDataDailyAPIFunctionRole.Arn
+  
+  # ------------------------------------------------END INSERT AND VIEW DAILY DATA--------------------------------------------------------
   # Section for DynamoDB Table of Email Subscription
   EmailSubscriptionTable:
     Description: "DynamoDB's Table for Email Subscriptions"

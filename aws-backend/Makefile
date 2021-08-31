@@ -1,7 +1,24 @@
 .PHONY: build-RuntimeDependenciesLayer build-lambda-common
-.PHONY: build-SendDailyEmailFunction \
-			 	build-SubscribeEmailFunction
+.PHONY: build-HistoryFunction build-UpdateHistoryFunction build-GetCountryListFunction build-ScarpingDataFunction \
+        build-GetDailyFunction build-GetDailyAPIFunction build-SendDailyEmailFunction build-SubscribeEmailFunction
 
+build-UpdateHistoryFunction:
+	$(MAKE) HANDLER=src/handlers/updateHistory.ts build-lambda-common
+
+build-HistoryFunction:
+	$(MAKE) HANDLER=src/handlers/history.ts build-lambda-common
+
+build-GetCountryListFunction:
+	$(MAKE) HANDLER=src/handlers/getCountryList.ts build-lambda-common
+
+build-GetDailyFunction:
+	$(MAKE) HANDLER=src/handlers/covidDaily.ts build-lambda-common
+
+build-GetDailyAPIFunction:
+	$(MAKE) HANDLER=src/handlers/covidDailyAPI.ts build-lambda-common
+
+build-ScarpingDataFunction:
+	$(MAKE) HANDLER=src/handlers/scraping.ts build-lambda-common
 
 build-SendDailyEmailFunction:
 	$(MAKE) HANDLER=src/handlers/send-daily-email.ts build-lambda-common

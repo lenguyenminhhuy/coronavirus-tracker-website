@@ -21,9 +21,18 @@
     "eslint-plugin-import": "^2.22.1",
     "jest": "^27.0.6",
     "ts-jest": "^27.0.5",
-    "typescript": "^4.3.5"
+    "typescript": "^4.3.5",
+    "@aws-sdk/client-dynamodb": "^3.27.0",
+    "@types/node-fetch": "^2.5.12"
   },
   "dependencies": {
+    "axios": "^0.21.1",
+    "chrome-aws-lambda": "^10.1.0",
+    "cors": "^2.8.5",
+    "fs": "^0.0.1-security",
+    "node-fetch": "^2.6.1",
+    "puppeteer-core": "^10.2.0",
+    "request": "^2.88.2",
     "dayjs": "^1.10.6",
     "source-map-support": "^0.5.19"
   },
