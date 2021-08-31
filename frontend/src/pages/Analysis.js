@@ -82,7 +82,7 @@ function Analysis() {
             w={["100%", "100%", "100%", "50%", "50%"]}
             p={["5px", "5px", "5px", "10px", "15px"]}
           >
-            <BarChartCompound data={mockData} country="Thailand" />
+            <BarChartCompound data={mockData} country="Vietnam" />
           </Flex>
         </Flex>
         <Flex className="analysisRow container3" flexDir="column">

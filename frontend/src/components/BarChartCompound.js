@@ -8,7 +8,7 @@ import {
   Bar,
   ResponsiveContainer,
 } from "recharts";
-import { Box, Center, Select, Flex } from "@chakra-ui/react";
+import { Flex } from "@chakra-ui/react";
 
 async function processData(data, country) {
   let array = [];
@@ -28,23 +28,38 @@ async function processData(data, country) {
 
 function BarChartCompound({ data, country }) {
   const [chartData, setChartData] = useState();
+  const [countryName, setCountryName] = useState(country);
+  let dataKeys = Object.keys(data);
 
   useEffect(() => {
-    processData(data, country).then((res) => {
+    processData(data, countryName).then((res) => {
       setChartData(res);
     });
-  }, [country]);
+  }, [countryName]);
 
   return (
     <Flex
       w="100%"
       h="100%"
       bg="#fff"
+      flexDir="column"
       borderRadius="15px"
       justifyContent="center"
       alignItems="center"
       style={{ "box-shadow": "rgba(0, 0, 0, 0.16) 0px 1px 4px" }}
     >
+      <Flex justifyContent="flex-end">
+        <select
+          value={countryName}
+          onChange={(e) => {
+            setCountryName(e.target.value);
+          }}
+        >
+          {dataKeys.map((key, index) => (
+            <option value={data[key].location}>{data[key].location}</option>
+          ))}
+        </select>
+      </Flex>
       <ResponsiveContainer width="90%" height="90%" position="absolute">
         <BarChart
           // width="1000px"
