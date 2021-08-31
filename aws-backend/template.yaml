@@ -35,7 +35,7 @@ Resources:
       ProvisionedThroughput:
         ReadCapacityUnits: 1000
         WriteCapacityUnits: 10
-      TableName: "emailSubscription"
+      TableName: "emailSubscription_Prod"
 
   ## Daily send email function ##
   SendDailyEmailFunction:
@@ -160,64 +160,12 @@ Resources:
                 Resource: "*"
           PolicyName: SESFullAccess
 
-  # Shared layer with Lambda runtime dependencies
-  RuntimeDependenciesLayer:
-    Type: AWS::Serverless::LayerVersion
-    Metadata:
-      BuildMethod: makefile
-    Properties:
-      LayerName: "coronavirus-tracker-website-dependencies"
-      Description: Node.js Runtime dependencies for Lambdas (Prod Environment)
-      ContentUri: ./
-      CompatibleRuntimes:
-        - nodejs14.x
-      RetentionPolicy: Retain
-  
-
-  # ------------------------------------SCRAPING PART----------------------------------------------------------------
-  # GeneralPuppeteerLayer:
-  #   Type: AWS::Serverless::LayerVersion
-  #   Properties:
-  #       LayerName: GeneralPuppeteerLayer
-  #       Description: Hold Puppeteer library and node modules
-  #       ContentUri: layers/puppeteer/
-  #       CompatibleRuntimes:
-  #       - nodejs14.x
-  #   Metadata:
-  #     BuildMethod: nodejs14.x
-  
-  BrowserAndUtilsLayer:
-    Type: AWS::Serverless::LayerVersion
-    Properties:
-      LayerName: BrowserAndUtilsLayer
-      Description: Holds helper functions for application
-      ContentUri: dist/utils/
-      CompatibleRuntimes:
-        - nodejs14.x
-      RetentionPolicy: Delete
-
-  ScarpingFunction:
-    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
-    Metadata:
-      BuildMethod: makefile
-    Properties:
-      Handler: dist/handlers/scraping.handler
-      MemorySize: 4096
-      Layers:
-        - !Ref BrowserAndUtilsLayer
-      Events:
-        ScarpingApi:
-          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
-          Properties:
-            Path: /api/getList/
-            Method: get
-    
     # ------------------------------------------TABLE----------------------------------------------------------
   CovidTimeSeriesTable:
     Type: AWS::DynamoDB::Table
-    Properties: 
-      TableName: "CovidTimeSeriesTable1"
-      KeySchema: 
+    Properties:
+      TableName: "CovidTimeSeriesTable_Prod"
+      KeySchema:
         - AttributeName: "iso_code"
           KeyType: "HASH"
         - AttributeName: "updated_date"
@@ -227,11 +175,108 @@ Resources:
           AttributeType: "S"
         - AttributeName: "updated_date"
           AttributeType: "S"
-      ProvisionedThroughput: 
+      ProvisionedThroughput:
         ReadCapacityUnits: 5
         WriteCapacityUnits: 5
-  
-  GetDataDailyFunction:
+
+  # ------------------------------------END OF SCRAPING----------------------------------------------------------------
+
+  UpdateHistoryFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Metadata:
+      BuildMethod: makefile
+    Properties:
+      MemorySize: 512
+      Handler: dist/handlers/updateHistory.handler
+      Description: A simple example function for Hello Covid API
+      Policies:
+        - AmazonDynamoDBFullAccess
+      Events:
+        UpdateAsia:
+          Type: Schedule # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Schedule: "cron(0 1 * * ? *)"
+            Input: '{"continent": "Asia"}'
+            Enabled: false
+        UpdateEurope:
+          Type: Schedule # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Schedule: "cron(30 1 * * ? *)"
+            Input: '{"continent": "Europe"}'
+            Enabled: false
+        UpdateSA:
+          Type: Schedule # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Schedule: "cron(0 2 * * ? *)"
+            Input: '{"continent": "South America"}'
+            Enabled: false
+        UpdateNA:
+          Type: Schedule # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Schedule: "cron(30 2 * * ? *)"
+            Input: '{"continent": "North America"}'
+            Enabled: false
+        UpdateAfrica:
+          Type: Schedule # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Schedule: "cron(0 3 * * ? *)"
+            Input: '{"continent": "Africa"}'
+            Enabled: false
+        UpdateWorld:
+          Type: Schedule # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Schedule: "cron(30 3 * * ? *)"
+            Input: '{"continent": "World"}'
+            Enabled: false
+
+  HistoryFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Metadata:
+      BuildMethod: makefile
+    Properties:
+      Handler: dist/handlers/history.handler
+      Description: Get historic covid data of a country
+      Policies:
+        - AmazonDynamoDBFullAccess
+      Events:
+        CovidDataAPI:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /api/history
+            Method: GET
+
+  GetCountryListFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Metadata:
+      BuildMethod: makefile
+    Properties:
+      Handler: dist/handlers/getCountryList.handler
+      Description: Get historic covid data of a country
+      Policies:
+        - AmazonDynamoDBFullAccess
+      Events:
+        CovidDataAPI:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /api/countries
+            Method: GET
+  # ------------------------------------SCRAPING PART----------------------------------------------------------------
+
+  ScarpingDataFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Metadata:
+      BuildMethod: makefile
+    Properties:
+      Handler: dist/handlers/scraping.handler
+      MemorySize: 4096
+      Events:
+        ScarpingApi:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /api/list
+            Method: GET
+
+  GetDailyFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Metadata:
       BuildMethod: makefile
@@ -250,8 +295,7 @@ Resources:
           Properties:
             Schedule: rate(1 day)
 
-
-  GetDataDailyAPIFunction:
+  GetDailyAPIFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Metadata:
       BuildMethod: makefile
@@ -268,13 +312,21 @@ Resources:
         GetDataDailyAPI:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
-            Path: /api/getDaily/
-            Method: get
+            Path: /api/daily
+            Method: GET
 
-
-
-
-  # ------------------------------------END OF SCRAPING----------------------------------------------------------------
+  # Shared layer with Lambda runtime dependencies
+  RuntimeDependenciesLayer:
+    Type: AWS::Serverless::LayerVersion
+    Metadata:
+      BuildMethod: makefile
+    Properties:
+      LayerName: "coronavirus-tracker-website-dependencies"
+      Description: Node.js Runtime dependencies for Lambdas (Prod Environment)
+      ContentUri: ./
+      CompatibleRuntimes:
+        - nodejs14.x
+      RetentionPolicy: Retain
 
 # Created resources on AWS
 Outputs:
@@ -292,41 +344,15 @@ Outputs:
   SubscribeEmailFunction:
     Description: "Subscribe for Daily News Function ARN"
     Value: !GetAtt SubscribeEmailFunction.Arn
-  
+
   # ------------------------------SCRAPING PART-------------------------------------------------------
-  ScarpingApi:
-    Description: "API Gateway endpoint URL for Prod stage for Hello World function"
-    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/prod/api/getList/"
-  ScarpingFunction:
+  ScarpingDataFunction:
     Description: "Scarping Lambda Function ARN"
-    Value: !GetAtt ScarpingFunction.Arn
-  ScarpingFunctionIamRole:
+    Value: !GetAtt ScarpingDataFunction.Arn
+  ScarpingDataFunctionIamRole:
     Description: "Implicit IAM Role created for Scarping function"
-    Value: !GetAtt ScarpingFunctionRole.Arn
-  # ------------------------------------END OF SCRAPING----------------------------------------------------------------
-  
-  # ------------------------------------------------INSERT AND VIEW DAILY DATA--------------------------------------------------------
-  GetDataDailyFunction:
-    Description: "Covid Lambda Function ARN"
-    Value: !GetAtt GetDataDailyFunction.Arn
+    Value: !GetAtt ScarpingDataFunctionRole.Arn
 
-  GetDataDailyFunctionIamRole:
-    Description: "Implicit IAM Role created for Covid Function"
-    Value: !GetAtt GetDataDailyFunctionRole.Arn
-  
-  GetDataDailyAPI:
-    Description: "API Gateway endpoint URL for Prod stage"
-    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/prod/api/getList/"
-
-  GetDataDailyAPIFunction:
-    Description: "Covid Lambda Function ARN"
-    Value: !GetAtt GetDataDailyAPIFunction.Arn
-
-  GetDataDailyAPIFunctionIamRole:
-    Description: "Implicit IAM Role created for Covid Function"
-    Value: !GetAtt GetDataDailyAPIFunctionRole.Arn
-  
-  # ------------------------------------------------END INSERT AND VIEW DAILY DATA--------------------------------------------------------
   # Section for DynamoDB Table of Email Subscription
   EmailSubscriptionTable:
     Description: "DynamoDB's Table for Email Subscriptions"

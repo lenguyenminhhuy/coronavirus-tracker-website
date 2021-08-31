@@ -129,9 +129,13 @@ exports.handler = async (
     CreatedAt: new Date().toISOString(),
   };
 
+  const tableName =
+    process.env.ENVIRONMENT_TYPE === "Dev"
+      ? "emailSubscription_Dev"
+      : "emailSubscription_Prod";
   // Prepare parameters for reading list of subscribed emails
   const docParams: DynamoDB.DocumentClient.Put = {
-    TableName: "emailSubscription",
+    TableName: tableName,
     Item: putEmail,
   };
 

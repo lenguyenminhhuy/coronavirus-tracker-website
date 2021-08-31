@@ -15,9 +15,13 @@ const getListOfSubscribers = async (): Promise<string[]> => {
     endpoint: "https://dynamodb.us-east-2.amazonaws.com",
   });
 
+  const tableName =
+    process.env.ENVIRONMENT_TYPE === "Dev"
+      ? "emailSubscription_Dev"
+      : "emailSubscription_Prod";
   // Prepare parameters
   const queryParams: DocumentClient.QueryInput = {
-    TableName: "emailSubscription",
+    TableName: tableName,
     ProjectionExpression: "email",
   };
 
