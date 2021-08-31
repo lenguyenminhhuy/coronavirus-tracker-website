@@ -8,7 +8,7 @@ import {
   Bar,
   ResponsiveContainer,
 } from "recharts";
-import { Flex } from "@chakra-ui/react";
+import { Flex, Heading, Select } from "@chakra-ui/react";
 
 async function processData(data, country) {
   let array = [];
@@ -48,8 +48,12 @@ function BarChartCompound({ data, country }) {
       alignItems="center"
       style={{ "box-shadow": "rgba(0, 0, 0, 0.16) 0px 1px 4px" }}
     >
-      <Flex justifyContent="flex-end">
-        <select
+      <Flex flexDir="row">
+        <Heading fontSize="xl" alignSelf="center">
+          Compound
+        </Heading>
+        <Select
+          border="none"
           value={countryName}
           onChange={(e) => {
             setCountryName(e.target.value);
@@ -58,18 +62,10 @@ function BarChartCompound({ data, country }) {
           {dataKeys.map((key, index) => (
             <option value={data[key].location}>{data[key].location}</option>
           ))}
-        </select>
+        </Select>
       </Flex>
       <ResponsiveContainer width="90%" height="90%" position="absolute">
-        <BarChart
-          // width="1000px"
-          // height="500px"
-          // width="100%"
-          // height="100%"
-          data={chartData}
-          layout="vertical"
-          barCategoryGap={"0%"}
-        >
+        <BarChart data={chartData} layout="vertical" barCategoryGap={"0%"}>
           <XAxis type="number" />
           <YAxis hide={true} dataKey="Country" type="category" interval={0} />
           <Tooltip />
