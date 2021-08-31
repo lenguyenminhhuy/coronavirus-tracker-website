@@ -43,6 +43,7 @@ function BarChartContinent({ data, continent, mode }) {
       borderRadius="15px"
       justifyContent="center"
       alignItems="center"
+      style={{ "box-shadow": "rgba(0, 0, 0, 0.16) 0px 1px 4px" }}
     >
       <ResponsiveContainer width="90%" height="90%" position="absolute">
         {/* <ResponsiveContainer width="100%" height={450}> */}

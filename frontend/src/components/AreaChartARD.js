@@ -27,6 +27,7 @@ const AreaChartARD = ({ width = 730, height = 250, data }) => {
       borderRadius="20px"
       justifyContent="center"
       alignItems="center"
+      style={{ "box-shadow": "rgba(0, 0, 0, 0.16) 0px 1px 4px" }}
     >
       <ResponsiveContainer width="90%" height="90%" position="absolute">
         <AreaChart width={width} height={height} data={data}>

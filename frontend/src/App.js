@@ -1,18 +1,16 @@
 import "./App.css";
 import React, { Component } from "react";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
+import { Flex } from "@chakra-ui/react";
 import Nav from "./components/Nav";
 import WorldMap from "./pages/Home";
-import { calc, Flex, Grid, GridItem, Box, Text } from "@chakra-ui/react";
 import Analysis from "./pages/Analysis";
-import Test from "./pages/Test";
 
 class App extends Component {
   render() {
     return (
       <BrowserRouter>
         <Flex
-          // h={[null, null, "150vh"]}
           flexDir={["column", "column", "row"]}
           overflow="hidden"
           maxW="2000px"
@@ -25,7 +23,6 @@ class App extends Component {
           >
             <Nav />
           </Flex>
-
           <Flex
             className="rightColumn"
             ml={[null, null, "80px", "80px", "250px"]}
@@ -35,7 +32,7 @@ class App extends Component {
           >
             <Switch>
               <Route exact path="/" component={WorldMap} />
-              <Route path="/analysis" component={Test} />
+              <Route path="/analysis" component={Analysis} />
             </Switch>
           </Flex>
         </Flex>

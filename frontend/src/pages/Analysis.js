@@ -1,22 +1,14 @@
-import {
-  Flex,
-  Heading,
-  Text,
-  Icon,
-  Link,
-  Box,
-  Divider,
-  Select,
-} from "@chakra-ui/react";
+import "./Analysis.css";
 import React, { useEffect, useState } from "react";
-import { ResponsiveContainer } from "recharts";
+import axios from "axios";
+import mockData from "../mock-data.json";
+import { Flex, Heading } from "@chakra-ui/react";
+// Import Charts
 import BarChartDailyCase from "../components/BarChartDailyCase";
 import StatsBoard from "../components/StatsBoard";
-import axios from "axios";
 import BarChartContinent from "../components/BarChartContinent";
 import BarChartCompound from "../components/BarChartCompound";
 import AreaChartARD from "../components/AreaChartARD";
-import mockData from "../mock-data.json";
 
 async function processData(data) {
   let array = [];
@@ -46,203 +38,64 @@ function Analysis() {
   }, [continent]);
 
   return (
-    <Flex w="100%" flexDir="column">
-      {/* HEADING */}
-      <Flex flexDir="row" w="100%">
+    <Flex className="analysisMain" w="100%" flexDir="column">
+      {/* *** HEADING *** */}
+      <Flex className="analysisHeading" flexDir="row" w="100%">
         <Heading color="#000">Analysis</Heading>
       </Flex>
-      <Flex flexDir="column" bg="pink.100">
+
+      {/* *** Chart grid *** */}
+      <Flex className="analysisContent" flexDir="column">
         <Flex
-          bg="pink.400"
+          className="analysisRow container1"
           flexDir={["column", "column", "column", "row-reverse", "row-reverse"]}
-          // flexWrap="wrap"
-          w="100%"
-          h={["840px", "840px", "840px", "420px", "420px"]}
         >
           <Flex
-            bg="blue.400"
+            className="analysisChart chart1"
             w={["100%", "100%", "100%", "40%", "40%"]}
-            h="50%"
-            // p={["5px", "5px", "5px", "10px", "15px"]}
+            p={["5px", "5px", "5px", "10px", "15px"]}
+          >
+            <StatsBoard />
+          </Flex>
+          <Flex
+            className="analysisChart chart2"
+            w={["100%", "100%", "100%", "60%", "60%"]}
+            p={["5px", "5px", "5px", "10px", "15px"]}
           >
             <StatsBoard />
           </Flex>
         </Flex>
-        {/* <Box flex="1" bg="tomato" h="500px">
-          <Text>
-            Boxxxxxxxxx xxxxxxxxxxxx xxxxxxxxxx xxxxxxxxxxxxxxx xxxxxxxxxxxxx
-            xxxxxxxxxx xxxxxx xxx xxxxxxxx xxxxxx
-          </Text>
-        </Box> */}
+        <Flex
+          className="analysisRow container2"
+          flexDir={["column", "column", "column", "row", "row"]}
+        >
+          <Flex
+            className="analysisChart chart3"
+            w={["100%", "100%", "100%", "50%", "50%"]}
+            p={["5px", "5px", "5px", "10px", "15px"]}
+          >
+            <StatsBoard />
+            {/* <AreaChartARD data={mockData} continent="Asia" mode="total_cases" /> */}
+          </Flex>
+          <Flex
+            className="analysisChart chart4"
+            w={["100%", "100%", "100%", "50%", "50%"]}
+            p={["5px", "5px", "5px", "10px", "15px"]}
+          >
+            <BarChartCompound data={mockData} country="Thailand" />
+          </Flex>
+        </Flex>
+        <Flex className="analysisRow container3" flexDir="column">
+          <Flex
+            className="analysisChart chart5"
+            w="100%"
+            p={["5px", "5px", "5px", "10px", "15px"]}
+          >
+            <BarChartCompound data={mockData} country="Thailand" />
+          </Flex>
+        </Flex>
       </Flex>
     </Flex>
   );
 }
-{
-  /* HEADING */
-}
-{
-  /* <Flex flexDir="row" w="100%">
-        <Heading color="#000">Analysis</Heading>
-      </Flex> */
-}
-
-{
-  /* GRID DASHBOARD */
-}
-{
-  /* <Flex flexDir="column">
-        <Flex
-          flexDir={["column", "column", "column", "row-reverse", "row-reverse"]}
-          // flexWrap="wrap"
-          w="100%"
-          h={["840px", "840px", "840px", "420px", "420px"]}
-        >
-          <Flex
-            w={["100%", "100%", "100%", "40%", "40%"]}
-            h="100%"
-            p={["5px", "5px", "5px", "10px", "15px"]}
-          >
-            <Box flex="1" bg="tomato">
-              <Text>Box</Text>
-            </Box> */
-}
-{
-  /* <Box w="100%" h="100%" bg="#fff" borderRadius="15px"> */
-}
-{
-  /* 1 */
-}
-{
-  /* <ResponsiveContainer width="100%" height="100%"> */
-}
-{
-  /* <StatsBoard /> */
-}
-{
-  /* </ResponsiveContainer> */
-}
-{
-  /* </Box> */
-}
-{
-  /* </Flex>
-          <Flex
-            w={["100%", "100%", "100%", "60%", "60%"]}
-            h="100%"
-            p={["5px", "5px", "5px", "10px", "15px"]}
-          >
-            <Box w="100%" h="100%" bg="#fff" borderRadius="15px"> */
-}
-{
-  /* 2 */
-}
-{
-  /* <BarChartDailyCase
-                // width="100%"
-                // height="100%"
-                data={mockData}
-              /> */
-}
-{
-  /* </Box>
-          </Flex>
-        </Flex>
-        <Flex
-          flexDir={["column", "column", "column", "row", "row"]}
-          w="100%"
-          h={["840px", "840px", "840px", "420px", "420px"]}
-        >
-          <Flex
-            w={["100%", "100%", "100%", "100%", "50%"]}
-            h="100%"
-            p={["5px", "5px", "5px", "10px", "15px"]}
-          >
-            <Box w="100%" h="100%" bg="#fff" borderRadius="15px"> */
-}
-{
-  /* 3 */
-}
-{
-  /* <BarChartContinent /> */
-}
-{
-  /* </Box>
-          </Flex>
-          <Flex
-            w={["100%", "100%", "100%", "100%", "50%"]}
-            h="100%"
-            p={["5px", "5px", "5px", "10px", "15px"]}
-          >
-            <Box w="100%" h="100%" bg="#fff" borderRadius="15px"> */
-}
-{
-  /* 4 */
-}
-{
-  /* <AreaChartARD /> */
-}
-{
-  /* </Box>
-          </Flex>
-        </Flex>
-        <Flex flexDir="column" w="100%" h="420px">
-          <Flex w="100%" h="100%" p={["5px", "5px", "5px", "10px", "15px"]}>
-            <Box w="100%" h="100%" bg="#fff" borderRadius="15px"> */
-}
-{
-  /* 5 */
-}
-{
-  /* <BarChartCompound data={mockData} country="Vietnam" /> */
-}
-{
-  /* </Box>
-          </Flex>
-        </Flex>
-      </Flex> */
-}
-{
-  /* <BarChartDailyCase /> */
-}
-{
-  /* <StatsBoard /> */
-}
-{
-  /* <BarChartContinent /> */
-}
-{
-  /* <BarChartCompound /> */
-}
-{
-  /* <AreaChartARD /> */
-}
-{
-  /* </Flex> */
-}
-// <div>
-//     <Box margin="0 auto" maxW='50%' boxShadow="0px 4px 10px rgba(0,0,0,0.1)">
-//         <StatsBoard/>
-//     </Box>
-//     {data?
-//     <Box>
-//         <BarChartDailyCase data={data}/>
-//     </Box>
-//             :
-//         null
-//     }
-//     <Box>
-//         <Select onChange={(value) => setContinent(value.target.value)}>
-//             <option value="Asia">Asia</option>
-//             <option value="Africa">Africa</option>
-//             <option value="Europe">Europe</option>
-//             <option value="South America">South America</option>
-//             <option value="North America">North America</option>
-//         </Select>
-//         <BarChartContinent data={mockData} continent={continent} mode="total_cases" />
-//     </Box>
-// </div>
-//   );
-// }
-
 export default Analysis;

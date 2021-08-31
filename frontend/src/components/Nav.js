@@ -1,24 +1,9 @@
-import React, { useState } from "react";
-import {
-  Flex,
-  Heading,
-  Text,
-  Icon,
-  Link,
-  Box,
-  LinkBox,
-  Button,
-  NextLink,
-  LinkOverlay,
-  Divider,
-  IconButton,
-} from "@chakra-ui/react";
-// import { BiWorld } from "react-icons/bi";
-import { FcComboChart, FcNews } from "react-icons/fc";
-import { GiWorld } from "react-icons/gi";
-import { NavLink } from "react-router-dom";
-import NavItem from "./NavItem";
 import "./Nav.css";
+import React from "react";
+import { Flex, Heading, Text, Link, Divider } from "@chakra-ui/react";
+import NavItem from "./NavItem";
+import { GiWorld } from "react-icons/gi";
+import { FcComboChart, FcNews } from "react-icons/fc";
 
 const Sidebar = () => {
   return (
@@ -100,41 +85,5 @@ const Sidebar = () => {
     </Flex>
   );
 };
-
-// <div style={{ display: "flex", height: "100%" }}>
-//   <CDBSidebar
-//     textColor=""
-//     backgroundColor="#fff"
-//     style={{ boxShadow: "0px 4px 42px rgba(0,0,0,0.07)" }}
-//   >
-//     <CDBSidebarContent className="sidebar-content">
-//       <CDBSidebarMenu>
-//         <NavLink exact to="/" activeClassName="">
-//           <CDBSidebarMenuItem icon="columns">Dashboard</CDBSidebarMenuItem>
-//         </NavLink>
-//         <NavLink exact to="/analysis" activeClassName="">
-//           <CDBSidebarMenuItem icon="table">Analysis</CDBSidebarMenuItem>
-//         </NavLink>
-//         <NavLink exact to="/news" activeClassName="">
-//           <CDBSidebarMenuItem icon="newspaper">
-//             Latest News
-//           </CDBSidebarMenuItem>
-//         </NavLink>
-//       </CDBSidebarMenu>
-//     </CDBSidebarContent>
-
-//     <CDBSidebarFooter style={{ textAlign: "center" }}>
-//       <div
-//         style={{
-//           padding: "20px 5px",
-//         }}
-//       >
-//         @Corana-virus-Tracking
-//       </div>
-//     </CDBSidebarFooter>
-//   </CDBSidebar>
-// </div>
-// );
-// };
 
 export default Sidebar;
