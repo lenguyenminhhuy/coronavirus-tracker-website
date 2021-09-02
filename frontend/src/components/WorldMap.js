@@ -3,11 +3,12 @@ import { Map, GeoJSON } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import "./WorldMap.css";
 import { TileLayer } from "react-leaflet";
+import legendItems from "../legends/LegendItems";
 
 
 const WorldMap = ({countries, options}) => {
 
-  const state = {
+  const mapState = {
       lat: 50,
       lng: 10,
       zoom: 1.5
@@ -20,6 +21,11 @@ const WorldMap = ({countries, options}) => {
   };
 
   const onDeaths = (country, layer) => {
+    const legendItem = legendItems.find((item) =>
+    item.isFor(country.properties['deaths'])
+  );
+  if (legendItem != null) country.properties.color = legendItem.color
+
     let name = country.properties.ADMIN
     layer.options.fillColor = country.properties.color;
     let displayText = country.properties['total_deaths'];   
@@ -28,14 +34,20 @@ const WorldMap = ({countries, options}) => {
     layer.on('mouseover', function (e) {
       this.openPopup();
     });
+    layer.on('mousemove', function (e) {
+      this.openPopup();
+    });
     layer.on("mouseout", function (e) {
       this.closePopup();
     });
   };
-
-
   
   const onVaccinated = (country, layer) => {
+    const legendItem = legendItems.find((item) =>
+    item.isFor(country.properties['vaccinated'])
+  );
+  if (legendItem != null) country.properties.color = legendItem.color
+
     let name = country.properties.ADMIN
     layer.options.fillColor = country.properties.color;
     let displayText = country.properties['total_vaccinations'];   
@@ -49,8 +61,12 @@ const WorldMap = ({countries, options}) => {
     });
   }
 
-
   const onCases = (country, layer) => {
+    const legendItem = legendItems.find((item) =>
+    item.isFor(country.properties['confirmed'])
+    );
+    if (legendItem != null) country.properties.color = legendItem.color;
+
     let name = country.properties.ADMIN
     layer.options.fillColor = country.properties.color;
     let displayText = country.properties['total_cases'];   
@@ -65,6 +81,11 @@ const WorldMap = ({countries, options}) => {
   };
 
   const onTest = (country, layer) => {
+    const legendItem = legendItems.find((item) =>
+    item.isFor(country.properties['tested'])
+    );
+    if (legendItem != null) country.properties.color = legendItem.color
+
     let name = country.properties.ADMIN
     layer.options.fillColor = country.properties.color;
     let displayText = country.properties['total_tests'];   
@@ -95,27 +116,13 @@ const WorldMap = ({countries, options}) => {
       case 'total_tests':
         return onTest;
     }
-  }
+  };
+
 
   return (
     <div>
 
-      <Map style={{ height: "80vh", width: "100%", border: "1px solid black"}} zoom={state.zoom} center={[state.lat, state.lng]}>
-      {/* {options == 'total_cases' ?
-              <GeoJSON
-              key="test"
-              style={mapStyle}
-              data={countries}
-              onEachFeature={onEachCountry2}
-            />
-            :
-            <GeoJSON
-            key="shit"
-            style={mapStyle}
-            data={countries}
-            onEachFeature={onEachCountry}
-          />
-      } */}
+      <Map style={{ height: "80vh", width: "100%", border: "1px solid black"}} zoom={mapState.zoom} center={[mapState.lat, mapState.lng]}>
        <GeoJSON
             key={options}
             style={mapStyle}

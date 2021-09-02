@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-
 import Loading from "./Loading";
 import WorldMap from "./WorldMap";
 import LoadCountryData from "../tasks/LoadCountriesData";
@@ -14,22 +13,6 @@ function Summary() {
     { label: "Vaccinated cases", value: "people_vaccinated" },
     { label: "Total tested case", value: "total_tests" },
   ];
-  async function selectData(data, mode) {
-    let selectedArray = [];
-    let dataKeys = Object.keys(data);
-    console.log(dataKeys);
-    dataKeys.forEach((key) => {
-      let temp = {};
-      temp["country"] = data[key].location;
-      temp['iso_code'] = key;
-      temp[mode] = data[key][mode];
-      if (temp[mode] === null) {
-        temp[mode] = "No data";
-      }
-      selectedArray.push(temp);
-    });
-    return selectedArray;
-  }
 
   const [mode, setMode] = useState('total_cases');
 
@@ -42,13 +25,14 @@ function Summary() {
   const [countries, setCountries] = useState([]);
 
   const load = () => {
-    console.log("load");
     const loadCountriesData= new LoadCountryData();
+    console.log(loadCountriesData)
     loadCountriesData.load(setCountries);
   };
   useEffect(() => {
     load();
     }, []);
+
 
   return (
     <div>
