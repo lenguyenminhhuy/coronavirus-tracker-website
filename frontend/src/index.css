@@ -124,6 +124,11 @@ q:after {
   content: "";
   content: none;
 }
+
+* {
+  box-sizing: border-box;
+}
+
 table {
   border-collapse: collapse;
   border-spacing: 0;
@@ -139,4 +144,12 @@ table {
 }
 ::-webkit-scrollbar-thumb:hover {
   background-color: rgb(114, 114, 114);
+}
+
+.leftColumn {
+  position: fixed;
+  z-index: 1000;
+}
+.rightColumn {
+  width: 100%;
 }

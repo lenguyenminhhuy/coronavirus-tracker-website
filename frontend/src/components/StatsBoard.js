@@ -4,7 +4,7 @@ import StatsBox from "./StatsBox";
 import styles from "./StatsBoard.module.css";
 import dataImport from "../mock-data.json";
 import colors from "../constants/colors";
-import { Box, Center, Select } from "@chakra-ui/react";
+import { Box, Center, Select, Flex } from "@chakra-ui/react";
 import color from "../constants/colors";
 
 async function getCountries(data) {
@@ -54,60 +54,68 @@ function StatsBoard() {
 
   return (
     // <ResponsiveContainer width="100%" height="100%">
-    <Box className={styles.statsBoardContainer} width="100%" height="100%">
-      <Box mb={5}>Statistics on coronavirus</Box>
-      <Center mb={5} textAlign="center">
-        <Select
-          borderBottomColor={color.grayLight}
-          borderTop="hidden"
-          borderRight="hidden"
-          borderLeft="hidden"
-          borderBottomRadius={0}
-          borderBottomWidth={2}
-          maxW="xs"
-          value={selectedCountry}
-          onChange={(e) => setSelectedCountry(e.target.value)}
-        >
-          {countries
-            ? countries.map((c) => (
-                <option value={c} key={c}>
-                  {c}
-                </option>
-              ))
-            : null}
-        </Select>
-      </Center>
-      <div className={styles.statsContainer}>
-        <StatsBox
-          label="Cases"
-          value={cases}
-          valueContainerColor={colors.yellowLightest}
-          labelContainerColor={colors.yellowLighter}
-          textColor={colors.yellowDark}
-        />
-        <StatsBox
-          label="Vaccinations"
-          value={vaccinations}
-          valueContainerColor={colors.oceanBlueLighter}
-          labelContainerColor={colors.oceanBlueLight}
-          textColor={colors.oceanBlueDark}
-        />
-        <StatsBox
-          label="Tests"
-          value={tests}
-          valueContainerColor={colors.grayLighter}
-          labelContainerColor={colors.grayLight}
-          textColor={colors.grayDark}
-        />
-        <StatsBox
-          label="Deaths"
-          value={deaths}
-          valueContainerColor={colors.redLighter}
-          labelContainerColor={colors.redLight}
-          textColor={colors.redDark}
-        />
-      </div>
-    </Box>
+    <Flex
+      w="100%"
+      h="100%"
+      bg="#fff"
+      borderRadius="15px"
+      style={{ "box-shadow": "rgba(0, 0, 0, 0.16) 0px 1px 4px" }}
+    >
+      <Box className={styles.statsBoardContainer} width="100%">
+        <Box mb={5}>Statistics on coronavirus</Box>
+        <Center mb={5} textAlign="center">
+          <Select
+            borderBottomColor={color.grayLight}
+            borderTop="hidden"
+            borderRight="hidden"
+            borderLeft="hidden"
+            borderBottomRadius={0}
+            borderBottomWidth={2}
+            maxW="xs"
+            value={selectedCountry}
+            onChange={(e) => setSelectedCountry(e.target.value)}
+          >
+            {countries
+              ? countries.map((c) => (
+                  <option value={c} key={c}>
+                    {c}
+                  </option>
+                ))
+              : null}
+          </Select>
+        </Center>
+        <div className={styles.statsContainer}>
+          <StatsBox
+            label="Cases"
+            value={cases}
+            valueContainerColor={colors.yellowLightest}
+            labelContainerColor={colors.yellowLighter}
+            textColor={colors.yellowDark}
+          />
+          <StatsBox
+            label="Vaccinations"
+            value={vaccinations}
+            valueContainerColor={colors.oceanBlueLighter}
+            labelContainerColor={colors.oceanBlueLight}
+            textColor={colors.oceanBlueDark}
+          />
+          <StatsBox
+            label="Tests"
+            value={tests}
+            valueContainerColor={colors.grayLighter}
+            labelContainerColor={colors.grayLight}
+            textColor={colors.grayDark}
+          />
+          <StatsBox
+            label="Deaths"
+            value={deaths}
+            valueContainerColor={colors.redLighter}
+            labelContainerColor={colors.redLight}
+            textColor={colors.redDark}
+          />
+        </div>
+      </Box>
+    </Flex>
     // </ResponsiveContainer>
   );
 }

@@ -115,10 +115,10 @@ function BarChartDailyCase({
             </Select>
             <ResponsiveContainer width="90%" height="90%" position="absolute">
         <ComposedChart
-          width="100%"
-          height="100%"
-          // width={"95%"}
-          // height={"70%"}
+          // width="100%"
+          // height="100%"
+          width={730}
+          height={250}
           data={historyData}
           margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
         >

@@ -45,28 +45,27 @@ class News extends Component {
         <Heading color="#000">Latest News</Heading>
         {/* Check to see if any items are found*/}
         {list.length ? (
-          // <Table  variant="simple" colorScheme="facebook">
-          //   <Thead>
-          //     <Tr>
-          //       <Th>Date</Th>
-          //       <Th>Headline</Th>
-          //       <Th>Author</Th>
-          //     </Tr>
-          //   </Thead>
-          //   <Tbody>
-          //   {/* Render the list of items */}
-          //   {list.map((item) => {
-          //     return(
-          //         <Tr>
-          //           <Td>{item.date}</Td>
-          //           <Td><a href={item.link}>{item.title}</a></Td>
-          //           <Td>{item.author}</Td>
-          //         </Tr>
-          //     );
-          //   })}
-          //   </Tbody>
-          // </Table>
-          <Loading/>
+          <Table  variant="simple" colorScheme="facebook">
+            <Thead>
+              <Tr>
+                <Th>Date</Th>
+                <Th>Headline</Th>
+                <Th>Author</Th>
+              </Tr>
+            </Thead>
+            <Tbody>
+            {/* Render the list of items */}
+            {list.map((item) => {
+              return(
+                  <Tr>
+                    <Td>{item.date}</Td>
+                    <Td><a href={item.link}>{item.title}</a></Td>
+                    <Td>{item.author}</Td>
+                  </Tr>
+              );
+            })}
+            </Tbody>
+          </Table>
         ) : (
           <Flex flex={1} justifyContent="center" alignItems="center">
             <Loading/>

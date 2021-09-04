@@ -44,7 +44,9 @@ function SubscribeModal ({isOpen, onClose}) {
             onClose();
         })
         .catch((err) => {
-            actions.setFieldError('email', err);
+            actions.setFieldError('email', err.message);
+            onClose();
+
         })
     }
 
@@ -59,36 +61,40 @@ function SubscribeModal ({isOpen, onClose}) {
                     <Text fontSize={14} fontWeight={300} color={colors.grayDefault}>
                         Signup for our weekly newsletter to get the latest Covid-19 news, updates and amazing offers delivered directly in your inbox
                     </Text>
-                <Formik
-                    initialValues={{email: ""}}
-                    onSubmit={(values, actions) => subscribe(values.email, actions)}
-                >
-                    <Form>
-                        <Field name="email" validate={validateEmail}>
-                            {({field, form}) => {
-                            console.log(form);
-                            return (
-                            <FormControl isInvalid={form.errors.email && form.touched.email}>
-                                <Input {...field} id="email" type="email" placeholder="Enter your email" borderColor={colors.grayLight}/>
-                                <FormErrorMessage>{form.errors.email}</FormErrorMessage>
-                            </FormControl>
-                            )}}
-              
-                        </Field>  
-                        <Button
-                            float="right" 
-                            type="submit" 
-                            isLoading={loading} 
-                            pr={10} 
-                            pl={10} 
-                            _hover={{backgroundColor: colors.redDarker}} 
-                            borderColor={colors.redDark} 
-                            backgroundColor={colors.redDark} 
-                            color={colors.grayLighter}>
-                                Subscribe
-                        </Button>  
-                    </Form>
-                </Formik>
+                <Box mt={6}>
+                    <Formik
+                        initialValues={{email: ""}}
+                        onSubmit={(values, actions) => subscribe(values.email, actions)}
+                    >
+                        <Form>
+                            <Field name="email" validate={validateEmail}>
+                                {({field, form}) => {
+                                console.log(form);
+                                return (
+                                <FormControl isInvalid={form.errors.email && form.touched.email}>
+                                    <Input {...field} id="email" type="email" placeholder="Enter your email" borderColor={colors.grayLight}/>
+                                    <FormErrorMessage>{form.errors.email}</FormErrorMessage>
+                                </FormControl>
+                                )}}
+                
+                            </Field>  
+                            <Button
+                                float="right" 
+                                type="submit" 
+                                isLoading={loading} 
+                                pr={10} 
+                                pl={10} 
+                                mt={4}
+                                _hover={{backgroundColor: colors.redDarker}} 
+                                borderColor={colors.redDark} 
+                                backgroundColor={colors.redDark} 
+                                color={colors.grayLighter}>
+                                    Subscribe
+                            </Button>  
+                        </Form>
+                    </Formik>
+                </Box>
+                
                 </ModalBody>
                 </ModalContent>
             </Modal>
