@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { useMemo, useState, useEffect } from 'react';
 import Highlight from '../components/Highlight';
 import Summary from '../components/Summary';
+import { Heading } from '@chakra-ui/react';
 
 function WorldMap() {
   const [information, setInformation] = useState([]);
@@ -37,6 +38,7 @@ function WorldMap() {
   
     return (
     <div className="App">
+      <Heading color="#000">Worlds</Heading>
       <div>
         <Highlight infor={dataHighlight}/>
         <Summary />

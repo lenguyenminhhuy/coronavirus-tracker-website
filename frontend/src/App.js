@@ -3,8 +3,9 @@ import React, { Component } from "react";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import Nav from "./components/Nav";
 import WorldMap from "./pages/Home";
-import { calc, Flex, Grid, GridItem } from "@chakra-ui/react";
+import { calc, Flex, Grid, GridItem, List } from "@chakra-ui/react";
 import Analysis from "./pages/Analysis";
+import News from './pages/News';
 
 class App extends Component {
   render() {
@@ -44,27 +45,10 @@ class App extends Component {
             <Switch>
               <Route exact path="/" component={WorldMap} />
               <Route path="/analysis" component={Analysis} />
-              {/* <Route path="/news" component={New} /> */}
+              <Route path="/news" component={News}/>
             </Switch>
           </Flex>
         </Flex>
-
-        {/* <Grid templateColumns="repeat(10,1fr)" gap={6}>
-          <GridItem colSpan={1}>
-            <Nav />
-          </GridItem>
-          <GridItem colSpan={9}>
-            <Switch>
-              <Route exact path="/" component={WorldMap} />
-              <Route path="/analysis" component={Analysis} />
-              {/* <Route path="/news" component={New} /> */}
-        {/* </Switch> */}
-        {/* </GridItem> */}
-        {/* <WorldMap /> */}
-        {/* </Route> */}
-        {/* <Analysis /> */}
-        {/* </Route> */}
-        {/* </Grid> */}
       </BrowserRouter>
     );
   }

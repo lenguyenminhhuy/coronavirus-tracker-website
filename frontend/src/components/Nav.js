@@ -10,27 +10,24 @@ import {
   Flex,
   Heading,
   Text,
-  Icon,
-  Link,
   Box,
-  LinkBox,
   Button,
-  NextLink,
-  LinkOverlay,
+  Link,
   Divider,
-  IconButton,
   useDisclosure
 } from "@chakra-ui/react";
 // import { BiWorld } from "react-icons/bi";
 import { FcComboChart, FcNews } from "react-icons/fc";
 import { GiWorld } from "react-icons/gi";
-import { NavLink } from "react-router-dom";
+import { useLocation, Link as RRLink } from "react-router-dom";
 import NavItem from "./NavItem";
 import SubscribeModal from "./shared/SubscribeModal";
 import "./Nav.css";
 
 const Sidebar = () => {
   const {isOpen, onOpen, onClose} = useDisclosure();
+  const location = useLocation();
+  console.log(location);
   return (
     <Flex
       w="100%"
@@ -66,34 +63,42 @@ const Sidebar = () => {
         >
           <Link
             _hover={{ textDecor: "none", backgroundColor: "#eeeeee" }}
-            href="/"
+            backgroundColor={location.pathname === "/"? "#eeeeee" : "#fff"}
+            to="/"
             w="75%"
             mx={["20px", "20px", null, null, null]}
             mb={35}
             p={1}
             borderRadius="20px"
+            as={RRLink}
           >
             <NavItem icon={GiWorld} title="WorldMap" color="#0F52BA" />
           </Link>
           <Link
             _hover={{ textDecor: "none", backgroundColor: "#eeeeee" }}
-            href="/analysis"
+            backgroundColor={location.pathname === "/analysis"? "#eeeeee" : "#fff"}
+            to="/analysis"
             w="75%"
             mx={["20px", "20px", null, null, null]}
             mb={35}
             p={1}
             borderRadius="20px"
+            as={RRLink}
+
           >
             <NavItem icon={FcComboChart} title="Analysis" />
           </Link>
           <Link
             _hover={{ textDecor: "none", backgroundColor: "#eeeeee" }}
-            // href="/news"
+            backgroundColor={location.pathname === "/news"? "#eeeeee" : "#fff"}
+            to="/news"
             w="75%"
             mx={["20px", "20px", null, null, null]}
             mb={35}
             p={1}
             borderRadius="20px"
+            as={RRLink}
+
           >
             <NavItem icon={FcNews} title="News" />
           </Link>
