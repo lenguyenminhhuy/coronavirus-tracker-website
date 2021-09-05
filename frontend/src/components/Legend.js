@@ -27,7 +27,6 @@ const Legend = ({ legendItems }) => {
             color: item.textColor != null ? item.textColor : "black",
             fontSize: "1em",
             height: "10vh",
-            fontFamily: "Comic Sans MS",
           }}
         >
           <span>{item.title}</span>
