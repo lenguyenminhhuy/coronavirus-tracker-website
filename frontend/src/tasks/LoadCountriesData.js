@@ -11,8 +11,11 @@ class LoadCountryData {
     this.setState = countries;
     axios.get(this.api)
     .then((res) => {
+      console.log(res.data);
       this.#processCovidData(res.data)
-    })
+    }).catch(error => {
+      throw(error);
+  })
   }; 
 
   #processCovidData = (covidCountries) => {
@@ -50,18 +53,9 @@ class LoadCountryData {
           let vaccinated = Number(covidCountry.totalVaccine);
           country.properties.vaccinated = vaccinated;
           country.properties.total_vaccinations = ("\n Total vaccinations ").concat(this.#formatNumberWithCommas(vaccinated));
-    }
-      this.#setCountryColor(country);
+      }
     }
     this.setState(features);
-  };
-
-  #setCountryColor = (country) => {
-    const legendItem = legendItems.find((item) =>
-      item.isFor(country.properties.confirmed)
-    );
-
-    if (legendItem != null) country.properties.color = legendItem.color;
   };
 
   #formatNumberWithCommas = (number) => {

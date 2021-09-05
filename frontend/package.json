@@ -13,6 +13,7 @@
     "cdbreact": "^1.1.0",
     "formik": "^2.2.9",
     "focus-visible": "^5.2.0",
+    "dash-extensions": "0.0.1",
     "framer-motion": "^4.1.17",
     "leaflet": "^1.7.1",
     "moment": "^2.29.1",
@@ -25,6 +26,7 @@
     "react-leaflet": "^2.8.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
+    "react-spinners": "^0.11.0",
     "recharts": "^2.1.0",
     "styled-components": "^5.3.1",
     "web-vitals": "^1.1.2"

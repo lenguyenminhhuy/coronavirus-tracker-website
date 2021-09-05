@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-
 import Loading from "./Loading";
 import WorldMap from "./WorldMap";
 import LoadCountryData from "../tasks/LoadCountriesData";
@@ -9,27 +8,11 @@ import { Select } from "@chakra-ui/select";
 
 function Summary() {
   let modes = [
-    { label: "Total cases", value: "total_cases" },
+    { label: "Total confirmed cases", value: "total_cases" },
     { label: "Total deaths", value: "total_deaths" },
     { label: "Vaccinated cases", value: "people_vaccinated" },
-    { label: "New cases", value: "new_cases" },
+    { label: "Total tested case", value: "total_tests" },
   ];
-  async function selectData(data, mode) {
-    let selectedArray = [];
-    let dataKeys = Object.keys(data);
-    console.log(dataKeys);
-    dataKeys.forEach((key) => {
-      let temp = {};
-      temp["country"] = data[key].location;
-      temp['iso_code'] = key;
-      temp[mode] = data[key][mode];
-      if (temp[mode] === null) {
-        temp[mode] = "No data";
-      }
-      selectedArray.push(temp);
-    });
-    return selectedArray;
-  }
 
   const [mode, setMode] = useState('total_cases');
 
@@ -42,13 +25,14 @@ function Summary() {
   const [countries, setCountries] = useState([]);
 
   const load = () => {
-    console.log("load");
     const loadCountriesData= new LoadCountryData();
+    console.log(loadCountriesData)
     loadCountriesData.load(setCountries);
   };
   useEffect(() => {
     load();
     }, []);
+
 
   return (
     <div>
@@ -58,7 +42,7 @@ function Summary() {
         <div>
           {/* <MapFilter data={data} defaultMode={"total_deaths"} /> */}
           <Select
-            width="95%"
+            width="100%%"
             marginBottom="5px"
             value={mode}
             onChange={handleChange}
