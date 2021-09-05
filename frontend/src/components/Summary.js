@@ -42,7 +42,7 @@ function Summary() {
         <div>
           {/* <MapFilter data={data} defaultMode={"total_deaths"} /> */}
           <Select
-            width="100%%"
+            width="100%"
             marginBottom="5px"
             value={mode}
             onChange={handleChange}

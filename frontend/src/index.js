@@ -1,20 +1,19 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
+import React from "react";
+import ReactDOM from "react-dom";
+import "./index.css";
+import App from "./App";
 import { ChakraProvider, ColorModeScript } from "@chakra-ui/react";
 import theme from "./theme";
-
-
+import "focus-visible/dist/focus-visible";
 
 ReactDOM.render(
-  <ChakraProvider theme={theme} resetCSS={false}>  
+  <ChakraProvider theme={theme} resetCSS={false}>
     <React.StrictMode>
       <ColorModeScript initialColorMode={theme.config.initialColorMode} />
-      <App />  
-    </React.StrictMode>  
-  </ChakraProvider>,  
-  document.getElementById('root')
+      <App />
+    </React.StrictMode>
+  </ChakraProvider>,
+  document.getElementById("root"),
 );
 
 // If you want to start measuring performance in your app, pass a function

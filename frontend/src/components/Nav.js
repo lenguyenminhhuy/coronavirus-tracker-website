@@ -1,30 +1,17 @@
-import React, { useState } from "react";
-import {
-  CDBSidebar,
-  CDBSidebarContent,
-  CDBSidebarFooter,
-  CDBSidebarMenu,
-  CDBSidebarMenuItem,
-} from "cdbreact";
+import React from "react";
 import {
   Flex,
   Heading,
   Text,
-  Icon,
   Link,
   Box,
-  LinkBox,
   Button,
-  NextLink,
-  LinkOverlay,
   Divider,
-  IconButton,
   useDisclosure
 } from "@chakra-ui/react";
 // import { BiWorld } from "react-icons/bi";
 import { FcComboChart, FcNews } from "react-icons/fc";
 import { GiWorld } from "react-icons/gi";
-import { NavLink } from "react-router-dom";
 import NavItem from "./NavItem";
 import SubscribeModal from "./shared/SubscribeModal";
 import "./Nav.css";
@@ -36,7 +23,8 @@ const Sidebar = () => {
       w="100%"
       h={[null, null, "100vh"]}
       left="0"
-      boxShadow="0 4px 12px 0 rgba(0,0,0,0.02)"
+      // boxShadow="0 4px 12px 0 rgba(0,0,0,0.02)"
+      boxShadow="rgba(149, 157, 165, 0.2) 0px 8px 24px"
       borderRightRadius={["0", "0", "20px"]}
       backgroundColor="#fff"
       color="#020202"
