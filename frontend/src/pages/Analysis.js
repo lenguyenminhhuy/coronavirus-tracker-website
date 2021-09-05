@@ -2,7 +2,7 @@ import "./Analysis.css";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import mockData from "../mock-data.json";
-import { Flex, Heading } from "@chakra-ui/react";
+import { Flex, Heading, Box } from "@chakra-ui/react";
 // Import Charts
 import BarChartDailyCase from "../components/BarChartDailyCase";
 import StatsBoard from "../components/StatsBoard";
@@ -77,7 +77,10 @@ function Analysis() {
             w="100%"
             p={["5px", "5px", "5px", "10px", "15px"]}
           >
-            <BarChartCompound data={mockData} country="Thailand" />
+            <Box w="100%" h="100%" bg="#fff" borderRadius="15px">
+              {/* 5 */}
+                <BarChartDailyCase />
+            </Box>
           </Flex>
         </Flex>
       </Flex>

@@ -1,23 +1,16 @@
-import React from "react";
-import {
-  Flex,
-  Heading,
-  Text,
-  Link,
-  Box,
-  Button,
-  Divider,
-  useDisclosure
-} from "@chakra-ui/react";
-// import { BiWorld } from "react-icons/bi";
-import { FcComboChart, FcNews } from "react-icons/fc";
-import { GiWorld } from "react-icons/gi";
-import NavItem from "./NavItem";
-import SubscribeModal from "./shared/SubscribeModal";
 import "./Nav.css";
+import React from "react";
+import { Flex, Heading, Text, Link, Divider, Circle, Button, useDisclosure, Icon } from "@chakra-ui/react";
+import NavItem from "./NavItem";
+import { GiWorld } from "react-icons/gi";
+import { FcComboChart, FcNews, EmailIcon } from "react-icons/fc";
+import {Link as RRLink, useLocation} from 'react-router-dom';
+
+
 
 const Sidebar = () => {
-  const {isOpen, onOpen, onClose} = useDisclosure();
+  const location = useLocation();
+  console.log(location);
   return (
     <Flex
       w="100%"
@@ -54,43 +47,47 @@ const Sidebar = () => {
         >
           <Link
             _hover={{ textDecor: "none", backgroundColor: "#eeeeee" }}
-            href="/"
+            backgroundColor={location.pathname === "/"? "#eeeeee" : "#fff"}
+            to="/"
             w="75%"
             mx={["20px", "20px", null, null, null]}
             mb={35}
             p={1}
             borderRadius="20px"
+            as={RRLink}
           >
             <NavItem icon={GiWorld} title="WorldMap" color="#0F52BA" />
           </Link>
           <Link
             _hover={{ textDecor: "none", backgroundColor: "#eeeeee" }}
-            href="/analysis"
+            backgroundColor={location.pathname === "/analysis"? "#eeeeee" : "#fff"}
+            to="/analysis"
             w="75%"
             mx={["20px", "20px", null, null, null]}
             mb={35}
             p={1}
             borderRadius="20px"
+            as={RRLink}
+
           >
             <NavItem icon={FcComboChart} title="Analysis" />
           </Link>
           <Link
             _hover={{ textDecor: "none", backgroundColor: "#eeeeee" }}
-            // href="/news"
+            backgroundColor={location.pathname === "/news"? "#eeeeee" : "#fff"}
+            to="/news"
             w="75%"
             mx={["20px", "20px", null, null, null]}
             mb={35}
             p={1}
             borderRadius="20px"
+            as={RRLink}
+
           >
             <NavItem icon={FcNews} title="News" />
           </Link>
         </Flex>
       </Flex>
-      <Box>
-        <Button onClick={onOpen}>Subscribe News</Button>
-        <SubscribeModal isOpen={isOpen} onClose={onClose}/>
-      </Box>
       {/* Nav Bottom */}
       <Flex w="100%" flexDir="column" alignItems="center" mb={4}>
         <Divider color="#e6e6e6" />

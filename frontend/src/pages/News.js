@@ -1,15 +1,17 @@
 import React, { Component } from 'react';
 import {
+  Heading,
   Table,
   Thead,
   Tbody,
   Tr,
   Th,
   Td,
+  Flex,
 } from "@chakra-ui/react";
-import './List.css';
+import Loading from "../components/Loading";
 
-class List extends Component {
+class News extends Component {
   // Initialize the state
   constructor(props){
     super(props);
@@ -28,7 +30,7 @@ class List extends Component {
   // Retrieves the list of items from the Express app
   getList = () => {
 
-    fetch('https://ji3f8td1cd.execute-api.us-east-2.amazonaws.com/Stage/api/getList', {mode: 'cors'})
+    fetch('https://79dvu6wjq3.execute-api.us-east-2.amazonaws.com/Prod/api/list', {mode: 'cors'})
     .then(res => res.json())
     .then(list => this.setState({ isLoaded: true, list }))
   }
@@ -40,7 +42,7 @@ class List extends Component {
     return (
       <div className="App"
       style={{ overflow: 'scroll', overflowX: 'hidden', overflowY: 'visible'}}>
-        <h1 class="header"> 📰 Latest News</h1>
+        <Heading color="#000">Latest News</Heading>
         {/* Check to see if any items are found*/}
         {list.length ? (
           <Table  variant="simple" colorScheme="facebook">
@@ -65,9 +67,9 @@ class List extends Component {
             </Tbody>
           </Table>
         ) : (
-          <div>
-            <h2>No List Items Found</h2>
-          </div>
+          <Flex flex={1} justifyContent="center" alignItems="center">
+            <Loading/>
+          </Flex>
         )
       }
       </div>
@@ -75,4 +77,4 @@ class List extends Component {
   }
 }
 
-export default List;
+export default News;
