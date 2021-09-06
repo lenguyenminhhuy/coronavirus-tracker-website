@@ -74,8 +74,7 @@ function Analysis() {
             w={["100%", "100%", "100%", "50%", "50%"]}
             p={["5px", "5px", "5px", "10px", "15px"]}
           >
-            <StatsBoard />
-            {/* <AreaChartARD data={mockData} continent="Asia" mode="total_cases" /> */}
+            <BarChartContinent data={mockData} />
           </Flex>
           <Flex
             className="analysisChart chart4"

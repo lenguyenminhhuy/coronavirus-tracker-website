@@ -8,7 +8,7 @@ import {
   Bar,
   ResponsiveContainer,
 } from "recharts";
-import { Box, Center, Select, Flex } from "@chakra-ui/react";
+import { Select, Flex, Heading } from "@chakra-ui/react";
 import PropTypes from "prop-types";
 import CustomTooltip from "./shared/CustomTooltip";
 import CustomAxisX from "./shared/CustomAxisX";
@@ -16,7 +16,7 @@ import CustomAxisX from "./shared/CustomAxisX";
 async function processData(data, continent, mode) {
   let array = [];
   for (let country in data) {
-    if (data[country].continent == continent && data[country][mode] != null) {
+    if (data[country].continent === continent && data[country][mode] != null) {
       let base = {};
       base[mode] = data[country][mode];
       base["Country"] = data[country].location;
@@ -26,27 +26,78 @@ async function processData(data, continent, mode) {
   return array;
 }
 
-function BarChartContinent({ data, continent, mode }) {
+function BarChartContinent({
+  data,
+  defaultContinent = "Asia",
+  defaultMode = "total_cases",
+}) {
   const [chartData, setChartData] = useState();
+  const [continent, setContinent] = useState(defaultContinent);
+  const [mode, setMode] = useState(defaultMode);
+  let dataKeys = Object.keys(data);
+  const continentList = [
+    "Asia",
+    "Africa",
+    "Europe",
+    "North America",
+    "South America",
+    "Oceania",
+  ];
+  const modeList = [
+    { label: "Total cases", key: "total_cases" },
+    { label: "Total deaths", key: "total_deaths" },
+    { label: "Total tests", key: "total_tests" },
+    { label: "Total vaccinations", key: "total_vaccinations" },
+  ];
 
   useEffect(() => {
     processData(data, continent, mode).then((res) => {
       setChartData(res);
     });
-  }, [continent]);
+  }, [continent, mode]);
 
+  console.log(chartData);
   return (
     <Flex
       w="100%"
       h="100%"
       bg="#fff"
-      borderRadius="15px"
+      flexDir="column"
       justifyContent="center"
       alignItems="center"
+      borderRadius="15px"
       style={{ "box-shadow": "rgba(0, 0, 0, 0.16) 0px 1px 4px" }}
     >
-      <ResponsiveContainer width="90%" height="90%" position="absolute">
-        {/* <ResponsiveContainer width="100%" height={450}> */}
+      <Flex flexDir="row">
+        <Heading fontSize="xl" alignSelf="center">
+          Continent
+        </Heading>
+        <Select
+          border="none"
+          value={continent}
+          onChange={(e) => {
+            setContinent(e.target.value);
+          }}
+        >
+          {continentList.map((item) => (
+            <option value={item}>{item}</option>
+          ))}
+        </Select>
+        <Select
+          border="none"
+          value={mode}
+          onChange={(e) => {
+            setMode(e.target.value);
+          }}
+        >
+          {modeList.map((item, index) => (
+            <option key={index} value={item.key}>
+              {item.label}
+            </option>
+          ))}
+        </Select>
+      </Flex>
+      <ResponsiveContainer width="90%" height="90%">
         <BarChart
           width={730}
           height={250}
@@ -61,9 +112,8 @@ function BarChartContinent({ data, continent, mode }) {
           />
           <Tooltip content={<CustomTooltip />} />
           <Legend />
-          <Bar dataKey={mode} name="Total Cases" fill="#8884d8" />
+          <Bar dataKey={mode} name={mode} fill="#8884d8" />
         </BarChart>
-        {/* </ResponsiveContainer> */}
       </ResponsiveContainer>
     </Flex>
   );
