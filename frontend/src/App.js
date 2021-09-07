@@ -1,14 +1,19 @@
 import "./App.css";
-import React from "react";
+import React, {Suspense} from "react";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
-import Nav from "./components/Nav";
-import WorldMap from "./pages/Home";
 import { Flex, Icon, useDisclosure, Circle } from "@chakra-ui/react";
-import Analysis from "./pages/Analysis";
-import News from './pages/News';
+// import WorldMap from "./pages/Home";
+// import Analysis from "./pages/Analysis";
+// import News from './pages/News';
 import SubscribeModal from "./components/shared/SubscribeModal";
 import { MdMail } from "react-icons/md";
 import colors from "./constants/colors";
+import Loading from "./components/Loading";
+import Nav from './components/Nav'
+
+const WorldMap = React.lazy(() => import('./pages/Home'));
+const Analysis = React.lazy(() => import('./pages/Analysis'));
+const News = React.lazy(() => import('./pages/News'));
 
 function App () {
   const {isOpen, onOpen, onClose} = useDisclosure();
@@ -43,7 +48,8 @@ function App () {
             h={["300px", "300px", null, null, null]}
             w={["100%", "100%", "80px", "80px", "250px"]}
           >
-            <Nav />
+          <Nav />
+            
           </Flex>
           <Flex
             className="rightColumn"
@@ -53,13 +59,16 @@ function App () {
             pt={["15px", "15px", "10px", "10px", "10px"]}
           >
             <Switch>
-              <Route exact path="/" component={WorldMap} />
-              <Route path="/analysis" component={Analysis} />
-              <Route path="/news" component={News}/>
+              <Suspense fallback={<Loading/>}>
+                <Route exact path="/" component={WorldMap} />
+                <Route path="/analysis" component={Analysis} />
+                <Route path="/news" component={News}/>
+              </Suspense>
             </Switch>
           </Flex>
         </Flex>
       </BrowserRouter>
+
     );
 }
 

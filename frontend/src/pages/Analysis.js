@@ -84,7 +84,10 @@ function Analysis() {
             <BarChartCompound data={mockData} country="Vietnam" />
           </Flex>
         </Flex>
-        <Flex className="analysisRow container3" flexDir="column">
+        <Flex
+          className="analysisRow container3" 
+          flexDir={["column", "column", "column", "row", "row"]}
+          >
           <Flex
             className="analysisChart chart5"
             w="100%"

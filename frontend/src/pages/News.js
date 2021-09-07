@@ -17,7 +17,8 @@ class News extends Component {
     super(props);
     this.state = {
       isLoaded: false,
-      list: []
+      list: [],
+      renderList: []
     }
   }
 
@@ -35,12 +36,18 @@ class News extends Component {
     .then(list => this.setState({ isLoaded: true, list }))
   }
 
+  handleScroll = (e) => {
+    const bottom = e.target.scrollHeight - e.target.scrollTop === e.target.clientHeight;
+    console.log(bottom);
+  }
+
   render() {
     const { list } = this.state;
     console.log({list});
 
     return (
       <div className="App"
+      onScroll={this.handleScroll.bind(this)}
       style={{ overflow: 'scroll', overflowX: 'hidden', overflowY: 'visible'}}>
         <Heading color="#000">Latest News</Heading>
         {/* Check to see if any items are found*/}
@@ -57,7 +64,7 @@ class News extends Component {
             {/* Render the list of items */}
             {list.map((item) => {
               return(
-                  <Tr>
+                  <Tr key={item.link}>
                     <Td>{item.date}</Td>
                     <Td><a href={item.link}>{item.title}</a></Td>
                     <Td>{item.author}</Td>
