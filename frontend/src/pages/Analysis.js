@@ -8,20 +8,32 @@ import BarChartDailyCase from "../components/BarChartDailyCase";
 import StatsBoard from "../components/StatsBoard";
 import BarChartContinent from "../components/BarChartContinent";
 import BarChartCompound from "../components/BarChartCompound";
-import AreaChartARD from "../components/AreaChartARD";
+// import AreaChartARD from "../components/AreaChartARD";
 
-async function processData(data) {
-  let array = [];
-  for (let i = 0; i < data.length; i++) {
-    let obj = {};
-    obj["date"] = data[i].Date;
-    obj["positive"] = data[i].Confirmed;
-    array.push(obj);
-  }
-  return array;
-}
+// async function processData(data) {
+//   let array = [];
+//   for (let i = 0; i < data.length; i++) {
+//     let obj = {};
+//     obj["date"] = data[i].Date;
+//     obj["positive"] = data[i].Confirmed;
+//     array.push(obj);
+//   }
+//   return array;
+// }
 
 function Analysis() {
+  const [chartData, setChartData] = useState([]);
+
+  useEffect(() => {
+    getData();
+  }, []);
+
+  const getData = async () => {
+    const response = await axios.get(
+      "https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/latest/owid-covid-latest.json",
+    );
+    setChartData(response.data);
+  };
 
   return (
     <Flex className="analysisMain" w="100%" flexDir="column">
@@ -55,12 +67,12 @@ function Analysis() {
               bg="#fff"
               borderRadius="15px"
               pos="relative"
-              >
+            >
               {/* 2 */}
               <BarChartDailyCase
-                // width="100%"
-                // height="100%"
-                mode={1}
+              // width="100%"
+              // height="100%"
+              // mode={1}
               />
             </Box>
           </Flex>
@@ -74,14 +86,14 @@ function Analysis() {
             w={["100%", "100%", "100%", "50%", "50%"]}
             p={["5px", "5px", "5px", "10px", "15px"]}
           >
-            <BarChartContinent data={mockData} />
+            <BarChartContinent data={chartData} />
           </Flex>
           <Flex
             className="analysisChart chart4"
             w={["100%", "100%", "100%", "50%", "50%"]}
             p={["5px", "5px", "5px", "10px", "15px"]}
           >
-            <BarChartCompound data={mockData} country="Vietnam" />
+            <BarChartCompound data={chartData} />
           </Flex>
         </Flex>
         <Flex className="analysisRow container3" flexDir="column">
@@ -92,7 +104,7 @@ function Analysis() {
           >
             <Box w="100%" h="100%" bg="#fff" borderRadius="15px">
               {/* 5 */}
-                <BarChartDailyCase />
+              <BarChartDailyCase />
             </Box>
           </Flex>
         </Flex>
