@@ -1,7 +1,9 @@
 dist
 node_modules
 .aws-sam
-
+env.json
+docker
+yarn-error.log
 .yarn/*
 !.yarn/cache
 !.yarn/patches

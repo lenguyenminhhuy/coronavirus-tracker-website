@@ -1,9 +1,9 @@
-import { Box } from '@chakra-ui/react'
+import { Box, Select } from '@chakra-ui/react'
 import React, {useEffect, useState} from 'react'
 import BarChartDailyCase from '../components/BarChartDailyCase'
 import StatsBoard from '../components/StatsBoard'
 import axios from 'axios'
-import BarChartAsian from '../components/BarChartAsian'
+import BarChartContinent from '../components/BarChartContinent'
 import mockData from '../mock-data.json';
 
 async function processData(data) {
@@ -20,6 +20,7 @@ async function processData(data) {
 function Analysis() {
 
     const [data, setData] = useState([]);
+    const [continent, setContinent] = useState("Asia");
 
     useEffect(() => {
         axios.get('https://api.covid19api.com/country/south-africa')
@@ -30,6 +31,10 @@ function Analysis() {
             })
         })
     }, [])
+
+    useEffect(() => {
+        console.log(continent);
+    }, [continent])
 
     return (
         <div>
@@ -44,7 +49,14 @@ function Analysis() {
                 null
             }
             <Box>
-                <BarChartAsian data={mockData} mode="total_cases" />
+                <Select onChange={(value) => setContinent(value.target.value)}>
+                    <option value="Asia">Asia</option>
+                    <option value="Africa">Africa</option>
+                    <option value="Europe">Europe</option>
+                    <option value="South America">South America</option>
+                    <option value="North America">North America</option>
+                </Select>
+                <BarChartContinent data={mockData} continent={continent} mode="total_cases" />
             </Box>
         </div>
     )
