@@ -275,6 +275,20 @@ Resources:
           Properties:
             Path: /api/list
             Method: GET
+  
+  ScarpingData10Function:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Metadata:
+      BuildMethod: makefile
+    Properties:
+      Handler: dist/handlers/top10.handler
+      MemorySize: 4096
+      Events:
+        Scarping10Api:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /api/list10
+            Method: GET
 
   GetDailyFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
@@ -352,9 +366,15 @@ Outputs:
   ScarpingDataFunctionIamRole:
     Description: "Implicit IAM Role created for Scarping function"
     Value: !GetAtt ScarpingDataFunctionRole.Arn
+  
+  ScarpingData10Function:
+    Description: "Scarping Lambda Function ARN"
+    Value: !GetAtt ScarpingData10Function.Arn
+  ScarpingData10FunctionIamRole:
+    Description: "Implicit IAM Role created for Scarping function"
+    Value: !GetAtt ScarpingData10FunctionRole.Arn
 
   # Section for DynamoDB Table of Email Subscription
   EmailSubscriptionTable:
     Description: "DynamoDB's Table for Email Subscriptions"
     Value: !GetAtt EmailSubscriptionTable.Arn
-1
