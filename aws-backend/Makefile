@@ -1,5 +1,5 @@
 .PHONY: build-RuntimeDependenciesLayer build-lambda-common
-.PHONY: build-ScarpingFunction build-CovidFunction build-GetDataDailyFunction build-GetDataDailyAPIFunction
+.PHONY: build-ScarpingFunction build-CovidFunction build-GetDataDailyFunction build-GetDataDailyAPIFunction build-Scarping10Function
 # .PHONY: build-BrowserAndUtilsLayer
 
 
@@ -15,6 +15,9 @@ build-GetDataDailyAPIFunction:
 build-ScarpingFunction:
 	$(MAKE) HANDLER=src/handlers/scraping.ts build-lambda-common
 
+build-Scarping10Function:
+	$(MAKE) HANDLER=src/handlers/top10.ts build-lambda-common
+
 
 build-lambda-common:
 	yarn install
@@ -28,6 +31,3 @@ build-RuntimeDependenciesLayer:
 	cp package.json yarn.lock "$(ARTIFACTS_DIR)/nodejs/"
 	yarn install --production --cwd "$(ARTIFACTS_DIR)/nodejs/"
 	rm "$(ARTIFACTS_DIR)/nodejs/package.json"
-
-
-

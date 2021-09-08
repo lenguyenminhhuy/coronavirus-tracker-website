@@ -84,6 +84,22 @@ Resources:
           Properties:
             Path: /api/getList/
             Method: get
+  
+  Scarping10Function:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Metadata:
+      BuildMethod: makefile
+    Properties:
+      Handler: dist/handlers/top10.handler
+      MemorySize: 4096
+      Layers:
+        - !Ref BrowserAndUtilsLayer
+      Events:
+        Scarping10Api:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /api/getList10/
+            Method: get
     
     # ------------------------------------------TABLE----------------------------------------------------------
   CovidTimeSeriesTable:
@@ -168,6 +184,11 @@ Outputs:
   ScarpingApi:
     Description: "API Gateway endpoint URL for Prod stage for Hello World function"
     Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/prod/api/getList/"
+  
+  Scarping10Api:
+    Description: "API Gateway endpoint URL for Prod stage for Getting top 10 news"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/prod/api/getList10/"
+
   ScarpingFunction:
     Description: "Scarping Lambda Function ARN"
     Value: !GetAtt ScarpingFunction.Arn
@@ -196,5 +217,7 @@ Outputs:
   GetDataDailyAPIFunctionIamRole:
     Description: "Implicit IAM Role created for Covid Function"
     Value: !GetAtt GetDataDailyAPIFunctionRole.Arn
+  
+    
   
   # ------------------------------------------------END INSERT AND VIEW DAILY DATA--------------------------------------------------------
