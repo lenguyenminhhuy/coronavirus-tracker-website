@@ -1,5 +1,5 @@
 import papa from "papaparse";
-import legendItems from "../legends/LegendItems";
+import legendItems from "../legends/LegendCase";
 import { features } from "../data/countries.json";
 import axios from 'axios';
 

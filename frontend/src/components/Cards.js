@@ -4,7 +4,7 @@ import CountUp from 'react-countup';
 import styled from "styled-components";
 
 const CardStyle = styled.div`
-    border-left: ${props => props.type === 'confirmed' ? "10px solid yellow" : "10px solid red" }};
+    border-left: ${props => props.type === 'confirmed' ? "10px solid #c2a72f" : "10px solid #e33719" }};
     ${props => props.type === 'vaccinated' && `
     border-left: 10px solid green
     `};

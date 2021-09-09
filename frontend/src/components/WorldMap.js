@@ -1,17 +1,18 @@
-import React, {useEffect} from "react";
+import React from "react";
 import { Map, GeoJSON } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import "./WorldMap.css";
-import { TileLayer } from "react-leaflet";
-import legendItems from "../legends/LegendItems";
-
+import legendCases from "../legends/LegendCase";
+import legendDeaths from "../legends/LegendDeath";
+import legendVacs from "../legends/LegendVax";
+import legendTests from "../legends/LegendTest";
 
 const WorldMap = ({countries, options}) => {
 
   const mapState = {
-      lat: 50,
+      lat: 40,
       lng: 10,
-      zoom: 1.5
+      zoom: 1
     };
   const mapStyle = {
     fillColor: "white",
@@ -21,7 +22,7 @@ const WorldMap = ({countries, options}) => {
   };
 
   const onDeaths = (country, layer) => {
-    const legendItem = legendItems.find((item) =>
+    const legendItem = legendDeaths.find((item) =>
     item.isFor(country.properties['deaths'])
   );
   if (legendItem != null) country.properties.color = legendItem.color
@@ -43,7 +44,7 @@ const WorldMap = ({countries, options}) => {
   };
   
   const onVaccinated = (country, layer) => {
-    const legendItem = legendItems.find((item) =>
+    const legendItem = legendVacs.find((item) =>
     item.isFor(country.properties['vaccinated'])
   );
   if (legendItem != null) country.properties.color = legendItem.color
@@ -62,7 +63,7 @@ const WorldMap = ({countries, options}) => {
   }
 
   const onCases = (country, layer) => {
-    const legendItem = legendItems.find((item) =>
+    const legendItem = legendCases.find((item) =>
     item.isFor(country.properties['confirmed'])
     );
     if (legendItem != null) country.properties.color = legendItem.color;
@@ -81,7 +82,7 @@ const WorldMap = ({countries, options}) => {
   };
 
   const onTest = (country, layer) => {
-    const legendItem = legendItems.find((item) =>
+    const legendItem = legendTests.find((item) =>
     item.isFor(country.properties['tested'])
     );
     if (legendItem != null) country.properties.color = legendItem.color
@@ -98,12 +99,6 @@ const WorldMap = ({countries, options}) => {
       this.closePopup();
     });
   };
-
-
-  useEffect(() => {
-    console.log(options);
-    console.log(countries);
-  },[options])
 
   const switchCase = (mode) => {
     switch(mode) {
@@ -122,16 +117,12 @@ const WorldMap = ({countries, options}) => {
   return (
     <div>
 
-      <Map style={{ height: "80vh", width: "100%", border: "1px solid black"}} zoom={mapState.zoom} center={[mapState.lat, mapState.lng]}>
+      <Map style={{ height: "50vh", width: "100%", border: "1px solid black"}} zoom={mapState.zoom} center={[mapState.lat, mapState.lng]}>
        <GeoJSON
             key={options}
             style={mapStyle}
             data={countries}
             onEachFeature={switchCase(options)}/>
-       <TileLayer
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-        />
         </Map>
     </div>
 
