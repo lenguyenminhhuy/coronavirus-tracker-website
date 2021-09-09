@@ -13,6 +13,7 @@
     "@types/jest": "^27.0.1",
     "@types/node": "^16.7.1",
     "@types/node-fetch": "^2.5.12",
+    "@types/twitter": "^1.7.1",
     "@typescript-eslint/eslint-plugin": "^4.29.2",
     "@typescript-eslint/parser": "^4.29.2",
     "aws-sdk": "^2.973.0",
@@ -34,7 +35,9 @@
     "node-fetch": "^2.6.1",
     "puppeteer-core": "^10.2.0",
     "request": "^2.88.2",
-    "source-map-support": "^0.5.19"
+    "source-map-support": "^0.5.19",
+    "twitter": "^1.7.1",
+    "twitter-api-v2": "^1.5.0"
   },
   "scripts": {
     "build": "npx tsc",

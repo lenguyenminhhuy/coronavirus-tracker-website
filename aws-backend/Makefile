@@ -1,6 +1,6 @@
 .PHONY: build-RuntimeDependenciesLayer build-lambda-common
 .PHONY: build-HistoryFunction build-UpdateHistoryFunction build-GetCountryListFunction build-ScarpingDataFunction \
-        build-GetDailyFunction build-GetDailyAPIFunction build-SendDailyEmailFunction build-SubscribeEmailFunction build-ScarpingData10Function \ 
+        build-GetDailyFunction build-GetDailyAPIFunction build-SendDailyEmailFunction build-SubscribeEmailFunction build-ScarpingData10Function build-IngestDataFunction \ 
 
 build-UpdateHistoryFunction:
 	$(MAKE) HANDLER=src/handlers/updateHistory.ts build-lambda-common
@@ -28,6 +28,9 @@ build-SendDailyEmailFunction:
 
 build-SubscribeEmailFunction:
 	$(MAKE) HANDLER=src/handlers/subscribe-email.ts build-lambda-common
+
+build-IngestDataFunction:
+	$(MAKE) HANDLER=src/handlers/tweets.ts build-lambda-common
 
 build-lambda-common:
 	yarn install
