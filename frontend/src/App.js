@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import Nav from './components/Nav';
 import WorldMap from './pages/Home';
+import List from './pages/List';
 import { Grid, GridItem } from "@chakra-ui/react";
 import Analysis from "./pages/Analysis";
 
@@ -24,6 +25,9 @@ class App extends Component {
               </Route>
               <Route path="/analysis">
                   <Analysis/>
+              </Route>
+              <Route path="/news">
+                  <List/>
               </Route>
             </Switch>
           </GridItem>
