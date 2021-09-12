@@ -1513,6 +1513,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/caseless@npm:*":
+  version: 0.12.2
+  resolution: "@types/caseless@npm:0.12.2"
+  checksum: 430d15911184ad11e0a8aa21d1ec15fcc93b90b63570c37bf16ebd34457482bfc8de3f5eb6771e0ef986ce183270d4297823b0f492c346255967e78f7292388b
+  languageName: node
+  linkType: hard
+
 "@types/graceful-fs@npm:^4.1.2":
   version: 4.1.5
   resolution: "@types/graceful-fs@npm:4.1.5"
@@ -1595,10 +1602,39 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/request@npm:*":
+  version: 2.48.7
+  resolution: "@types/request@npm:2.48.7"
+  dependencies:
+    "@types/caseless": "*"
+    "@types/node": "*"
+    "@types/tough-cookie": "*"
+    form-data: ^2.5.0
+  checksum: 83c2b682b19a74c7a507f5295a80b3ee85f0b64bc078cdc692ea9c1748ca9452cc739050889d2161f141f7ddac1b01790944ad05e08a6d4d9367fe7473cc6a87
+  languageName: node
+  linkType: hard
+
 "@types/stack-utils@npm:^2.0.0":
   version: 2.0.1
   resolution: "@types/stack-utils@npm:2.0.1"
   checksum: 205fdbe3326b7046d7eaf5e494d8084f2659086a266f3f9cf00bccc549c8e36e407f88168ad4383c8b07099957ad669f75f2532ed4bc70be2b037330f7bae019
+  languageName: node
+  linkType: hard
+
+"@types/tough-cookie@npm:*":
+  version: 4.0.1
+  resolution: "@types/tough-cookie@npm:4.0.1"
+  checksum: 7570c1c2d74201f4ead3512cf8e4c99e97d92ab8a02ae2fb987fd720ced0ca1a2baf250c98a861a170b86762606c9bf6d32207675f13dffc5ab75c08c96578d2
+  languageName: node
+  linkType: hard
+
+"@types/twitter@npm:^1.7.1":
+  version: 1.7.1
+  resolution: "@types/twitter@npm:1.7.1"
+  dependencies:
+    "@types/node": "*"
+    "@types/request": "*"
+  checksum: f2ab503c860f799a63eb363baa230eca8e2fc88258da7cf2eafb8298c735e5e39ff3773df7ff6cd19440ee2617fd81df10c0b82a4259d5049e636152c4d4a093
   languageName: node
   linkType: hard
 
@@ -2007,6 +2043,7 @@ __metadata:
     "@types/jest": ^27.0.1
     "@types/node": ^16.7.1
     "@types/node-fetch": ^2.5.12
+    "@types/twitter": ^1.7.1
     "@typescript-eslint/eslint-plugin": ^4.29.2
     "@typescript-eslint/parser": ^4.29.2
     aws-sdk: ^2.973.0
@@ -2026,6 +2063,8 @@ __metadata:
     request: ^2.88.2
     source-map-support: ^0.5.19
     ts-jest: ^27.0.5
+    twitter: ^1.7.1
+    twitter-api-v2: ^1.5.0
     typescript: ^4.3.5
   languageName: unknown
   linkType: soft
@@ -2668,6 +2707,13 @@ __metadata:
   version: 0.7.0
   resolution: "dedent@npm:0.7.0"
   checksum: 87de191050d9a40dd70cad01159a0bcf05ecb59750951242070b6abf9569088684880d00ba92a955b4058804f16eeaf91d604f283929b4f614d181cd7ae633d2
+  languageName: node
+  linkType: hard
+
+"deep-extend@npm:^0.5.0":
+  version: 0.5.1
+  resolution: "deep-extend@npm:0.5.1"
+  checksum: 009c1b0fcbf315dfec255b15447c5c6e0388ea490b84f6072bdab6d41d60ec20bb249acbda050d38cc881bfcb43f184f994d2d41a345ebcef3422e7e2f46d0d9
   languageName: node
   linkType: hard
 
@@ -3404,6 +3450,17 @@ __metadata:
   version: 0.6.1
   resolution: "forever-agent@npm:0.6.1"
   checksum: 766ae6e220f5fe23676bb4c6a99387cec5b7b62ceb99e10923376e27bfea72f3c3aeec2ba5f45f3f7ba65d6616965aa7c20b15002b6860833bb6e394dea546a8
+  languageName: node
+  linkType: hard
+
+"form-data@npm:^2.5.0":
+  version: 2.5.1
+  resolution: "form-data@npm:2.5.1"
+  dependencies:
+    asynckit: ^0.4.0
+    combined-stream: ^1.0.6
+    mime-types: ^2.1.12
+  checksum: 5134ada56cc246b293a1ac7678dba6830000603a3979cf83ff7b2f21f2e3725202237cfb89e32bcb38a1d35727efbd3c3a22e65b42321e8ade8eec01ce755d08
   languageName: node
   linkType: hard
 
@@ -5815,7 +5872,7 @@ fsevents@^2.3.2:
   languageName: node
   linkType: hard
 
-"request@npm:^2.88.2":
+"request@npm:^2.72.0, request@npm:^2.88.2":
   version: 2.88.2
   resolution: "request@npm:2.88.2"
   dependencies:
@@ -6632,6 +6689,23 @@ fsevents@^2.3.2:
   version: 0.14.5
   resolution: "tweetnacl@npm:0.14.5"
   checksum: 6061daba1724f59473d99a7bb82e13f211cdf6e31315510ae9656fefd4779851cb927adad90f3b488c8ed77c106adc0421ea8055f6f976ff21b27c5c4e918487
+  languageName: node
+  linkType: hard
+
+"twitter-api-v2@npm:^1.5.0":
+  version: 1.5.0
+  resolution: "twitter-api-v2@npm:1.5.0"
+  checksum: a72fe296d7e570e9739fbbdfbc0ef02f21b90137cb80b9078499ad108364218dac255f205f2bcdf593e169829ee4f6353231fd2440d32d5f0ca594541b05d304
+  languageName: node
+  linkType: hard
+
+"twitter@npm:^1.7.1":
+  version: 1.7.1
+  resolution: "twitter@npm:1.7.1"
+  dependencies:
+    deep-extend: ^0.5.0
+    request: ^2.72.0
+  checksum: 8dbaedfb3d57af6b65fabc56ae92d3cccf74495e4b16655fc0772ad5b483cf2e28ebb280113c18f653b3e74d8782d8aee149c13b2c069f641077af1013e0665d
   languageName: node
   linkType: hard
 

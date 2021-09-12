@@ -17,6 +17,29 @@ Globals:
     MemorySize: 512
     Timeout: 100
 
+Parameters:
+  FirehoseS3Prefix:
+    Type: String
+    Default: firehose/
+    Description: "The S3 Key prefix for Kinesis Firehose."
+  FirehoseCompressionFormat:
+    Type: String
+    Default: GZIP
+    AllowedValues: [UNCOMPRESSED, GZIP, Snappy]
+    Description: "Compression format used by Kinesis Firehose"
+  FirehoseBufferingInterval:
+    Type: Number
+    Default: 60
+    MinValue: 60
+    MaxValue: 900
+    Description: "How long Firehose will wait before writing a new batch into S3"
+  FirehoseBufferingSize:
+    Type: Number
+    Default: 10
+    MinValue: 1
+    MaxValue: 128
+    Description: "Maximum batch size in MB"
+
 Resources:
   # DynamoDB Email Subscription table
   EmailSubscriptionTable:
@@ -275,6 +298,20 @@ Resources:
           Properties:
             Path: /api/list
             Method: GET
+  
+  ScarpingData10Function:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Metadata:
+      BuildMethod: makefile
+    Properties:
+      Handler: dist/handlers/top10.handler
+      MemorySize: 4096
+      Events:
+        Scarping10Api:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /api/list10
+            Method: GET
 
   GetDailyFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
@@ -314,6 +351,86 @@ Resources:
           Properties:
             Path: /api/daily
             Method: GET
+  
+  IngestDataFunction:
+    Type: AWS::Serverless::Function
+    Metadata:
+      BuildMethod: makefile
+    Properties:
+      Handler: dist/handlers/tweets.handler
+      Policies:
+        - FirehoseCrudPolicy:
+            DeliveryStreamName: !Ref DeliveryStream
+      Events:
+        CheckWebsiteScheduledEvent1:
+          Type: Schedule
+          Properties:
+            Schedule: rate(30 minutes)
+  
+  DeliveryStream:
+    Type: AWS::KinesisFirehose::DeliveryStream
+    DependsOn:
+      - DeliveryStreamPolicy
+    Properties:
+      DeliveryStreamName: "DeliveryStream"
+      DeliveryStreamType: DirectPut
+      ExtendedS3DestinationConfiguration:
+        Prefix: !Ref FirehoseS3Prefix
+        BucketARN: !Join 
+          - ''
+          - - 'arn:aws:s3:::'
+            - !Ref S3Records
+        BufferingHints:
+          IntervalInSeconds: !Ref FirehoseBufferingInterval
+          SizeInMBs: !Ref FirehoseBufferingSize
+        CompressionFormat: !Ref FirehoseCompressionFormat
+        RoleARN: !GetAtt DeliveryStreamRole.Arn
+  
+  DeliveryStreamRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Sid: ''
+            Effect: Allow
+            Principal:
+              Service: firehose.amazonaws.com
+            Action: 'sts:AssumeRole'
+            Condition:
+              StringEquals:
+                'sts:ExternalId': !Ref 'AWS::AccountId'
+  
+  DeliveryStreamPolicy:
+    Type: AWS::IAM::Policy
+    Properties:
+      Roles:
+        - !Ref DeliveryStreamRole
+      PolicyName: firehose_delivery_policy
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Action:
+              - 's3:AbortMultipartUpload'
+              - 's3:GetBucketLocation'
+              - 's3:GetObject'
+              - 's3:ListBucket'
+              - 's3:ListBucketMultipartUploads'
+              - 's3:PutObject'
+            Resource:
+              - !Join 
+                - ''
+                - - 'arn:aws:s3:::'
+                  - !Ref S3Records
+              - !Join 
+                - ''
+                - - 'arn:aws:s3:::'
+                  - !Ref S3Records
+                  - '*'
+  
+  S3Records:
+    Type: AWS::S3::Bucket
 
   # Shared layer with Lambda runtime dependencies
   RuntimeDependenciesLayer:
@@ -328,32 +445,39 @@ Resources:
         - nodejs14.x
       RetentionPolicy: Retain
 
-# Created resources on AWS
-Outputs:
-  # Section for Covid test API
-  EmailGateway:
-    Description: "API Gateway endpoint URL for Prod stage"
-    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/"
+# # Created resources on AWS
+# Outputs:
+#   # Section for Covid test API
+#   EmailGateway:
+#     Description: "API Gateway endpoint URL for Prod stage"
+#     Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/"
 
-  # Section for SendDailyEmailFunction
-  SendDailyEmailFunction:
-    Description: "Send Email Function ARN"
-    Value: !GetAtt SendDailyEmailFunction.Arn
+#   # Section for SendDailyEmailFunction
+#   SendDailyEmailFunction:
+#     Description: "Send Email Function ARN"
+#     Value: !GetAtt SendDailyEmailFunction.Arn
 
-  # Section for SubscribeEmailFunction
-  SubscribeEmailFunction:
-    Description: "Subscribe for Daily News Function ARN"
-    Value: !GetAtt SubscribeEmailFunction.Arn
+#   # Section for SubscribeEmailFunction
+#   SubscribeEmailFunction:
+#     Description: "Subscribe for Daily News Function ARN"
+#     Value: !GetAtt SubscribeEmailFunction.Arn
 
-  # ------------------------------SCRAPING PART-------------------------------------------------------
-  ScarpingDataFunction:
-    Description: "Scarping Lambda Function ARN"
-    Value: !GetAtt ScarpingDataFunction.Arn
-  ScarpingDataFunctionIamRole:
-    Description: "Implicit IAM Role created for Scarping function"
-    Value: !GetAtt ScarpingDataFunctionRole.Arn
+#   # ------------------------------SCRAPING PART-------------------------------------------------------
+#   ScarpingDataFunction:
+#     Description: "Scarping Lambda Function ARN"
+#     Value: !GetAtt ScarpingDataFunction.Arn
+#   ScarpingDataFunctionIamRole:
+#     Description: "Implicit IAM Role created for Scarping function"
+#     Value: !GetAtt ScarpingDataFunctionRole.Arn
+  
+#   ScarpingData10Function:
+#     Description: "Scarping Lambda Function ARN"
+#     Value: !GetAtt ScarpingData10Function.Arn
+#   ScarpingData10FunctionIamRole:
+#     Description: "Implicit IAM Role created for Scarping function"
+#     Value: !GetAtt ScarpingData10FunctionRole.Arn
 
-  # Section for DynamoDB Table of Email Subscription
-  EmailSubscriptionTable:
-    Description: "DynamoDB's Table for Email Subscriptions"
-    Value: !GetAtt EmailSubscriptionTable.Arn
+#   # Section for DynamoDB Table of Email Subscription
+#   EmailSubscriptionTable:
+#     Description: "DynamoDB's Table for Email Subscriptions"
+#     Value: !GetAtt EmailSubscriptionTable.Arn
