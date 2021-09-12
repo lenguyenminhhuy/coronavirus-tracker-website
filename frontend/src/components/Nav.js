@@ -1,12 +1,10 @@
 import "./Nav.css";
 import React from "react";
-import { Flex, Heading, Text, Link, Divider, Circle, Button, useDisclosure, Icon } from "@chakra-ui/react";
+import { Flex, Heading, Text, Link, Divider } from "@chakra-ui/react";
 import NavItem from "./NavItem";
 import { GiWorld } from "react-icons/gi";
 import { FcComboChart, FcNews, EmailIcon } from "react-icons/fc";
-import {Link as RRLink, useLocation} from 'react-router-dom';
-
-
+import { Link as RRLink, useLocation } from "react-router-dom";
 
 const Sidebar = () => {
   const location = useLocation();
@@ -16,7 +14,6 @@ const Sidebar = () => {
       w="100%"
       h={[null, null, "100vh"]}
       left="0"
-      // boxShadow="0 4px 12px 0 rgba(0,0,0,0.02)"
       boxShadow="rgba(149, 157, 165, 0.2) 0px 8px 24px"
       borderRightRadius={["0", "0", "20px"]}
       backgroundColor="#fff"
@@ -35,7 +32,6 @@ const Sidebar = () => {
           alignSelf="left"
           letterSpacing="tight"
           marginLeft="2vh"
-
         >
           Covid-19 Data Tracker
         </Heading>
@@ -47,7 +43,7 @@ const Sidebar = () => {
         >
           <Link
             _hover={{ textDecor: "none", backgroundColor: "#eeeeee" }}
-            backgroundColor={location.pathname === "/"? "#eeeeee" : "#fff"}
+            backgroundColor={location.pathname === "/" ? "#eeeeee" : "#fff"}
             to="/"
             w="75%"
             mx={["20px", "20px", null, null, null]}
@@ -60,7 +56,9 @@ const Sidebar = () => {
           </Link>
           <Link
             _hover={{ textDecor: "none", backgroundColor: "#eeeeee" }}
-            backgroundColor={location.pathname === "/analysis"? "#eeeeee" : "#fff"}
+            backgroundColor={
+              location.pathname === "/analysis" ? "#eeeeee" : "#fff"
+            }
             to="/analysis"
             w="75%"
             mx={["20px", "20px", null, null, null]}
@@ -68,13 +66,12 @@ const Sidebar = () => {
             p={1}
             borderRadius="20px"
             as={RRLink}
-
           >
             <NavItem icon={FcComboChart} title="Analysis" />
           </Link>
           <Link
             _hover={{ textDecor: "none", backgroundColor: "#eeeeee" }}
-            backgroundColor={location.pathname === "/news"? "#eeeeee" : "#fff"}
+            backgroundColor={location.pathname === "/news" ? "#eeeeee" : "#fff"}
             to="/news"
             w="75%"
             mx={["20px", "20px", null, null, null]}
@@ -82,7 +79,6 @@ const Sidebar = () => {
             p={1}
             borderRadius="20px"
             as={RRLink}
-
           >
             <NavItem icon={FcNews} title="News" />
           </Link>

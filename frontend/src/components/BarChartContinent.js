@@ -26,15 +26,11 @@ async function processData(data, continent, mode) {
   return array;
 }
 
-function BarChartContinent({
-  data,
-  defaultContinent = "Asia",
-  defaultMode = "total_cases",
-}) {
-  const [chartData, setChartData] = useState();
-  const [continent, setContinent] = useState(defaultContinent);
-  const [mode, setMode] = useState(defaultMode);
-  let dataKeys = Object.keys(data);
+function BarChartContinent({ data }) {
+  const [chartData, setChartData] = useState([]);
+  const [continent, setContinent] = useState("Asia");
+  const [mode, setMode] = useState("total_cases");
+
   const continentList = [
     "Asia",
     "Africa",
@@ -54,9 +50,8 @@ function BarChartContinent({
     processData(data, continent, mode).then((res) => {
       setChartData(res);
     });
-  }, [continent, mode]);
+  }, [continent, mode, data]);
 
-  console.log(chartData);
   return (
     <Flex
       w="100%"
@@ -66,7 +61,7 @@ function BarChartContinent({
       justifyContent="center"
       alignItems="center"
       borderRadius="15px"
-      style={{ "box-shadow": "rgba(0, 0, 0, 0.16) 0px 1px 4px" }}
+      // boxShadow="rgba(0, 0, 0, 0.16) 0px 1px 4px"
     >
       <Flex flexDir="row">
         <Heading fontSize="xl" alignSelf="center">
@@ -79,8 +74,10 @@ function BarChartContinent({
             setContinent(e.target.value);
           }}
         >
-          {continentList.map((item) => (
-            <option value={item}>{item}</option>
+          {continentList.map((item, index) => (
+            <option key={index} value={item}>
+              {item}
+            </option>
           ))}
         </Select>
         <Select

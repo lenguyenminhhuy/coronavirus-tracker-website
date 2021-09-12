@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { ResponsiveContainer } from "recharts";
 import StatsBox from "./StatsBox";
 import styles from "./StatsBoard.module.css";
 import dataImport from "../mock-data.json";
@@ -53,13 +52,12 @@ function StatsBoard() {
   }, [selectedCountry]);
 
   return (
-    // <ResponsiveContainer width="100%" height="100%">
     <Flex
       w="100%"
       h="100%"
       bg="#fff"
       borderRadius="15px"
-      style={{ "box-shadow": "rgba(0, 0, 0, 0.16) 0px 1px 4px" }}
+      // boxShadow="rgba(0, 0, 0, 0.16) 0px 1px 4px"
     >
       <Box className={styles.statsBoardContainer} width="100%">
         <Box mb={5}>Statistics on coronavirus</Box>
@@ -116,7 +114,6 @@ function StatsBoard() {
         </div>
       </Box>
     </Flex>
-    // </ResponsiveContainer>
   );
 }
 

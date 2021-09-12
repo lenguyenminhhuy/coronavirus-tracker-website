@@ -25,6 +25,18 @@ function sortByAlphabet(array, key) {
 
 
 function Analysis() {
+  const [chartData, setChartData] = useState([]);
+
+  useEffect(() => {
+    getData();
+  }, []);
+
+  const getData = async () => {
+    const response = await axios.get(
+      "https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/latest/owid-covid-latest.json",
+    );
+    setChartData(response.data);
+  };
 
   const [currentLocationISO3, setCurrentLocationISO3] = useState(null);
   const [countryList, setCountryList] = useState("");
@@ -92,7 +104,7 @@ function Analysis() {
               bg="#fff"
               borderRadius="15px"
               pos="relative"
-              >
+            >
               {/* 2 */}
                 <BarChartDailyCase
                 key={currentLocationISO3}
@@ -111,14 +123,14 @@ function Analysis() {
             w={["100%", "100%", "100%", "50%", "50%"]}
             p={["5px", "5px", "5px", "10px", "15px"]}
           >
-            <BarChartContinent data={mockData} />
+            <BarChartContinent data={chartData} />
           </Flex>
           <Flex
             className="analysisChart chart4"
             w={["100%", "100%", "100%", "50%", "50%"]}
             p={["5px", "5px", "5px", "10px", "15px"]}
           >
-            <BarChartCompound data={mockData} country="Vietnam" />
+            <BarChartCompound data={chartData} />
           </Flex>
         </Flex>
         <Flex
