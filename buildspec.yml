@@ -6,10 +6,12 @@ phases:
       - npm install
   build:
     commands:
+      - cd frontend
+      - npm install
       - npm run build
 
 artifacts:
   files:
     - '**/*'
   discard-paths: no
-  base-directory: build
+  base-directory: frontend/build
