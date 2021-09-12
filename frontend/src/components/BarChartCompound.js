@@ -9,6 +9,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { Flex, Heading, Select } from "@chakra-ui/react";
+import axios from "axios";
 
 async function processData(data, country) {
   let array = [];
@@ -26,16 +27,31 @@ async function processData(data, country) {
   return array;
 }
 
-function BarChartCompound({ data, country }) {
-  const [chartData, setChartData] = useState();
+function sortByAlphabet(array, key) {
+  return array.sort((a, b) => {
+    let x = a[key];
+    let y = b[key];
+    return x < y ? -1 : x > y ? 1 : 0;
+  });
+}
+
+function BarChartCompound({ data, country = "Vietnam" }) {
+  const [chartData, setChartData] = useState("");
   const [countryName, setCountryName] = useState(country);
-  let dataKeys = Object.keys(data);
+  const [countryList, setCountryList] = useState("");
 
   useEffect(() => {
     processData(data, countryName).then((res) => {
       setChartData(res);
     });
-  }, [countryName]);
+    axios
+      .get(
+        "https://79dvu6wjq3.execute-api.us-east-2.amazonaws.com/Prod/api/countries",
+      )
+      .then((res) => {
+        setCountryList(sortByAlphabet(res.data, "location"));
+      });
+  }, [countryName, data]);
 
   return (
     <Flex
@@ -46,7 +62,7 @@ function BarChartCompound({ data, country }) {
       borderRadius="15px"
       justifyContent="center"
       alignItems="center"
-      style={{ "box-shadow": "rgba(0, 0, 0, 0.16) 0px 1px 4px" }}
+      // boxShadow="rgba(0, 0, 0, 0.16) 0px 1px 4px"
     >
       <Flex flexDir="row">
         <Heading fontSize="xl" alignSelf="center">
@@ -59,9 +75,13 @@ function BarChartCompound({ data, country }) {
             setCountryName(e.target.value);
           }}
         >
-          {dataKeys.map((key, index) => (
-            <option value={data[key].location}>{data[key].location}</option>
-          ))}
+          {countryList
+            ? countryList.map((item, index) => (
+                <option key={index} value={item.location}>
+                  {item.location}
+                </option>
+              ))
+            : null}
         </Select>
       </Flex>
       <ResponsiveContainer width="90%" height="90%" position="absolute">

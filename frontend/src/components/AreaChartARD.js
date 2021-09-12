@@ -12,7 +12,7 @@ import {
 import { Box, Center, Select, Flex } from "@chakra-ui/react";
 import PropTypes from "prop-types";
 
-const AreaChartARD = ({ width = 730, height = 250, data }) => {
+const AreaChartARD = ({ data }) => {
   const [chartData, useChartData] = useState(data);
 
   // useEffect(() => {
@@ -29,8 +29,8 @@ const AreaChartARD = ({ width = 730, height = 250, data }) => {
       alignItems="center"
       style={{ "box-shadow": "rgba(0, 0, 0, 0.16) 0px 1px 4px" }}
     >
-      <ResponsiveContainer width="90%" height="90%" position="absolute">
-        <AreaChart width={width} height={height} data={data}>
+      <ResponsiveContainer width="90%" height="90%">
+        <AreaChart width={730} height={250} data={data}>
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="name" />
           <YAxis />

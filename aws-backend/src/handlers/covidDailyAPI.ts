@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/indent */
-import AWS = require('aws-sdk');
+import AWS = require("aws-sdk");
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda";
-
 
 AWS.config.update({
   region: "us-east-2",
@@ -9,32 +8,40 @@ AWS.config.update({
 
 const docClient = new AWS.DynamoDB.DocumentClient();
 
-
 exports.handler = async (
-  event: APIGatewayProxyEvent, context: any
-): Promise<APIGatewayProxyResult> =>  {
+  event: APIGatewayProxyEvent,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  context: any
+): Promise<APIGatewayProxyResult> => {
   let response;
   console.log(event);
 
-  const params:AWS.DynamoDB.DocumentClient.ScanInput = {
-    TableName: 'CovidTimeSeriesTable2'
+  const tableName =
+    process.env.ENVIRONMENT_TYPE === "Dev"
+      ? "CovidTimeSeriesTable_Dev"
+      : "CovidTimeSeriesTable_Prod";
+
+  const params: AWS.DynamoDB.DocumentClient.ScanInput = {
+    TableName: tableName,
   };
-  
+
   // fetch all todos from the database
   // For production workloads you should design your tables and indexes so that your applications can use Query instead of Scan.
-  const result  =  await docClient.scan(params).promise()
-  .then(data => {
-    const entries = data.Items;
-    response = {
-      statusCode: 200,
-      body: JSON.stringify(entries?.slice(0, 223)),
-    };
+  const result = await docClient
+    .scan(params)
+    .promise()
+    .then((data) => {
+      const entries = data.Items;
+      response = {
+        statusCode: 200,
+        body: JSON.stringify(entries?.slice(0, 223)),
+      };
       return response;
-    }).catch(console.error);
+    })
+    .catch(console.error);
 
   // create a response
   // eslint-disable-next-line prefer-const
-  
 
   // result?.Items[result.Items.lengthslice(-2)]
 
