@@ -46,14 +46,15 @@ class News extends Component {
 
   render() {
     const { list } = this.state;
-    console.log({list});
 
     return (
       <div className="App"
       onScroll={this.handleScroll.bind(this)}
       style={{ overflow: 'scroll', overflowX: 'hidden', overflowY: 'visible'}}>
-        <h1 class="header"> 📰 Latest News</h1>
-        <br/>
+        <Flex className="analysisHeading" flexDir="row" w="100%">
+          <Heading color="#000">News</Heading>
+        </Flex>
+      <br/>
         {/* Check to see if any items are found*/}
         {list.length ? (
           <Grid templateColumns="repeat(3, 1fr)">
