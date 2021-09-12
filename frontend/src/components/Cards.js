@@ -1,37 +1,31 @@
 import React from 'react';
-import { Box, Stack, Text } from "@chakra-ui/react";
+import {Stack, Text } from "@chakra-ui/react";
 import CountUp from 'react-countup';
+import styled from "styled-components";
 
-
-// const cardStyle = useStyleConfig({
-//     wrapper: (props) => {
-//         if(props.type ==='confirmed') return {borderLeft: '10px solid red'};
-//         // if(props.type ==='recovered') return {borderLeft: '5px solid yellow'};
-//         // if(props.type ==='tested') return {borderLeft: '5px solid green'};
-//         else return {borderLeft: '10px solid gray'}
-//     },
-//     title: {
-//         fontSize: 18, marginBottom:2
-//     },
-//     count: {
-//         fontWeight: 'bold',
-//         fontSize:42
-//     }
-// })
+const CardStyle = styled.div`
+    border-left: ${props => props.type === 'confirmed' ? "10px solid #c2a72f" : "10px solid #e33719" }};
+    ${props => props.type === 'vaccinated' && `
+    border-left: 10px solid green
+    `};
+    box-shadow: 6px 6px 5px #f2f7ff;
+    background-color: #d1e2f;
+    border-radius: 7px;
+    height: 110%;
+    width: 90%;
+    align-items: center
+`;
 
 export default function Cards ({title, count, type}){
-    // const useCardStyle = cardStyle({type})
     return(
-    // <Box className = {useCardStyle.wrapper}>
-    <Box boxShadow="outline" p="10" rounded="md" bg="#d1e2ff" borderWidth="3px" borderRadius="lg">
+    <CardStyle type={type}>
         <Stack >
-            <Text component="span" variant="body2" > 
+            <Text component="p" variant="body2" marginBottom="2%" marginTop="5%" fontWeight="bold" fontSize="18"> 
                 <CountUp end={count} separator=' ' duration={1} />
             </Text>
-            <Text component="p" variant="body2" > {title} </Text>
+            <Text component="p" variant="body2"  marginBottom="2%" > {title} </Text>
         </Stack>
-    </Box>
+    </CardStyle>
 
     )
-
 }

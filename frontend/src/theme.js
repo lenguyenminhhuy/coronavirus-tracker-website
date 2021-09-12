@@ -7,8 +7,14 @@ const config = {
   useSystemColorMode: false,
 }
 
+const Radio = {
+  baseStyle: {
+    borderRadius: "base",
+    borderColor: "black"
+  }
+}
 
 
 // 3. extend the theme
-const theme = extendTheme({ config })
+const theme = extendTheme({ config, components: {Radio} })
 export default theme

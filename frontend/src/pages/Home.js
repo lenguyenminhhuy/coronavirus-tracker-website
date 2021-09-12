@@ -1,47 +1,68 @@
-import axios from 'axios';
-import React, { Component, useMemo, useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import Highlight from '../components/Highlight';
-import Summary from '../components/Summary';
+import axios from "axios";
+import React, { useMemo, useState, useEffect } from "react";
+import Highlight from "../components/Highlight";
+import Summary from "../components/Summary";
+import { Heading, Flex } from "@chakra-ui/react";
 
 function WorldMap() {
   const [information, setInformation] = useState([]);
 
   useEffect(() => {
-    axios.get('https://api.covid19api.com/summary')
-    .then((res) => {console.log('dataa',res.data.Global);
-    setInformation(res.data.Global)})
-  });
+    axios
+      .get(
+        "https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/latest/owid-covid-latest.json",
+      )
+      .then((res) => {
+        setInformation(res.data.OWID_WRL);
+      });
+  }, []);
+
+  useEffect(() => {
+    axios
+      .get(
+        "https://79dvu6wjq3.execute-api.us-east-2.amazonaws.com/Prod/api/daily",
+      )
+      .then((res) => {
+        console.log("test api", res);
+      });
+  }, []);
 
   const dataHighlight = useMemo(() => {
-    if (information){
+    if (information) {
       return [
         {
           title: "Total confirmed cases",
-          count: information.TotalConfirmed,
-          type: 'confirmed'
-      },
-      {
+          count: information.total_cases,
+          type: "confirmed",
+        },
+        {
           title: "Total death cases",
-          count: information.TotalDeaths,
-          type: 'death'
-      },
+          count: information.total_deaths,
+          type: "death",
+        },
+        {
+          title: "Total vaccinated cases",
+          count: information.total_vaccinations,
+          type: "vaccinated",
+        },
       ];
     }
-    return []; 
-  }, [information])
-    return (
-    <div className="App">
-      <h1>Project Home</h1>
-      {/* Link to List.js */}
-        <button variant="raised" href="list.js">
-            My List
-        </button>
-      <div>
-        <Highlight infor={dataHighlight}/>
+    return [];
+  }, [information]);
+
+  return (
+    <Flex w="100%" flexDir="column">
+      {/* *** HEADING *** */}
+      <Flex flexDir="row" w="100%">
+        <Heading color="#000">Worlds</Heading>
+      </Flex>
+
+      {/* *** Map *** */}
+      <Flex flexDir="column" w="100%">
+        <Highlight infor={dataHighlight} />
         <Summary />
-      </div>
-    </div>
-    );
+      </Flex>
+    </Flex>
+  );
 }
 export default WorldMap;
