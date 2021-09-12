@@ -3,15 +3,18 @@ import Loading from "./Loading";
 import WorldMap from "./WorldMap";
 import LoadCountryData from "../tasks/LoadCountriesData";
 import Legend from "./Legend";
-import legendItems from "../legends/LegendItems";
+import LegendCase from "../legends/LegendCase";
+import LegendDeath from "../legends/LegendDeath";
+import LegendVax from "../legends/LegendVax";
+import LegendTest from "../legends/LegendTest";
 import { Select } from "@chakra-ui/select";
 
 function Summary() {
   let modes = [
     { label: "Total confirmed cases", value: "total_cases" },
-    { label: "Total deaths", value: "total_deaths" },
-    { label: "Vaccinated cases", value: "people_vaccinated" },
-    { label: "Total tested case", value: "total_tests" },
+    { label: "Total death cases", value: "total_deaths" },
+    { label: "Total vaccinated cases", value: "people_vaccinated" },
+    { label: "Total tested cases", value: "total_tests" },
   ];
 
   const [mode, setMode] = useState('total_cases');
@@ -20,7 +23,10 @@ function Summary() {
     setMode(e.target.value);
   })
 
-  const legendItemsReverse = [...legendItems].reverse();
+  const legendCaseReverse = [...LegendCase].reverse();
+  const legendTestReverse = [...LegendTest].reverse();
+  const legendDeathReverse = [...LegendDeath].reverse();
+  const legendVaxReverse = [...LegendVax].reverse();
 
   const [countries, setCountries] = useState([]);
 
@@ -32,7 +38,18 @@ function Summary() {
   useEffect(() => {
     load();
     }, []);
-
+    const switchCase = (mode) => {
+      switch(mode) {
+        case 'total_cases':
+          return legendCaseReverse;
+        case 'total_deaths':
+          return legendDeathReverse;
+        case 'people_vaccinated':
+          return legendVaxReverse;
+        case 'total_tests':
+          return legendTestReverse;
+      }
+    };
 
   return (
     <div>
@@ -42,7 +59,7 @@ function Summary() {
         <div>
           {/* <MapFilter data={data} defaultMode={"total_deaths"} /> */}
           <Select
-            width="100%%"
+            width="100%"
             marginBottom="5px"
             value={mode}
             onChange={handleChange}
@@ -54,7 +71,7 @@ function Summary() {
           </Select>
           <WorldMap countries={countries} options={mode}/>
           <br></br>
-          <Legend legendItems={legendItemsReverse} />
+          <Legend legendItems={switchCase(mode)} />
         </div>
       )}
     </div>
