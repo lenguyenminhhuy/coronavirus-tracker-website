@@ -14,6 +14,7 @@ import axiosFake from "../config/axiosFake";
 import axiosCovid from "../config/axiosCovid";
 import colors from '../constants/colors';
 import BarChartCompare from "../components/BarChartCompare";
+import logger from "../config/logger";
 
 function sortByAlphabet(array, key) {
   return array.sort((a,b) => {
@@ -54,7 +55,7 @@ function Analysis() {
     },[])
     
   useEffect(async () => {
-    axiosFake.get()
+    axiosLocation.get()
     .then((res) => {
       if (res.data.country_code_iso3) {
         setCurrentLocationISO3(res.data.country_code_iso3);
@@ -68,7 +69,7 @@ function Analysis() {
   }, [])
 
   useEffect(() => {
-    console.log(countryHistoryData);
+    logger(countryHistoryData);
   }, [countryHistoryData]);
 
 
