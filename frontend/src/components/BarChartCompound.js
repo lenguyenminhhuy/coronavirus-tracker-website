@@ -10,6 +10,8 @@ import {
 } from "recharts";
 import { Flex, Heading, Select } from "@chakra-ui/react";
 import axios from "axios";
+import axiosCovid from "../config/axiosCovid";
+import colors from "../constants/colors";
 
 async function processData(data, country) {
   let array = [];
@@ -44,9 +46,9 @@ function BarChartCompound({ data, country = "Vietnam" }) {
     processData(data, countryName).then((res) => {
       setChartData(res);
     });
-    axios
+    axiosCovid
       .get(
-        "https://79dvu6wjq3.execute-api.us-east-2.amazonaws.com/Prod/api/countries",
+        "/api/countries",
       )
       .then((res) => {
         setCountryList(sortByAlphabet(res.data, "location"));
@@ -65,9 +67,6 @@ function BarChartCompound({ data, country = "Vietnam" }) {
       // boxShadow="rgba(0, 0, 0, 0.16) 0px 1px 4px"
     >
       <Flex flexDir="row">
-        <Heading fontSize="xl" alignSelf="center">
-          Compound
-        </Heading>
         <Select
           border="none"
           value={countryName}
@@ -94,25 +93,25 @@ function BarChartCompound({ data, country = "Vietnam" }) {
             barSize={40}
             dataKey="total_cases"
             name="Total Cases"
-            fill="#52006A"
+            fill={colors.yellowDefault}
           />
           <Bar
             barSize={40}
             dataKey="total_deaths"
             name="Total Deaths"
-            fill="#CD113B"
+            fill={colors.redDefault}
           />
           <Bar
             barSize={40}
             dataKey="total_vaccinations"
             name="Total Vaccinations"
-            fill="#FF7600"
+            fill={colors.oceanBlueDefault}
           />
           <Bar
             barSize={40}
             dataKey="total_tests"
             name="Total Tests"
-            fill="#FFA900"
+            fill={colors.grayDarkest}
           />
         </BarChart>
       </ResponsiveContainer>

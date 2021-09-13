@@ -64,9 +64,6 @@ function BarChartContinent({ data }) {
       // boxShadow="rgba(0, 0, 0, 0.16) 0px 1px 4px"
     >
       <Flex flexDir="row">
-        <Heading fontSize="xl" alignSelf="center">
-          Continent
-        </Heading>
         <Select
           border="none"
           value={continent}
@@ -102,14 +99,14 @@ function BarChartContinent({ data }) {
           barCategoryGap={"0%"}
           margin={{ top: 10, right: 30, left: 20, bottom: 5 }}
         >
-          <XAxis minTickGap={-100} dataKey="Country" tick={<CustomAxisX />} />
+          <XAxis minTickGap={100} dataKey="Country" tick={<CustomAxisX />} />
           <YAxis
             tickFormatter={(value) => value.toLocaleString()}
             interval={0}
           />
           <Tooltip content={<CustomTooltip />} />
           <Legend />
-          <Bar dataKey={mode} name={mode} fill="#8884d8" />
+          <Bar dataKey={mode} name={mode} fill="#82ca9d" />
         </BarChart>
       </ResponsiveContainer>
     </Flex>

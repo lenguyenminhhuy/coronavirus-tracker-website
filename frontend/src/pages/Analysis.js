@@ -119,18 +119,11 @@ function Analysis() {
           flexDir={["column", "column", "column", "row", "row"]}
         >
           <Flex
-            className="analysisChart chart3"
-            w={["100%", "100%", "100%", "50%", "50%"]}
+            className="analysisChart chart4"
+            w={["100%", "100%", "100%", "100%", "100%"]}
             p={["5px", "5px", "5px", "10px", "15px"]}
           >
             <BarChartContinent data={chartData} />
-          </Flex>
-          <Flex
-            className="analysisChart chart4"
-            w={["100%", "100%", "100%", "50%", "50%"]}
-            p={["5px", "5px", "5px", "10px", "15px"]}
-          >
-            <BarChartCompound data={chartData} />
           </Flex>
         </Flex>
         <Flex
