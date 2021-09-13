@@ -35,7 +35,6 @@ function renderYAxis(type, data ) {
   }
 
   const max = (data) => {
-    console.log(data);
     return data[data.length-1].type
   }
 
@@ -66,10 +65,8 @@ function BarChartNew(props) {
         setLoading(true);
         axiosCovid.get(`/api/history?country=${countryHistoryData}`).then((res) => {
           setHistoryData(res.data.data)
-          console.log('change', res.data);
           setLoading(false);
         });
-        console.log(countryHistoryData);
       }, [props.countryHistoryData]);
 
     return (

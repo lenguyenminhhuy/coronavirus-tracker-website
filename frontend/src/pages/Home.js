@@ -3,6 +3,7 @@ import React, { useMemo, useState, useEffect } from "react";
 import Highlight from "../components/Highlight";
 import Summary from "../components/Summary";
 import { Heading, Flex } from "@chakra-ui/react";
+import logger from "../config/logger";
 
 function WorldMap() {
   const [information, setInformation] = useState([]);
@@ -23,7 +24,7 @@ function WorldMap() {
         "https://79dvu6wjq3.execute-api.us-east-2.amazonaws.com/Prod/api/daily",
       )
       .then((res) => {
-        console.log("test api", res);
+        logger("test api", res);
       });
   }, []);
 
