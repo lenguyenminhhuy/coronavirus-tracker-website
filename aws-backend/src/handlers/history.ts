@@ -1,7 +1,7 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda";
 var AWS = require('aws-sdk');
 
-const dynamodbTableName = 'covid-history';
+const dynamodbTableName = 'covidHistory_Prod';
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 
 async function getHistoryData(country: string) {
@@ -30,6 +30,11 @@ exports.handler = async (
   }
   return {
     statusCode: 200,
+    headers: {
+      "Access-Control-Allow-Headers" : "Content-Type",
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "GET"
+   },
     body: JSON.stringify(data),
   };
 };
