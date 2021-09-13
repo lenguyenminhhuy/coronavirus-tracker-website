@@ -1,7 +1,7 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult  } from "aws-lambda";
 var AWS = require('aws-sdk');
 
-const dynamodbTableName = 'covid-history';
+const dynamodbTableName = 'covidHistory_Prod';
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 
 type scanCountryListParams = {
@@ -122,11 +122,21 @@ exports.handler = async (
   if (response) {
     return {
       statusCode: 200,
+      headers: {
+         "Access-Control-Allow-Headers" : "Content-Type",
+         "Access-Control-Allow-Origin": "*",
+         "Access-Control-Allow-Methods": "GET"
+      },
       body: JSON.stringify(response)
     }
   }
   return {
     statusCode: 400,
+    headers: {
+      "Access-Control-Allow-Headers" : "Content-Type",
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "GET"
+   },
     body: JSON.stringify({
       message: 'Error countered'
     })

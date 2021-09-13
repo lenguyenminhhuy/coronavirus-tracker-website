@@ -21,6 +21,7 @@ import axios from 'axios'
 import colors from '../constants/colors';
 import Loading from './Loading';
 import axiosCovid from "../config/axiosCovid";
+import logger from "../config/logger";
 
 function sortByAlphabet(array, key) {
   return array.sort((a,b) => {
@@ -55,7 +56,7 @@ function BarChartDailyCase({
 
 
   useEffect(() => {
-    console.log('dsss: ', currentLocationISO3);
+    logger('dsss: ', currentLocationISO3);
       setLoading(true);
       axiosCovid.get("/api/countries")
       .then((res) => {
@@ -223,22 +224,22 @@ function BarChartDailyCase({
           <Tooltip content={<CustomTooltip mode="date" />} />
           <Legend verticalAlign="top" /> 
           {status.totalVaccinations?
-            <Line type="monotone" dataKey="totalVaccinations" name={normalizeCamelCase("totalVaccinations")} stroke={colors.oceanBlueDefault} />
+            <Line dot={false} type="monotone" dataKey="totalVaccinations" name={normalizeCamelCase("totalVaccinations")} stroke={colors.oceanBlueDefault} />
           :
             null
           }       
           {status.totalTests?
-              <Line type="monotone" dataKey="totalTests" name={normalizeCamelCase("totalTests")} stroke={colors.grayDarkest} />
+              <Line dot={false} type="monotone" dataKey="totalTests" name={normalizeCamelCase("totalTests")} stroke={colors.grayDarkest} />
             :
             null
           }
           {status.totalCases?
-              <Line type="monotone" dataKey="totalCases" name={normalizeCamelCase("totalCases")} stroke={colors.yellowDefault} />
+              <Line dot={false} type="monotone" dataKey="totalCases" name={normalizeCamelCase("totalCases")} stroke={colors.yellowDefault} />
             :
             null
           }     
           {status.totalDeaths?
-              <Line type="monotone" dataKey="totalDeaths" name={normalizeCamelCase("totalDeaths")} stroke={colors.redDefault} />
+              <Line dot={false} type="monotone" dataKey="totalDeaths" name={normalizeCamelCase("totalDeaths")} stroke={colors.redDefault} />
             :
             null
           }          

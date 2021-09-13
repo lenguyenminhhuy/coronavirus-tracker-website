@@ -13,6 +13,7 @@ import Loading from "../components/Loading";
 import './List.css';
 import NewCards from '../components/News.js';
 import { Grid, Spacer } from "@chakra-ui/react";
+import logger from '../config/logger';
 
 class News extends Component {
   // Initialize the state
@@ -41,7 +42,7 @@ class News extends Component {
 
   handleScroll = (e) => {
     const bottom = e.target.scrollHeight - e.target.scrollTop === e.target.clientHeight;
-    console.log(bottom);
+    logger(bottom);
   }
 
   render() {
