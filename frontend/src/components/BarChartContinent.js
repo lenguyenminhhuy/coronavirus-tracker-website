@@ -10,6 +10,7 @@ import {
 } from "recharts";
 import { Select, Flex, Heading } from "@chakra-ui/react";
 import PropTypes from "prop-types";
+import colors from "../constants/colors";
 import CustomTooltip from "./shared/CustomTooltip";
 import CustomAxisX from "./shared/CustomAxisX";
 
@@ -27,9 +28,15 @@ async function processData(data, continent, mode) {
 }
 
 function BarChartContinent({ data }) {
+  const modeList = [
+    { label: "Total cases", key: "total_cases" },
+    { label: "Total deaths", key: "total_deaths" },
+    { label: "Total tests", key: "total_tests" },
+    { label: "Total vaccinations", key: "total_vaccinations" },
+  ];
   const [chartData, setChartData] = useState([]);
   const [continent, setContinent] = useState("Asia");
-  const [mode, setMode] = useState("total_cases");
+  const [mode, setMode] = useState(modeList[0]);
 
   const continentList = [
     "Asia",
@@ -39,15 +46,9 @@ function BarChartContinent({ data }) {
     "South America",
     "Oceania",
   ];
-  const modeList = [
-    { label: "Total cases", key: "total_cases" },
-    { label: "Total deaths", key: "total_deaths" },
-    { label: "Total tests", key: "total_tests" },
-    { label: "Total vaccinations", key: "total_vaccinations" },
-  ];
 
   useEffect(() => {
-    processData(data, continent, mode).then((res) => {
+    processData(data, continent, mode.key).then((res) => {
       setChartData(res);
     });
   }, [continent, mode, data]);
@@ -61,11 +62,15 @@ function BarChartContinent({ data }) {
       justifyContent="center"
       alignItems="center"
       borderRadius="15px"
-      // boxShadow="rgba(0, 0, 0, 0.16) 0px 1px 4px"
     >
       <Flex flexDir="row">
         <Select
-          border="none"
+          mx="5px"
+          borderTop="none"
+          borderRight="none"
+          borderLeft="none"
+          borderRadius={0}
+          borderColor={colors.grayDefault}
           value={continent}
           onChange={(e) => {
             setContinent(e.target.value);
@@ -78,14 +83,19 @@ function BarChartContinent({ data }) {
           ))}
         </Select>
         <Select
-          border="none"
-          value={mode}
+          mx="5px"
+          borderTop="none"
+          borderRight="none"
+          borderLeft="none"
+          borderRadius={0}
+          borderColor={colors.grayDefault}
+          value={mode.key}
           onChange={(e) => {
-            setMode(e.target.value);
+            setMode(modeList[e.target.value]);
           }}
         >
           {modeList.map((item, index) => (
-            <option key={index} value={item.key}>
+            <option key={index} value={index}>
               {item.label}
             </option>
           ))}
@@ -106,7 +116,7 @@ function BarChartContinent({ data }) {
           />
           <Tooltip content={<CustomTooltip />} />
           <Legend />
-          <Bar dataKey={mode} name={mode} fill="#82ca9d" />
+          <Bar dataKey={mode.key} name={mode.label} fill="#82ca9d" />
         </BarChart>
       </ResponsiveContainer>
     </Flex>
