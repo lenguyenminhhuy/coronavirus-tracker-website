@@ -24,6 +24,9 @@ const result = {
               'iso_code': {
                 "S": key
               },
+              'continent': {
+                "S": `${data[key].continent}`
+              },
               'updated_date': {
                 "S": `${data[key].last_updated_date}`
               },
