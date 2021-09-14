@@ -13,7 +13,7 @@ import {
   Brush,
   Line
 } from "recharts";
-import { Box, Select, RadioGroup, Stack, Radio, Flex, HStack, Checkbox } from '@chakra-ui/react'
+import { Box, Select, RadioGroup, Stack, Radio, Flex, HStack, Checkbox, Center } from '@chakra-ui/react'
 import CustomAxisX from "./shared/CustomAxisX";
 import CustomTooltip from "./shared/CustomTooltip";
 import normalizeCamelCase from "../utils/normalizeCamelCase";
@@ -201,14 +201,15 @@ function BarChartDailyCase({
             Total Test
           </Checkbox>
         </HStack>
-            <ResponsiveContainer width="100%" height="90%">
+    <Flex justifyContent="center" h="100%" w="100%">
+    <ResponsiveContainer width="100%" height="90%">
         <ComposedChart
-          width="100%"
+          width="80%"
           height="100%"
           // width={730}
           // height={250}
           data={historyData}
-          margin={{ top: 5, right: 30, left: 30, bottom: 30 }}
+          margin={{ top: 5, right: 100, left: 100, bottom: 30 }}
         >
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis
@@ -246,6 +247,8 @@ function BarChartDailyCase({
           <Brush y={310} dataKey="date" height={20} stroke={colors.redLight}/>
           </ComposedChart>
       </ResponsiveContainer>
+    </Flex>
+   
         </Box>
                   
       </Box>
