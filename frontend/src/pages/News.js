@@ -53,7 +53,7 @@ class News extends Component {
       onScroll={this.handleScroll.bind(this)}
       style={{ overflow: 'scroll', overflowX: 'hidden', overflowY: 'visible'}}>
         <Flex className="analysisHeading" flexDir="row" w="100%">
-          <Heading color="#000">News</Heading>
+          <Heading color="#000">Latest News</Heading>
         </Flex>
       <br/>
         {/* Check to see if any items are found*/}

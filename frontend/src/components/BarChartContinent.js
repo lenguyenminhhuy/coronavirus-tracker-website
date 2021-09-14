@@ -12,14 +12,15 @@ import { Select, Flex, Heading } from "@chakra-ui/react";
 import PropTypes from "prop-types";
 import CustomTooltip from "./shared/CustomTooltip";
 import CustomAxisX from "./shared/CustomAxisX";
+import normalizeCamelCase from "../utils/normalizeCamelCase";
 
 async function processData(data, continent, mode) {
   let array = [];
-  for (let country in data) {
-    if (data[country].continent === continent && data[country][mode] != null) {
+  for (let i in data) {
+    if (data[i].continent === continent && data[i][mode] != null) {
       let base = {};
-      base[mode] = data[country][mode];
-      base["Country"] = data[country].location;
+      base[mode] = data[i][mode];
+      base["Country"] = data[i].location;
       array.push(base);
     }
   }
@@ -28,8 +29,8 @@ async function processData(data, continent, mode) {
 
 function BarChartContinent({ data }) {
   const [chartData, setChartData] = useState([]);
-  const [continent, setContinent] = useState("Asia");
-  const [mode, setMode] = useState("total_cases");
+  const [continent, setContinent] = useState("Europe");
+  const [mode, setMode] = useState("totalCases");
 
   const continentList = [
     "Asia",
@@ -40,17 +41,17 @@ function BarChartContinent({ data }) {
     "Oceania",
   ];
   const modeList = [
-    { label: "Total cases", key: "total_cases" },
-    { label: "Total deaths", key: "total_deaths" },
-    { label: "Total tests", key: "total_tests" },
-    { label: "Total vaccinations", key: "total_vaccinations" },
+    { label: "Total cases", key: "totalCases" },
+    { label: "Total deaths", key: "totalDeaths" },
+    { label: "Total tests", key: "totalTests" },
+    { label: "Total vaccinations", key: "totalVaccine" },
   ];
 
   useEffect(() => {
     processData(data, continent, mode).then((res) => {
       setChartData(res);
     });
-  }, [continent, mode, data]);
+  }, [data, continent, mode]);
 
   return (
     <Flex
@@ -106,7 +107,7 @@ function BarChartContinent({ data }) {
           />
           <Tooltip content={<CustomTooltip />} />
           <Legend />
-          <Bar dataKey={mode} name={mode} fill="#82ca9d" />
+          <Bar dataKey={mode} name={mode}  name={normalizeCamelCase(mode)} fill="#82ca9d" />
         </BarChart>
       </ResponsiveContainer>
     </Flex>

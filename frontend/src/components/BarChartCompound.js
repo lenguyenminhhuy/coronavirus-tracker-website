@@ -9,7 +9,6 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { Flex, Heading, Select } from "@chakra-ui/react";
-import axios from "axios";
 import axiosCovid from "../config/axiosCovid";
 import colors from "../constants/colors";
 

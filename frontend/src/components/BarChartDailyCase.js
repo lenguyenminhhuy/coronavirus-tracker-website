@@ -76,74 +76,6 @@ function BarChartDailyCase({
     });
   }, [countryHistoryData]);
 
-
-
-  if (mode === 1) {
-    return (
-      // <React.Fragment>
-      <Box w="100%" h="100%">
-        {loading?
-        <Box position="absolute" w="100%" h="100%" display="flex" justifyContent="center" alignItems="center">
-          <Loading/>
-        </Box>
-        :
-        null
-        }
-        <Box opacity={loading? 0.2 : 1} w="100%" h="100%">
-        <Flex flexDirection="row">
-          <Select borderTop="none" borderRight="none" borderLeft="none" w="40%" borderRadius={0} borderColor={colors.grayDefault} onChange={(value) => setCountryHistoryData(value.target.value)}>
-              {countryList?
-                  countryList.map(c => {
-                    if (c.country === countryHistoryData)
-                      return <option selected key={c.country} value={c.country}>{c.location}</option>
-                    else
-                      return <option key={c.country} value={c.country}>{c.location}</option>
-              
-                  })
-              :
-              null
-              }
-          </Select>
-          <RadioGroup onChange={setRadio} value={radio}>
-            <Stack direction="row">
-                <Radio borderColor={colors.grayLight} borderWidth="2px" value="totalCases">Total Cases</Radio>
-                <Radio borderColor={colors.grayLight} borderWidth="2px" value="totalDeaths">Total Deaths</Radio>
-            </Stack>
-          </RadioGroup>
-        </Flex>
-        <ResponsiveContainer width="100%" height="100%" aspect={2}>
-      <ComposedChart
-        width="100%"
-        height="100%"
-        // width={"95%"}
-        // height={"70%"}
-        data={historyData}
-        margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-        
-      >
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis
-          minTickGap={20}
-          dataKey="date"
-          tick={<CustomAxisX mode="date" />}
-        />
-        {historyData?
-        <YAxis domain={[0, historyData[0][radio]? getMaxValue(historyData, radio) : 'dataMax']} allowDataOverflow={true} tickFormatter={(value) => value.toLocaleString()} />
-          :
-          null
-        }
-        <Tooltip content={<CustomTooltip />} />
-        <Legend />        
-        <Bar type="monotone" dataKey={radio} name={normalizeCamelCase(radio)} fill="#82ca9d" />
-      </ComposedChart>
-    </ResponsiveContainer>
-
-    </Box>
-      
-      </Box>
-      // </React.Fragment>
-    );
-  }
     return (
       // <React.Fragment>
       <Box w="100%" h="100%" position="relative">
@@ -190,7 +122,7 @@ function BarChartDailyCase({
             isChecked={status.totalCases}
             onChange={(e) => setStatus({...status,totalCases: e.target.checked})}
           >
-            Total Test
+            Total Deaths
           </Checkbox>
           <Checkbox
                       borderColor={colors.grayLight} borderWidth="2px"

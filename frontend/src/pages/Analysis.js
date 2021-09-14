@@ -15,6 +15,7 @@ import axiosCovid from "../config/axiosCovid";
 import colors from '../constants/colors';
 import BarChartCompare from "../components/BarChartCompare";
 import logger from "../config/logger";
+import BarChartTopTen from "../components/BarChartTopTen";
 
 function sortByAlphabet(array, key) {
   return array.sort((a,b) => {
@@ -29,15 +30,15 @@ function Analysis() {
   const [chartData, setChartData] = useState([]);
 
   useEffect(() => {
-    getData();
+    axiosCovid.get("/api/daily")
+    .then((res) => {
+      setChartData(res.data);
+    })
+    .catch((err) => {
+      logger('error fetching daily', err)
+    })
   }, []);
 
-  const getData = async () => {
-    const response = await axios.get(
-      "https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/latest/owid-covid-latest.json",
-    );
-    setChartData(response.data);
-  };
 
   const [currentLocationISO3, setCurrentLocationISO3] = useState(null);
   const [countryList, setCountryList] = useState("");
@@ -55,7 +56,7 @@ function Analysis() {
     },[])
     
   useEffect(async () => {
-    axiosLocation.get()
+    axiosFake.get()
     .then((res) => {
       if (res.data.country_code_iso3) {
         setCurrentLocationISO3(res.data.country_code_iso3);
@@ -107,11 +108,12 @@ function Analysis() {
               pos="relative"
             >
               {/* 2 */}
-                <BarChartDailyCase
+                {/* <BarChartDailyCase
                 key={currentLocationISO3}
                 currentLocationISO3={currentLocationISO3}
-                mode={1}
-              />
+                mode={1} */}
+                <BarChartTopTen data={chartData}/>
+              
             </Box>
           </Flex>
         </Flex>
