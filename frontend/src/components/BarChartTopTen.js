@@ -102,7 +102,7 @@ function BarChartTopTen({data}) {
             height={250}
             data={topTen}
             barCategoryGap={"0%"}
-            margin={{ top: 10, right: 40, left: 40, bottom: 5 }}
+            margin={{ top: 10, right: 40, left: 40, bottom: 20 }}
           >
             <XAxis minTickGap={-100} dataKey="Country" tick={<CustomAxisX />} />
             <YAxis
