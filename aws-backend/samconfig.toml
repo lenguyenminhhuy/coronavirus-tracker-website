@@ -22,7 +22,7 @@ template_file = "template-dev.yaml"
 profile = "default"
 stack_name = "coronavirus-tracker-website-dev-stack"
 s3_bucket = "aws-sam-cli-managed-default-samclisourcebucket-hdiz0vebbxyw"
-s3_prefix = "coronavirus-tracker-website-dev-bucket-30-08-2021"
+s3_prefix = "coronavirus-tracker-website-dev-bucket-14-09-2021"
 region = "us-east-2"
 confirm_changeset = true
 capabilities = "CAPABILITY_IAM"
@@ -34,6 +34,7 @@ profile = "default"
 template_file = "template-dev.yaml"
 [local.local_start_api]
 [local.local_start_api.parameters]
+template_file = "template-dev.yaml"
 profile = "default"
 skip_pull_image = true
 env_vars = "env.json"

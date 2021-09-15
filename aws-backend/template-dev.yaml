@@ -1,4 +1,4 @@
-AWSTemplateFormatVersion: "2010-09-09"
+AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 Description: >
   coronavirus-tracker-website-dev-stack
@@ -13,7 +13,7 @@ Globals:
     Environment:
       Variables:
         # "Local" | "Dev" | "Prod"
-        ENVIRONMENT_TYPE: "Dev"
+        ENVIRONMENT_TYPE: 'Dev'
     MemorySize: 256
     Timeout: 180
 
@@ -23,19 +23,19 @@ Resources:
     Type: AWS::DynamoDB::Table
     Properties:
       KeySchema:
-        - AttributeName: "Email"
-          KeyType: "HASH"
-        - AttributeName: "CreatedAt"
-          KeyType: "RANGE"
+        - AttributeName: 'Email'
+          KeyType: 'HASH'
+        - AttributeName: 'CreatedAt'
+          KeyType: 'RANGE'
       AttributeDefinitions:
-        - AttributeName: "Email"
-          AttributeType: "S"
-        - AttributeName: "CreatedAt"
-          AttributeType: "S"
+        - AttributeName: 'Email'
+          AttributeType: 'S'
+        - AttributeName: 'CreatedAt'
+          AttributeType: 'S'
       ProvisionedThroughput:
         ReadCapacityUnits: 1000
         WriteCapacityUnits: 10
-      TableName: "emailSubscription"
+      TableName: 'emailSubscription_Dev'
 
   ## Daily send email function ##
   SendDailyEmailFunction:
@@ -51,34 +51,34 @@ Resources:
         DailyScheduleRule:
           Type: Schedule
           Properties:
-            Schedule: rate(24 hours)
+            Schedule: rate(2 minutes)
 
   # Role for Send Email function
   SendDailyEmailIamRole:
     Type: AWS::IAM::Role
     Properties:
       AssumeRolePolicyDocument:
-        Version: "2012-10-17"
+        Version: '2012-10-17'
         Statement:
           - Effect: Allow
             Principal:
               Service:
-                - "lambda.amazonaws.com"
+                - 'lambda.amazonaws.com'
             Action:
-              - "sts:AssumeRole"
-      Path: "/"
+              - 'sts:AssumeRole'
+      Path: '/'
       Policies:
         - PolicyDocument:
-            Version: "2012-10-17"
+            Version: '2012-10-17'
             Statement:
               - Effect: Allow
                 Action:
                   - ses:*
-                Resource: "*"
+                Resource: '*'
           PolicyName: SESFullAccess
 
         - PolicyDocument:
-            Version: "2012-10-17"
+            Version: '2012-10-17'
             Statement:
               - Effect: Allow
                 Action:
@@ -89,7 +89,17 @@ Resources:
           PolicyName: DynamoDBBasicAccess
 
         - PolicyDocument:
-            Version: "2012-10-17"
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - lambda:InvokeFunction
+                Resource:
+                  - '*'
+          PolicyName: AWSLambdaInvokeAccess
+
+        - PolicyDocument:
+            Version: '2012-10-17'
             Statement:
               - Effect: Allow
                 Action:
@@ -97,7 +107,7 @@ Resources:
                   - logs:CreateLogStream
                   - logs:PutLogEvents
                 Resource:
-                  - "*"
+                  - '*'
           PolicyName: AWSLambdaBasicExecutionRole
 
   ## Subscribe email function ##
@@ -122,18 +132,18 @@ Resources:
     Type: AWS::IAM::Role
     Properties:
       AssumeRolePolicyDocument:
-        Version: "2012-10-17"
+        Version: '2012-10-17'
         Statement:
           - Effect: Allow
             Principal:
               Service:
-                - "lambda.amazonaws.com"
+                - 'lambda.amazonaws.com'
             Action:
-              - "sts:AssumeRole"
-      Path: "/"
+              - 'sts:AssumeRole'
+      Path: '/'
       Policies:
         - PolicyDocument:
-            Version: "2012-10-17"
+            Version: '2012-10-17'
             Statement:
               - Effect: Allow
                 Action:
@@ -152,13 +162,53 @@ Resources:
                   - !GetAtt EmailSubscriptionTable.Arn
           PolicyName: DynamoDBTableAccess
         - PolicyDocument:
-            Version: "2012-10-17"
+            Version: '2012-10-17'
             Statement:
               - Effect: Allow
                 Action:
                   - ses:*
-                Resource: "*"
+                Resource: '*'
           PolicyName: SESFullAccess
+
+  ## Get Tweets function ##
+  GetTweetsFunction:
+    Type: AWS::Serverless::Function
+    Metadata:
+      BuildMethod: makefile
+    Properties:
+      Handler: dist/handlers/get-tweets.handler
+      Description: Get tweets related to COVID-19
+      Role: !GetAtt GetTweetsIamRole.Arn
+      PackageType: Zip
+      Events:
+        GetTweetsAPI:
+          Type: Api
+          Properties:
+            Path: /tweets
+            Method: GET
+
+  GetTweetsIamRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - 'lambda.amazonaws.com'
+            Action:
+              - 'sts:AssumeRole'
+      Path: '/'
+      Policies:
+        - PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - s3:*
+                Resource: '*'
+          PolicyName: S3BucketFullAccess
 
   # Shared layer with Lambda runtime dependencies
   RuntimeDependenciesLayer:
@@ -166,7 +216,7 @@ Resources:
     Metadata:
       BuildMethod: makefile
     Properties:
-      LayerName: "coronavirus-tracker-website-dev-dependencies"
+      LayerName: 'coronavirus-tracker-website-dev-dependencies'
       Description: Node.js Runtime dependencies for Lambdas  (Dev Environment)
       ContentUri: ./
       CompatibleRuntimes:
@@ -176,20 +226,25 @@ Resources:
 Outputs:
   # Section for Covid test API
   EmailGateway:
-    Description: "API Gateway endpoint URL for Prod stage"
-    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/"
+    Description: 'API Gateway endpoint URL for Prod stage'
+    Value: !Sub 'https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/'
 
   # Section for SendDailyEmailFunction
   SendDailyEmailFunction:
-    Description: "Send Email Function ARN"
+    Description: 'Send Email Function ARN'
     Value: !GetAtt SendDailyEmailFunction.Arn
 
   # Section for SubscribeEmailFunction
   SubscribeEmailFunction:
-    Description: "Subscribe for Daily News Function ARN"
+    Description: 'Subscribe for Daily News Function ARN'
     Value: !GetAtt SubscribeEmailFunction.Arn
 
   # Section for DynamoDB Table of Email Subscription
   EmailSubscriptionTable:
     Description: "DynamoDB's Table for Email Subscriptions"
     Value: !GetAtt EmailSubscriptionTable.Arn
+
+  # Section for Get Tweets function
+  GetTweetsFunction:
+    Description: 'Get list of Tweets in a specified date ARN'
+    Value: !GetAtt GetTweetsFunction.Arn;

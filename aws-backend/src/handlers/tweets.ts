@@ -32,7 +32,7 @@ exports.handler = async (event: APIGatewayProxyEvent): Promise<void> => {
   });
 
   // eslint-disable-next-line no-restricted-syntax
-  streamFilter.on(
+  await streamFilter.on(
     // Emitted when a Twitter payload (a tweet or not, given the endpoint).
     ETwitterStreamEvent.Data,
     async eventData =>{
