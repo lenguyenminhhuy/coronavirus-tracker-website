@@ -40,37 +40,6 @@ function Analysis() {
   const [countryHistoryData, setCountryHistoryData] = useState();
   const [loading, setLoading] = useState(false);
 
-  // useEffect(() => {
-  //   setLoading(true);
-  //   axiosCovid.get("/api/countries").then((res) => {
-  //     setCountryList(sortByAlphabet(res.data, "location"));
-  //     setLoading(false);
-  //   });
-  // }, []);
-    
-  // useEffect(() => {
-  //   setLoading(true);
-  //   axiosFake.get()
-  //   .then((res) => {
-  //     if (res.data.country_code_iso3) {
-  //       console.log('wtf: ', countryList[0].country);
-  //       setCurrentLocationISO3(res.data.country_code_iso3);
-  //       setCountryHistoryData(res.data.country_code_iso3);
-  //     } else {
-  //       console.log('wtf: ', countryList[0].country);
-  //       setCurrentLocationISO3(countryList[0].country);
-  //       setCountryHistoryData(countryList[0].country);
-  //     }
-  //     setLoading(false)
-  //   })
-  //   .catch((err) => {
-  //     console.log('err: ',countryList);
-  //     logger("Error in fetching current location: ", err)
-  //     setCurrentLocationISO3(countryList[0]?.country);
-  //     setLoading(false);
-  //   })
-  // }, [])
-
   useEffect(() => {
     let mounted = true;
     async function fetchData() {
