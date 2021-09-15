@@ -1,4 +1,4 @@
-AWSTemplateFormatVersion: "2010-09-09"
+AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 Description: >
   coronavirus-tracker-website
@@ -13,7 +13,7 @@ Globals:
     Environment:
       Variables:
         # "Local" | "Dev" | "Prod"
-        ENVIRONMENT_TYPE: "Prod"
+        ENVIRONMENT_TYPE: 'Prod'
     MemorySize: 512
     Timeout: 100
 
@@ -21,24 +21,24 @@ Parameters:
   FirehoseS3Prefix:
     Type: String
     Default: firehose/
-    Description: "The S3 Key prefix for Kinesis Firehose."
+    Description: 'The S3 Key prefix for Kinesis Firehose.'
   FirehoseCompressionFormat:
     Type: String
     Default: GZIP
     AllowedValues: [UNCOMPRESSED, GZIP, Snappy]
-    Description: "Compression format used by Kinesis Firehose"
+    Description: 'Compression format used by Kinesis Firehose'
   FirehoseBufferingInterval:
     Type: Number
     Default: 60
     MinValue: 60
     MaxValue: 900
-    Description: "How long Firehose will wait before writing a new batch into S3"
+    Description: 'How long Firehose will wait before writing a new batch into S3'
   FirehoseBufferingSize:
     Type: Number
     Default: 10
     MinValue: 1
     MaxValue: 128
-    Description: "Maximum batch size in MB"
+    Description: 'Maximum batch size in MB'
 
 Resources:
   # DynamoDB Email Subscription table
@@ -46,19 +46,19 @@ Resources:
     Type: AWS::DynamoDB::Table
     Properties:
       KeySchema:
-        - AttributeName: "Email"
-          KeyType: "HASH"
-        - AttributeName: "CreatedAt"
-          KeyType: "RANGE"
+        - AttributeName: 'Email'
+          KeyType: 'HASH'
+        - AttributeName: 'CreatedAt'
+          KeyType: 'RANGE'
       AttributeDefinitions:
-        - AttributeName: "Email"
-          AttributeType: "S"
-        - AttributeName: "CreatedAt"
-          AttributeType: "S"
+        - AttributeName: 'Email'
+          AttributeType: 'S'
+        - AttributeName: 'CreatedAt'
+          AttributeType: 'S'
       ProvisionedThroughput:
         ReadCapacityUnits: 1000
         WriteCapacityUnits: 10
-      TableName: "emailSubscription_Prod"
+      TableName: 'emailSubscription_Prod'
 
   ## Daily send email function ##
   SendDailyEmailFunction:
@@ -74,34 +74,34 @@ Resources:
         DailyScheduleRule:
           Type: Schedule
           Properties:
-            Schedule: rate(24 hours)
+            Schedule: cron(0 2 * * ? *)
 
   # Role for Send Email function
   SendDailyEmailIamRole:
     Type: AWS::IAM::Role
     Properties:
       AssumeRolePolicyDocument:
-        Version: "2012-10-17"
+        Version: '2012-10-17'
         Statement:
           - Effect: Allow
             Principal:
               Service:
-                - "lambda.amazonaws.com"
+                - 'lambda.amazonaws.com'
             Action:
-              - "sts:AssumeRole"
-      Path: "/"
+              - 'sts:AssumeRole'
+      Path: '/'
       Policies:
         - PolicyDocument:
-            Version: "2012-10-17"
+            Version: '2012-10-17'
             Statement:
               - Effect: Allow
                 Action:
                   - ses:*
-                Resource: "*"
+                Resource: '*'
           PolicyName: SESFullAccess
 
         - PolicyDocument:
-            Version: "2012-10-17"
+            Version: '2012-10-17'
             Statement:
               - Effect: Allow
                 Action:
@@ -112,7 +112,17 @@ Resources:
           PolicyName: DynamoDBBasicAccess
 
         - PolicyDocument:
-            Version: "2012-10-17"
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - lambda:InvokeFunction
+                Resource:
+                  - '*'
+          PolicyName: AWSLambdaInvokeAccess
+
+        - PolicyDocument:
+            Version: '2012-10-17'
             Statement:
               - Effect: Allow
                 Action:
@@ -120,7 +130,7 @@ Resources:
                   - logs:CreateLogStream
                   - logs:PutLogEvents
                 Resource:
-                  - "*"
+                  - '*'
           PolicyName: AWSLambdaBasicExecutionRole
 
   ## Subscribe email function ##
@@ -145,18 +155,18 @@ Resources:
     Type: AWS::IAM::Role
     Properties:
       AssumeRolePolicyDocument:
-        Version: "2012-10-17"
+        Version: '2012-10-17'
         Statement:
           - Effect: Allow
             Principal:
               Service:
-                - "lambda.amazonaws.com"
+                - 'lambda.amazonaws.com'
             Action:
-              - "sts:AssumeRole"
-      Path: "/"
+              - 'sts:AssumeRole'
+      Path: '/'
       Policies:
         - PolicyDocument:
-            Version: "2012-10-17"
+            Version: '2012-10-17'
             Statement:
               - Effect: Allow
                 Action:
@@ -175,29 +185,29 @@ Resources:
                   - !GetAtt EmailSubscriptionTable.Arn
           PolicyName: DynamoDBTableAccess
         - PolicyDocument:
-            Version: "2012-10-17"
+            Version: '2012-10-17'
             Statement:
               - Effect: Allow
                 Action:
                   - ses:*
-                Resource: "*"
+                Resource: '*'
           PolicyName: SESFullAccess
 
     # ------------------------------------------TABLE----------------------------------------------------------
   CovidTimeSeriesTable:
     Type: AWS::DynamoDB::Table
     Properties:
-      TableName: "CovidTimeSeriesTable_Prod"
+      TableName: 'CovidTimeSeriesTable_Prod'
       KeySchema:
-        - AttributeName: "iso_code"
-          KeyType: "HASH"
-        - AttributeName: "updated_date"
-          KeyType: "RANGE"
+        - AttributeName: 'iso_code'
+          KeyType: 'HASH'
+        - AttributeName: 'updated_date'
+          KeyType: 'RANGE'
       AttributeDefinitions:
-        - AttributeName: "iso_code"
-          AttributeType: "S"
-        - AttributeName: "updated_date"
-          AttributeType: "S"
+        - AttributeName: 'iso_code'
+          AttributeType: 'S'
+        - AttributeName: 'updated_date'
+          AttributeType: 'S'
       ProvisionedThroughput:
         ReadCapacityUnits: 5
         WriteCapacityUnits: 5
@@ -218,37 +228,37 @@ Resources:
         UpdateAsia:
           Type: Schedule # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
-            Schedule: "cron(0 1 * * ? *)"
+            Schedule: 'cron(0 1 * * ? *)'
             Input: '{"continent": "Asia"}'
             Enabled: false
         UpdateEurope:
           Type: Schedule # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
-            Schedule: "cron(30 1 * * ? *)"
+            Schedule: 'cron(30 1 * * ? *)'
             Input: '{"continent": "Europe"}'
             Enabled: false
         UpdateSA:
           Type: Schedule # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
-            Schedule: "cron(0 2 * * ? *)"
+            Schedule: 'cron(0 2 * * ? *)'
             Input: '{"continent": "South America"}'
             Enabled: false
         UpdateNA:
           Type: Schedule # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
-            Schedule: "cron(30 2 * * ? *)"
+            Schedule: 'cron(30 2 * * ? *)'
             Input: '{"continent": "North America"}'
             Enabled: false
         UpdateAfrica:
           Type: Schedule # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
-            Schedule: "cron(0 3 * * ? *)"
+            Schedule: 'cron(0 3 * * ? *)'
             Input: '{"continent": "Africa"}'
             Enabled: false
         UpdateWorld:
           Type: Schedule # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
-            Schedule: "cron(30 3 * * ? *)"
+            Schedule: 'cron(30 3 * * ? *)'
             Input: '{"continent": "World"}'
             Enabled: false
 
@@ -298,7 +308,7 @@ Resources:
           Properties:
             Path: /api/list
             Method: GET
-  
+
   ScarpingData10Function:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Metadata:
@@ -351,7 +361,7 @@ Resources:
           Properties:
             Path: /api/daily
             Method: GET
-  
+
   IngestDataFunction:
     Type: AWS::Serverless::Function
     Metadata:
@@ -366,17 +376,17 @@ Resources:
           Type: Schedule
           Properties:
             Schedule: rate(30 minutes)
-  
+
   DeliveryStream:
     Type: AWS::KinesisFirehose::DeliveryStream
     DependsOn:
       - DeliveryStreamPolicy
     Properties:
-      DeliveryStreamName: "DeliveryStream"
+      DeliveryStreamName: 'DeliveryStream'
       DeliveryStreamType: DirectPut
       ExtendedS3DestinationConfiguration:
         Prefix: !Ref FirehoseS3Prefix
-        BucketARN: !Join 
+        BucketARN: !Join
           - ''
           - - 'arn:aws:s3:::'
             - !Ref S3Records
@@ -385,7 +395,7 @@ Resources:
           SizeInMBs: !Ref FirehoseBufferingSize
         CompressionFormat: !Ref FirehoseCompressionFormat
         RoleARN: !GetAtt DeliveryStreamRole.Arn
-  
+
   DeliveryStreamRole:
     Type: AWS::IAM::Role
     Properties:
@@ -400,7 +410,7 @@ Resources:
             Condition:
               StringEquals:
                 'sts:ExternalId': !Ref 'AWS::AccountId'
-  
+
   DeliveryStreamPolicy:
     Type: AWS::IAM::Policy
     Properties:
@@ -419,16 +429,55 @@ Resources:
               - 's3:ListBucketMultipartUploads'
               - 's3:PutObject'
             Resource:
-              - !Join 
+              - !Join
                 - ''
                 - - 'arn:aws:s3:::'
                   - !Ref S3Records
-              - !Join 
+              - !Join
                 - ''
                 - - 'arn:aws:s3:::'
                   - !Ref S3Records
                   - '*'
-  
+  ## Get Tweets function ##
+  GetTweetsFunction:
+    Type: AWS::Serverless::Function
+    Metadata:
+      BuildMethod: makefile
+    Properties:
+      Handler: dist/handlers/get-tweets.handler
+      Description: Get tweets related to COVID-19
+      Role: !GetAtt GetTweetsIamRole.Arn
+      PackageType: Zip
+      Events:
+        SubscribeEmailAPI:
+          Type: Api
+          Properties:
+            Path: /tweets
+            Method: GET
+  # Get Tweets IAM Role ##
+  GetTweetsIamRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - 'lambda.amazonaws.com'
+            Action:
+              - 'sts:AssumeRole'
+      Path: '/'
+      Policies:
+        - PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - s3:*
+                Resource: '*'
+          PolicyName: S3BucketFullAccess
+
   S3Records:
     Type: AWS::S3::Bucket
 
@@ -438,13 +487,12 @@ Resources:
     Metadata:
       BuildMethod: makefile
     Properties:
-      LayerName: "coronavirus-tracker-website-dependencies"
+      LayerName: 'coronavirus-tracker-website-dependencies'
       Description: Node.js Runtime dependencies for Lambdas (Prod Environment)
       ContentUri: ./
       CompatibleRuntimes:
         - nodejs14.x
       RetentionPolicy: Retain
-
 # # Created resources on AWS
 # Outputs:
 #   # Section for Covid test API
@@ -469,7 +517,7 @@ Resources:
 #   ScarpingDataFunctionIamRole:
 #     Description: "Implicit IAM Role created for Scarping function"
 #     Value: !GetAtt ScarpingDataFunctionRole.Arn
-  
+
 #   ScarpingData10Function:
 #     Description: "Scarping Lambda Function ARN"
 #     Value: !GetAtt ScarpingData10Function.Arn
