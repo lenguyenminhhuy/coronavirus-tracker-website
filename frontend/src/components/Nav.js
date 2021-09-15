@@ -29,7 +29,7 @@ const Sidebar = () => {
           mt={50}
           mb={[25, 50, 90]}
           fontSize="2xl"
-          alignSelf="left"
+          alignSelf={["center", "center", "left", "left"]}
           letterSpacing="tight"
           marginLeft="2vh"
         >

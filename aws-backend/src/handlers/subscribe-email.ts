@@ -1,7 +1,7 @@
-import "source-map-support";
-import aws, { DynamoDB, SES } from "aws-sdk";
-import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda";
-import { SendEmailRequest } from "aws-sdk/clients/ses";
+import 'source-map-support';
+import aws, { DynamoDB, SES } from 'aws-sdk';
+import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
+import { SendEmailRequest } from 'aws-sdk/clients/ses';
 
 // Define type for request's body
 interface RequestBody {
@@ -42,7 +42,7 @@ const putDynamoItem = async (
 const sendWelcomeEmail = async (sender: string, recipient: string) => {
   // Construct SES client
   const sesClient = new SES({
-    region: "us-east-2",
+    region: 'us-east-2',
   });
 
   // Construct body of welcome message
@@ -70,13 +70,13 @@ const sendWelcomeEmail = async (sender: string, recipient: string) => {
     },
     Message: {
       Subject: {
-        Data: "[Welcome Letter] You are now subscribed to receive daily news about the COVID-19 pandemic!",
-        Charset: "UTF-8",
+        Data: '[Welcome Letter] You are now subscribed to receive daily news about the COVID-19 pandemic!',
+        Charset: 'UTF-8',
       },
       Body: {
         Html: {
           Data: bodyHtml,
-          Charset: "UTF-8",
+          Charset: 'UTF-8',
         },
       },
     },
@@ -96,11 +96,11 @@ exports.handler = async (
 ): Promise<APIGatewayProxyResult> => {
   // Initialize environment modes
   const region: string =
-    process.env.ENVIRONMENT_TYPE === "Local" ? "localhost" : "us-east-2";
+    process.env.ENVIRONMENT_TYPE === 'Local' ? 'localhost' : 'us-east-2';
   const endpoint: string =
-    process.env.ENVIRONMENT_TYPE === "Local"
-      ? "http://dynamodb-local:8000"
-      : "https://dynamodb.us-east-2.amazonaws.com";
+    process.env.ENVIRONMENT_TYPE === 'Local'
+      ? 'http://dynamodb-local:8000'
+      : 'https://dynamodb.us-east-2.amazonaws.com';
 
   // Initialize DynamoDB's client
   const docClient = new aws.DynamoDB.DocumentClient({
@@ -110,15 +110,20 @@ exports.handler = async (
   });
 
   // Parse request body
-  const { email }: RequestBody = JSON?.parse(event.body ?? "null");
+  const { email }: RequestBody = JSON?.parse(event.body ?? 'null');
 
   // Check null and empty email
   if (email === null || email.match(/^ *$/) !== null) {
     return {
+      headers: {
+        'Access-Control-Allow-Headers': 'Content-Type',
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'GET',
+      },
       statusCode: 400,
       body: JSON.stringify({
         message:
-          "ERROR! Cannot subscribe with NULL email field. Please check again!",
+          'ERROR! Cannot subscribe with NULL email field. Please check again!',
       }),
     };
   }
@@ -130,26 +135,31 @@ exports.handler = async (
   };
 
   const tableName =
-    process.env.ENVIRONMENT_TYPE === "Dev"
-      ? "emailSubscription_Dev"
-      : "emailSubscription_Prod";
+    process.env.ENVIRONMENT_TYPE === 'Dev'
+      ? 'emailSubscription_Dev'
+      : 'emailSubscription_Prod';
   // Prepare parameters for reading list of subscribed emails
   const docParams: DynamoDB.DocumentClient.Put = {
     TableName: tableName,
     Item: putEmail,
   };
 
-  console.log("=> Adding a new email to emailSubscription table...");
+  console.log('=> Adding a new email to emailSubscription table...');
   // Put item process
   try {
     const data = await putDynamoItem(docParams, docClient);
-    console.log("data:", data);
+    console.log('data:', data);
   } catch (err) {
     console.log(err, err.stack);
     return {
+      headers: {
+        'Access-Control-Allow-Headers': 'Content-Type',
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'GET',
+      },
       statusCode: 400,
       body: JSON.stringify({
-        message: "ERROR! Cannot subscribe! Please check again!",
+        message: 'ERROR! Cannot subscribe! Please check again!',
       }),
     };
   }
@@ -157,14 +167,19 @@ exports.handler = async (
   // Send WELCOME letter
   try {
     const data = await sendWelcomeEmail(
-      "CoronaNews <coronanews@minhthings.com>",
+      'CoronaNews <coronanews@minhthings.com>',
       email
     );
-    console.log("data:", data);
+    console.log('data:', data);
   } catch (err) {
     console.log(err, err.stack);
     // Error response!
     return {
+      headers: {
+        'Access-Control-Allow-Headers': 'Content-Type',
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'GET',
+      },
       statusCode: 400,
       body: JSON.stringify({
         message: `Error! ${err}`,
@@ -174,6 +189,11 @@ exports.handler = async (
 
   // Success response!
   return {
+    headers: {
+      'Access-Control-Allow-Headers': 'Content-Type',
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET',
+    },
     statusCode: 200,
     body: JSON.stringify({
       message: `${email} has subscribed for daily news successfully! Welcome letter sent!`,

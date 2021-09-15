@@ -1,4 +1,4 @@
-import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda";
+import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
 
 import fs from 'fs';
 import startBrowser from '../utils/browser';
@@ -10,13 +10,14 @@ import scraperController from '../utils/pageController';
 // import * as browserObject from "../utils/browser";
 // import scraperController from '../utils/pageController';
 
-
-
 exports.handler = async (
-  event: APIGatewayProxyEvent, context: any
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  event: APIGatewayProxyEvent,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  context: any
 ): Promise<APIGatewayProxyResult> => {
   // eslint-disable-next-line no-restricted-syntax
-  console.debug("Received event:", event);
+  console.debug('Received event:', event);
   let browserInstance = null;
   let response = null;
   try {
@@ -29,15 +30,17 @@ exports.handler = async (
 
     // Start the browser and create a browser instance
     // eslint-disable-next-line vars-on-top
-    const obj:JSON[] = await JSON.parse(fs.readFileSync('/tmp/data.json', 'utf8'));
+    const obj: JSON[] = await JSON.parse(
+      fs.readFileSync('/tmp/data.json', 'utf8')
+    );
 
     // await page.goto('https://abli.asia/covid19aggregator');
 
     // result = await page.title();
     response = {
-      'statusCode': 200,
-      'body': JSON.stringify(obj.splice(0,10))
-    }
+      statusCode: 200,
+      body: JSON.stringify(obj.splice(0, 10)),
+    };
   } catch (error) {
     console.log(error);
     response = error;

@@ -32,7 +32,7 @@ function App () {
         position="fixed"
         right={10}
         bottom={10}
-        zIndex={1000}
+        zIndex={100000}
         >
           <Icon w={10} h={10} as={MdMail} color={colors.grayLightest} />
         </Circle>

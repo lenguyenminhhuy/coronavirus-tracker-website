@@ -2,14 +2,15 @@ import papa from "papaparse";
 import legendItems from "../legends/LegendCase";
 import { features } from "../data/countries.json";
 import axios from 'axios';
+import axiosCovid from "../config/axiosCovid";
 
 class LoadCountryData { 
-  api = 'https://79dvu6wjq3.execute-api.us-east-2.amazonaws.com/Prod/api/daily';
+  // api = 'https://79dvu6wjq3.execute-api.us-east-2.amazonaws.com/Prod/api/daily';
   setState = null;
   
   load = (countries) => {
     this.setState = countries;
-    axios.get(this.api)
+    axiosCovid.get("/api/daily")
     .then((res) => {
       console.log(res.data);
       this.#processCovidData(res.data)
