@@ -3,7 +3,6 @@ Transform: AWS::Serverless-2016-10-31
 Description: >
   coronavirus-tracker-website
   CloudFormation Template for SAM (Prod Environment)
-
 # More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
 Globals:
   Function:
@@ -74,7 +73,7 @@ Resources:
         DailyScheduleRule:
           Type: Schedule
           Properties:
-            Schedule: cron(0 2 * * ? *)
+            Schedule: rate(2 minutes)
 
   # Role for Send Email function
   SendDailyEmailIamRole:
@@ -132,7 +131,6 @@ Resources:
                 Resource:
                   - '*'
           PolicyName: AWSLambdaBasicExecutionRole
-
   ## Subscribe email function ##
   SubscribeEmailFunction:
     Type: AWS::Serverless::Function
@@ -445,12 +443,12 @@ Resources:
       Role: !GetAtt GetTweetsIamRole.Arn
       PackageType: Zip
       Events:
-        SubscribeEmailAPI:
+        GetTweetsAPI:
           Type: Api
           Properties:
             Path: /tweets
             Method: GET
-  # Get Tweets IAM Role ##
+
   GetTweetsIamRole:
     Type: AWS::IAM::Role
     Properties:

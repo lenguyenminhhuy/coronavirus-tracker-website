@@ -181,7 +181,7 @@ Resources:
       Role: !GetAtt GetTweetsIamRole.Arn
       PackageType: Zip
       Events:
-        SubscribeEmailAPI:
+        GetTweetsAPI:
           Type: Api
           Properties:
             Path: /tweets
