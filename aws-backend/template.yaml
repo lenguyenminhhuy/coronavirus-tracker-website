@@ -15,7 +15,7 @@ Globals:
         # "Local" | "Dev" | "Prod"
         ENVIRONMENT_TYPE: 'Prod'
     MemorySize: 512
-    Timeout: 100
+    Timeout: 900
 
 Parameters:
   FirehoseS3Prefix:
@@ -201,12 +201,8 @@ Resources:
       KeySchema:
         - AttributeName: 'iso_code'
           KeyType: 'HASH'
-        - AttributeName: 'updated_date'
-          KeyType: 'RANGE'
       AttributeDefinitions:
         - AttributeName: 'iso_code'
-          AttributeType: 'S'
-        - AttributeName: 'updated_date'
           AttributeType: 'S'
       ProvisionedThroughput:
         ReadCapacityUnits: 5
@@ -375,7 +371,7 @@ Resources:
         CheckWebsiteScheduledEvent1:
           Type: Schedule
           Properties:
-            Schedule: rate(30 minutes)
+            Schedule: rate(10 minutes)
 
   DeliveryStream:
     Type: AWS::KinesisFirehose::DeliveryStream
