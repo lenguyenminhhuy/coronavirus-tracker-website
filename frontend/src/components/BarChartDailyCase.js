@@ -17,11 +17,9 @@ import { Box, Select, RadioGroup, Stack, Radio, Flex, HStack, Checkbox, Center }
 import CustomAxisX from "./shared/CustomAxisX";
 import CustomTooltip from "./shared/CustomTooltip";
 import normalizeCamelCase from "../utils/normalizeCamelCase";
-import axios from 'axios'
 import colors from '../constants/colors';
 import Loading from './Loading';
 import axiosCovid from "../config/axiosCovid";
-import logger from "../config/logger";
 
 function sortByAlphabet(array, key) {
   return array.sort((a,b) => {
@@ -39,13 +37,11 @@ function getMaxValue(array, type) {
 
 function BarChartDailyCase({
   mode,
-  currentLocationISO3
+  currentLocationISO3,
 }) {
 
   const [historyData, setHistoryData] = useState(null);
-  const [countryList, setCountryList] = useState("");
   const [countryHistoryData, setCountryHistoryData] = useState(currentLocationISO3);
-  const [radio, setRadio] = useState("totalCases");
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState({
     totalTests: true,
@@ -54,26 +50,18 @@ function BarChartDailyCase({
     totalDeaths: false,
   })
 
-
   useEffect(() => {
-    logger('dsss: ', currentLocationISO3);
-      setLoading(true);
-      axiosCovid.get("/api/countries")
-      .then((res) => {
-          setCountryList(sortByAlphabet(res.data,'location'))
-          setLoading(false);
-          if (currentLocationISO3 === null) {
-            setCountryHistoryData(res.data[0].country)
-          }
-      })
-    },[])
-
-  useEffect(() => {
+    let mounted = true;
     setLoading(true);
     axiosCovid.get(`/api/history?country=${countryHistoryData}`).then((res) => {
-      setHistoryData(res.data.data)
-      setLoading(false);
+      if (mounted) {
+        setHistoryData(res.data.data)
+        setLoading(false);
+      }
     });
+    return () => {
+      mounted = false;
+    }
   }, [countryHistoryData]);
 
     return (
@@ -87,19 +75,6 @@ function BarChartDailyCase({
         null
         }
       <Box opacity={loading? 0.2 : 1} w="100%" h="100%">
-  <Select borderTop="none" borderRight="none" borderLeft="none" w="40%" borderRadius={0} borderColor={colors.grayDefault} onChange={(value) => setCountryHistoryData(value.target.value)}>
-                {countryList?
-                      countryList.map(c => {
-                        if (c.country === countryHistoryData)
-                          return <option selected key={c.country} value={c.country}>{c.location}</option>
-                        else
-                          return <option key={c.country} value={c.country}>{c.location}</option>
-                  
-                      })
-                :
-                null
-                }
-        </Select>
         <HStack>
           <Checkbox
             borderColor={colors.grayLight} borderWidth="2px"

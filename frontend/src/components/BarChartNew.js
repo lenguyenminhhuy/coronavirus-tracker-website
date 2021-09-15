@@ -56,17 +56,22 @@ function renderYAxis(type, data ) {
 }
 
 function BarChartNew(props) {
-    const defaultCountry = "VNM";
     const [historyData, setHistoryData] = useState();
-    const [countryHistoryData, setCountryHistoryData] = useState(props.countryHistoryData === null? defaultCountry : props.countryHistoryData);
+    const [countryHistoryData, setCountryHistoryData] = useState(props.countryHistoryData);
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
+      let mounted = true;
         setLoading(true);
         axiosCovid.get(`/api/history?country=${countryHistoryData}`).then((res) => {
-          setHistoryData(res.data.data)
-          setLoading(false);
+          if (mounted) {
+            setHistoryData(res.data.data)
+            setLoading(false);
+          }
         });
+        return () => {
+          mounted = false;
+        }
       }, [props.countryHistoryData]);
 
     return (

@@ -1,23 +1,20 @@
 import "./Analysis.css";
 import React, { useEffect, useState } from "react";
-import axios from "axios";
-import mockData from "../mock-data.json";
 import { Flex, Heading, Box, Grid, GridItem, Select } from "@chakra-ui/react";
 // Import Charts
 import BarChartDailyCase from "../components/BarChartDailyCase";
 import StatsBoard from "../components/StatsBoard";
 import BarChartContinent from "../components/BarChartContinent";
-import BarChartCompound from "../components/BarChartCompound";
 import BarChartNew from "../components/BarChartNew";
-import axiosLocation from "../config/axiosLocation";
 import axiosFake from "../config/axiosFake";
 import axiosCovid from "../config/axiosCovid";
+import axiosLocation from "../config/axiosLocation";
 import colors from "../constants/colors";
-import BarChartCompare from "../components/BarChartCompare";
 import logger from "../config/logger";
 import BarChartTopTen from "../components/BarChartTopTen";
+import Loading from "../components/Loading";
 
-function sortByAlphabet(array, key) {
+async function sortByAlphabet(array, key) {
   return array.sort((a, b) => {
     let x = a[key];
     let y = b[key];
@@ -39,56 +36,96 @@ function Analysis() {
   }, []);
 
 
-  const [currentLocationISO3, setCurrentLocationISO3] = useState(null);
-  const [countryList, setCountryList] = useState("");
-  const [countryHistoryData, setCountryHistoryData] =
-    useState(currentLocationISO3);
+  const [countryList, setCountryList] = useState([]);
+  const [countryHistoryData, setCountryHistoryData] = useState();
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    setLoading(true);
-    axiosCovid.get("/api/countries").then((res) => {
-      setCountryList(sortByAlphabet(res.data, "location"));
-      setLoading(false);
-    });
-  }, []);
-
-  useEffect(async () => {
-    axiosLocation
-      .get()
-      .then((res) => {
-        if (res.data.country_code_iso3) {
-          setCurrentLocationISO3(res.data.country_code_iso3);
-          setCountryHistoryData(res.data.country_code_iso3);
-        } else {
-          setCurrentLocationISO3(countryList[0].country);
-          setCountryHistoryData(countryList[0].country);
-        }
-      })
-    },[])
+  // useEffect(() => {
+  //   setLoading(true);
+  //   axiosCovid.get("/api/countries").then((res) => {
+  //     setCountryList(sortByAlphabet(res.data, "location"));
+  //     setLoading(false);
+  //   });
+  // }, []);
     
-  useEffect(async () => {
-    axiosFake.get()
-    .then((res) => {
-      if (res.data.country_code_iso3) {
-        setCurrentLocationISO3(res.data.country_code_iso3);
-        setCountryHistoryData(res.data.country_code_iso3);
-      } else {
-        setCurrentLocationISO3(countryList[0].country);
-        setCountryHistoryData(countryList[0].country);
-      }
-    })
-    .catch((err) => setCurrentLocationISO3(null))
-  }, [])
+  // useEffect(() => {
+  //   setLoading(true);
+  //   axiosFake.get()
+  //   .then((res) => {
+  //     if (res.data.country_code_iso3) {
+  //       console.log('wtf: ', countryList[0].country);
+  //       setCurrentLocationISO3(res.data.country_code_iso3);
+  //       setCountryHistoryData(res.data.country_code_iso3);
+  //     } else {
+  //       console.log('wtf: ', countryList[0].country);
+  //       setCurrentLocationISO3(countryList[0].country);
+  //       setCountryHistoryData(countryList[0].country);
+  //     }
+  //     setLoading(false)
+  //   })
+  //   .catch((err) => {
+  //     console.log('err: ',countryList);
+  //     logger("Error in fetching current location: ", err)
+  //     setCurrentLocationISO3(countryList[0]?.country);
+  //     setLoading(false);
+  //   })
+  // }, [])
 
   useEffect(() => {
-    logger(countryHistoryData);
-  }, [countryHistoryData]);
+    let mounted = true;
+    async function fetchData() {
+      setLoading(true);
+      let response = await axiosCovid.get("/api/countries");
+      if (mounted) {
+        setCountryList(await sortByAlphabet(response.data, "location"));
+      }
+      setLoading(false);
+    }
+    fetchData();
+    return () => {
+      mounted = false;
+    }
+  },[])
 
+  useEffect(() => {
+    let mounted = true;
+    async function fetchCurrentLocation () {
+      setLoading(true);
+      if (countryList.length != 0) {
+        try {
+          let response =  await axiosLocation.get();
+          console.log('dsdsa: ', response);
+          if (mounted) {
+            if (response.data.country_code_iso3) {
+              setCountryHistoryData(response.data.country_code_iso3);
+            } else {
+              setCountryHistoryData(countryList[0]?.country);
+            }
+          }
+        setLoading(false);
+        } catch(err) {
+          logger("error at fetch current location")
+          setCountryHistoryData(countryList[0]?.country)
+        }
+    }
+  }
+  fetchCurrentLocation();
+    return () => {
+      mounted = false;
+    }
+  }, [countryList])
+
+  
   return (
+
     <Flex className="analysisMain" w="100%" flexDir="column">
-      {/* *** HEADING *** */}
-      <Flex className="analysisHeading" flexDir="row" w="100%">
+      {loading?
+        <Loading/>
+
+        :
+    <>
+       {/* *** HEADING *** */}
+       <Flex className="analysisHeading" flexDir="row" w="100%">
         <Heading color="#000">Analysis</Heading>
       </Flex>
 
@@ -119,12 +156,7 @@ function Analysis() {
               pos="relative"
             >
               {/* 2 */}
-                {/* <BarChartDailyCase
-                key={currentLocationISO3}
-                currentLocationISO3={currentLocationISO3}
-                mode={1} */}
                 <BarChartTopTen data={chartData}/>
-              
             </Box>
           </Flex>
         </Flex>
@@ -151,15 +183,7 @@ function Analysis() {
             p={["5px", "5px", "5px", "10px", "15px"]}
           >
             <Box w="100%" h="100%" bg="#fff" borderRadius="15px">
-              <BarChartDailyCase
-                key={currentLocationISO3}
-                currentLocationISO3={currentLocationISO3}
-              />
-            </Box>
-          </Flex>
-        </Flex>
-        <Box bg="#fff">
-          <Select
+            <Select
             borderTop="none"
             borderRight="none"
             borderLeft="none"
@@ -185,6 +209,14 @@ function Analysis() {
                 })
               : null}
           </Select>
+              <BarChartDailyCase
+                key={countryHistoryData}
+                currentLocationISO3={countryHistoryData}
+              />
+            </Box>
+          </Flex>
+        </Flex>
+        <Box bg="#fff">
           <Grid
             p={["5px", "5px", "5px", "10px", "15px"]}
             w="100%"
@@ -221,6 +253,9 @@ function Analysis() {
           </Grid>
         </Box>
       </Flex>
+    </>
+      }
+     
     </Flex>
   );
 }
