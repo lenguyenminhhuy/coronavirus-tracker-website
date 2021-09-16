@@ -11,6 +11,9 @@
     "@testing-library/user-event": "^12.8.3",
     "axios": "^0.21.1",
     "cdbreact": "^1.1.0",
+    "formik": "^2.2.9",
+    "focus-visible": "^5.2.0",
+    "dash-extensions": "0.0.1",
     "framer-motion": "^4.1.17",
     "leaflet": "^1.7.1",
     "moment": "^2.29.1",
@@ -19,10 +22,13 @@
     "react": "^17.0.2",
     "react-countup": "^5.2.0",
     "react-dom": "^17.0.2",
+    "react-icons": "^4.2.0",
     "react-leaflet": "^2.8.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
+    "react-spinners": "^0.11.0",
     "recharts": "^2.1.0",
+    "styled-components": "^5.3.1",
     "web-vitals": "^1.1.2"
   },
   "scripts": {
@@ -49,5 +55,8 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://localhost:5000"
+  "proxy": "http://localhost:5000",
+  "devDependencies": {
+    "jest": "^26.6.0"
+  }
 }

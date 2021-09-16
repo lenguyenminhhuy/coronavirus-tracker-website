@@ -1,45 +1,118 @@
-import React from 'react';
-import {
-  CDBSidebar,
-  CDBSidebarContent,
-  CDBSidebarFooter,
-  CDBSidebarMenu,
-  CDBSidebarMenuItem,
-} from 'cdbreact';
-import { NavLink } from 'react-router-dom';
-import './Nav.css';
+import "./Nav.css";
+import React from "react";
+import { Flex, Heading, Text, Link, Divider } from "@chakra-ui/react";
+import NavItem from "./NavItem";
+import { GiWorld } from "react-icons/gi";
+import { FcComboChart, FcNews, EmailIcon } from "react-icons/fc";
+import { SiTwitter } from "react-icons/si";
+import { Link as RRLink, useLocation } from "react-router-dom";
+import { IconContext } from "react-icons/lib";
+import colors from "../constants/colors";
 
 const Sidebar = () => {
+  const location = useLocation();
+  console.log(location);
   return (
-    <div
-      style={{ display: 'flex', height: '100vh'}}
+    <Flex
+      w="100%"
+      h={[null, null, "100vh"]}
+      left="0"
+      boxShadow="rgba(149, 157, 165, 0.2) 0px 8px 24px"
+      borderRightRadius={["0", "0", "20px"]}
+      backgroundColor="#fff"
+      color="#020202"
+      flexDir="column"
+      alignItems="center"
+      justifyContent="space-between"
+      className="my-nav"
     >
-      <CDBSidebar textColor="" backgroundColor="#fff" style={{boxShadow: '0px 4px 42px rgba(0,0,0,0.07)'}} >
-        <CDBSidebarContent className="sidebar-content">
-          <CDBSidebarMenu>
-            <NavLink exact to="/" activeClassName="">
-              <CDBSidebarMenuItem icon="columns">Dashboard</CDBSidebarMenuItem>
-            </NavLink>
-            <NavLink exact to="/analysis" activeClassName="">
-              <CDBSidebarMenuItem   icon="table">Analysis</CDBSidebarMenuItem>
-            </NavLink>
-            <NavLink exact to='/news' activeClassName="">
-              <CDBSidebarMenuItem icon="newspaper">Latest News</CDBSidebarMenuItem>
-            </NavLink>
-          </CDBSidebarMenu>
-        </CDBSidebarContent>
-
-        <CDBSidebarFooter style={{ textAlign: 'center' }}>
-          <div
-            style={{
-              padding: '20px 5px',
-            }}
+      {/* Nav Top */}
+      <Flex flexDir="column" as="nav">
+        <Heading
+          mt={50}
+          mb={[25, 50, 90]}
+          fontSize="2xl"
+          alignSelf={["center", "center", "left", "left"]}
+          letterSpacing="tight"
+          marginLeft="2vh"
+        >
+          Covid-19 Data Tracker
+        </Heading>
+        <Flex
+          flexDir={["row", "row", "column", "column", "column"]}
+          align={["center", "center", "center", "flex-start", "flex-start"]}
+          justifyContent="center"
+          alignItems="center"
+        >
+          <Link
+            _hover={{ textDecor: "none", backgroundColor: "#eeeeee" }}
+            backgroundColor={location.pathname === "/" ? "#eeeeee" : "#fff"}
+            to="/"
+            w="75%"
+            mx={["20px", "20px", null, null, null]}
+            mb={35}
+            p={1}
+            borderRadius="20px"
+            as={RRLink}
           >
-            @Corana-virus-Tracking
-          </div>
-        </CDBSidebarFooter>
-      </CDBSidebar>
-    </div>
+            <NavItem icon={GiWorld} title="WorldMap" color="#0F52BA" />
+          </Link>
+          <Link
+            _hover={{ textDecor: "none", backgroundColor: "#eeeeee" }}
+            backgroundColor={
+              location.pathname === "/analysis" ? "#eeeeee" : "#fff"
+            }
+            to="/analysis"
+            w="75%"
+            mx={["20px", "20px", null, null, null]}
+            mb={35}
+            p={1}
+            borderRadius="20px"
+            as={RRLink}
+          >
+            <NavItem icon={FcComboChart} title="Analysis" />
+          </Link>
+          <Link
+            _hover={{ textDecor: "none", backgroundColor: "#eeeeee" }}
+            backgroundColor={location.pathname === "/news" ? "#eeeeee" : "#fff"}
+            to="/news"
+            w="75%"
+            mx={["20px", "20px", null, null, null]}
+            mb={35}
+            p={1}
+            borderRadius="20px"
+            as={RRLink}
+          >
+            <NavItem icon={FcNews} title="News" />
+          </Link>
+          <Link
+            _hover={{ textDecor: "none", backgroundColor: "#eeeeee" }}
+            backgroundColor={location.pathname === "/tweets" ? "#eeeeee" : "#fff"}
+            to="/tweets"
+            w="75%"
+            mx={["20px", "20px", null, null, null]}
+            mb={35}
+            p={1}
+            borderRadius="20px"
+            as={RRLink}
+          >
+            <NavItem icon={() => (
+              <IconContext.Provider value={{style: {color: colors.oceanBlueLight, width: '24px', height: '24px'}}}>
+                <SiTwitter/>
+              </IconContext.Provider>
+            )} title="Tweet" />
+          </Link>
+        </Flex>
+      </Flex>
+      {/* Nav Bottom */}
+      <Flex w="100%" flexDir="column" alignItems="center" mb={4}>
+        <Divider color="#e6e6e6" />
+
+        <Flex mt={4} align="center">
+          <Text textAlign="center">@Team42-COSC2638</Text>
+        </Flex>
+      </Flex>
+    </Flex>
   );
 };
 

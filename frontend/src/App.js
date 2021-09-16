@@ -1,37 +1,75 @@
 import "./App.css";
-import React, { Component } from "react";
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
-import Nav from './components/Nav';
-import WorldMap from './pages/Home';
-import { Grid, GridItem } from "@chakra-ui/react";
-import Analysis from "./pages/Analysis";
+import React, {Suspense} from "react";
+import { BrowserRouter, Switch, Route } from "react-router-dom";
+import { Flex, Icon, useDisclosure, Circle } from "@chakra-ui/react";
+import SubscribeModal from "./components/shared/SubscribeModal";
+import { MdMail } from "react-icons/md";
+import colors from "./constants/colors";
+import Loading from "./components/Loading";
+import Nav from './components/Nav'
 
-class App extends Component {
-  render() {
+const WorldMap = React.lazy(() => import('./pages/Home'));
+const Analysis = React.lazy(() => import('./pages/Analysis'));
+const News = React.lazy(() => import('./pages/News'));
+const Tweet = React.lazy(() => import('./pages/Tweet'));
+
+function App () {
+  const {isOpen, onOpen, onClose} = useDisclosure();
+
     return (
       <BrowserRouter>
-        <Grid
-          templateColumns="repeat(10,1fr)"
-          gap={6}
+        <Circle 
+        size={20} 
+        bg={colors.grayLight} 
+        boxShadow="rgba(0, 0, 0, 0.2) 0px 0px 10px"  
+        borderColor={colors.grayDarker}  
+        borderWidth={1} 
+        borderColor={colors.grayLightest} 
+        _hover={{cursor: 'pointer'}} 
+        onClick={onOpen}
+        position="fixed"
+        right={10}
+        bottom={10}
+        zIndex={100000}
         >
-          <GridItem colSpan={1}>
-            <Nav/>
-          </GridItem>
-          <GridItem colSpan={9}>
+          <Icon w={10} h={10} as={MdMail} color={colors.grayLightest} />
+        </Circle>
+        <SubscribeModal isOpen={isOpen} onClose={onClose}/>
+        <Flex
+          flexDir={["column", "column", "row"]}
+          overflow="hidden"
+          maxW="2000px"
+          backgroundColor="#f6f8fc"
+        >
+          <Flex
+            className="leftColumn"
+            h={["300px", "300px", null, null, null]}
+            w={["100%", "100%", "80px", "80px", "250px"]}
+          >
+          <Nav />
+            
+          </Flex>
+          <Flex
+            className="rightColumn"
+            ml={[null, null, "80px", "80px", "250px"]}
+            mt={["300px", "300px", "0", "0", "0"]}
+            p={["5px", "5px", "15px", "20px", "30px"]}
+            pt={["15px", "15px", "10px", "10px", "10px"]}
+          >
             <Switch>
-              <Route exact path="/">
-                  <WorldMap/>
-              </Route>
-              <Route path="/analysis">
-                  <Analysis/>
-              </Route>
+              <Suspense fallback={<Loading/>}>
+                <Route exact path="/" component={WorldMap} />
+                <Route path="/analysis" component={Analysis} />
+                <Route path="/news" component={News}/>
+                <Route path="/tweets" component={Tweet}/>
+              </Suspense>
             </Switch>
-          </GridItem>
-        </Grid>
-
+          </Flex>
+        </Flex>
       </BrowserRouter>
+
     );
-  }
 }
+
 
 export default App;

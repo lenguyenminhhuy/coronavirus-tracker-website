@@ -1,5 +1,8 @@
 import "source-map-support";
+// import aws from "aws-sdk";
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda";
+
+// aws.config.loadFromPath("../../config.json");
 
 exports.handler = async (
   event: APIGatewayProxyEvent
