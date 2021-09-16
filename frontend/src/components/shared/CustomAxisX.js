@@ -16,7 +16,15 @@ class CustomAxisTick extends PureComponent {
           </g>
         );
       }
-
+      if (mode === 'topten') {
+        return (
+          <g transform={`translate(${x},${y})`}>
+            <text fontSize={12} x={0} y={0} dy={16} textAnchor="end" fill="#666" transform="rotate(-10)">
+              {null}
+            </text>
+          </g>
+        )  
+      }
       return (
         <g transform={`translate(${x},${y})`}>
           <text fontSize={12} x={0} y={0} dy={16} textAnchor="end" fill="#666" transform="rotate(-10)">
