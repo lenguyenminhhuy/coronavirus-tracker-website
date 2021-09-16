@@ -4,7 +4,10 @@ import { Flex, Heading, Text, Link, Divider } from "@chakra-ui/react";
 import NavItem from "./NavItem";
 import { GiWorld } from "react-icons/gi";
 import { FcComboChart, FcNews, EmailIcon } from "react-icons/fc";
+import { SiTwitter } from "react-icons/si";
 import { Link as RRLink, useLocation } from "react-router-dom";
+import { IconContext } from "react-icons/lib";
+import colors from "../constants/colors";
 
 const Sidebar = () => {
   const location = useLocation();
@@ -81,6 +84,23 @@ const Sidebar = () => {
             as={RRLink}
           >
             <NavItem icon={FcNews} title="News" />
+          </Link>
+          <Link
+            _hover={{ textDecor: "none", backgroundColor: "#eeeeee" }}
+            backgroundColor={location.pathname === "/tweets" ? "#eeeeee" : "#fff"}
+            to="/tweets"
+            w="75%"
+            mx={["20px", "20px", null, null, null]}
+            mb={35}
+            p={1}
+            borderRadius="20px"
+            as={RRLink}
+          >
+            <NavItem icon={() => (
+              <IconContext.Provider value={{style: {color: colors.oceanBlueLight, width: '24px', height: '24px'}}}>
+                <SiTwitter/>
+              </IconContext.Provider>
+            )} title="Tweet" />
           </Link>
         </Flex>
       </Flex>

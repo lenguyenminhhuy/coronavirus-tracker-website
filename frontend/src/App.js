@@ -2,9 +2,6 @@ import "./App.css";
 import React, {Suspense} from "react";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import { Flex, Icon, useDisclosure, Circle } from "@chakra-ui/react";
-// import WorldMap from "./pages/Home";
-// import Analysis from "./pages/Analysis";
-// import News from './pages/News';
 import SubscribeModal from "./components/shared/SubscribeModal";
 import { MdMail } from "react-icons/md";
 import colors from "./constants/colors";
@@ -14,6 +11,7 @@ import Nav from './components/Nav'
 const WorldMap = React.lazy(() => import('./pages/Home'));
 const Analysis = React.lazy(() => import('./pages/Analysis'));
 const News = React.lazy(() => import('./pages/News'));
+const Tweet = React.lazy(() => import('./pages/Tweet'));
 
 function App () {
   const {isOpen, onOpen, onClose} = useDisclosure();
@@ -63,6 +61,7 @@ function App () {
                 <Route exact path="/" component={WorldMap} />
                 <Route path="/analysis" component={Analysis} />
                 <Route path="/news" component={News}/>
+                <Route path="/tweets" component={Tweet}/>
               </Suspense>
             </Switch>
           </Flex>

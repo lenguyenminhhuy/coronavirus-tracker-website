@@ -15,13 +15,6 @@ import CustomAxisX from './shared/CustomAxisX';
 import CustomTooltip from './shared/CustomTooltip';
 import normalizeCamelCase from '../utils/normalizeCamelCase';
 
-// async function sortArrayObjectByAKey(array, key) {
-//     // let newArray = await array.sort((a,b) => {
-//     //   return a[key] - b[key];
-//     // })
-//     // return newArray.slice(0,10);
-// }
-
 async function processData(data, mode) {
     let array = [];
     for (let i in data) {
@@ -29,7 +22,6 @@ async function processData(data, mode) {
         base[mode] = data[i][mode];
         base["Country"] = data[i].location;
         if (["World", "Europe", "Asia", "North America", "South America", "Africa"].indexOf(base["Country"]) === -1) {
-            console.log(base["Country"]);
             array.push(base);
         }
     }
