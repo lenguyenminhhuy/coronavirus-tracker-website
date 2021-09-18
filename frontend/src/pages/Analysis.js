@@ -88,18 +88,17 @@ function Analysis() {
   return (
 
     <Flex className="analysisMain" w="100%" flexDir="column">
-      {loading?
-        <Loading/>
-
-        :
-    <>
-       {/* *** HEADING *** */}
-       <Flex className="analysisHeading" flexDir="row" w="100%">
+      {/* *** HEADING *** */}
+      <Flex className="analysisHeading" flexDir="row" w="100%">
         <Heading color="#000">Analysis</Heading>
       </Flex>
+      {loading?
+        <Loading/>
+        :
+      <>
 
       {/* *** Chart grid *** */}
-      <Flex className="analysisContent" flexDir="column">
+      <Flex flex={1} className="analysisContent" flexDir="column">
         <Flex
           className="analysisRow container1"
           flexDir={["column", "column", "column", "row", "row"]}

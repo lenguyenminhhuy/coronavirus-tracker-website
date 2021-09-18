@@ -1,7 +1,7 @@
 import "./App.css";
 import React, {Suspense} from "react";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
-import { Flex, Icon, useDisclosure, Circle } from "@chakra-ui/react";
+import { Center, Flex, Icon, useDisclosure, Circle } from "@chakra-ui/react";
 import SubscribeModal from "./components/shared/SubscribeModal";
 import { MdMail } from "react-icons/md";
 import colors from "./constants/colors";
@@ -54,12 +54,15 @@ function App () {
             ml={[null, null, "80px", "80px", "250px"]}
             mt={["300px", "300px", "0", "0", "0"]}
             p={["5px", "5px", "15px", "20px", "30px"]}
+            justifyContent="center"
+            alignItems="center"
+            flex={1}
             pt={["15px", "15px", "10px", "10px", "10px"]}
           >
             <Switch>
               <Suspense fallback={<Loading/>}>
                 <Route exact path="/" component={WorldMap} />
-                <Route path="/analysis" component={Analysis} />
+                <Route path="/analysis" component={Analysis} />                
                 <Route path="/news" component={News}/>
                 <Route path="/tweets" component={Tweet}/>
               </Suspense>
