@@ -2,8 +2,7 @@
 https://covid19-tracker-website.minhthings.com/
 
 ## Motivation
-
-With the dawn of data-driven economy, data is considered as another world of information. Nevertheless, to utilize the data effectively that helps humans communicate and make sense of the information, data visualization plays a crucial role in creating insights and noticeable statistics. The COVID-19 pandemic has raised lots of crucial questions related to sharing and using data, highlighted the challenges associated with raw data produced every day. To address the ongoing demand of people, the team decided to build an application regarding meaningful COVID visualizations that enable them to understand what is happening and how damage the current situation is. Furthermore, the application also aims to help human be aware of this dangerous disease so that they will seriously look after their healthy now and for the future in a changing world. 
+COVID-19 has upended the lives of billion people for more than two years. It has caused 227 million infected cases and 4.6 million deaths people. Although the number of vaccinations passes 5 billion, is the pandemic really left behind? As we are living in unprecedented times, being well informed about the danger of the disease and staying up to date how the virus spreads are essential. To address the ongoing demand of people, the team decided to build an application regarding meaningful COVID visualizations that enable them to understand what is happening and how damage the current situation is. Furthermore, the application also aims to help human be aware of this dangerous disease so that they will seriously look after their healthy now and for the future in a changing world.
 
 ## Introduction
 
