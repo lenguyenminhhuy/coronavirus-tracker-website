@@ -32,7 +32,7 @@ function Tweet() {
 
 
     return (
-        <div className="App"
+        <Flex className="analysisMain" w="100%" flexDir="column"
         style={{ overflow: 'scroll', overflowX: 'hidden', overflowY: 'visible'}}>
           <Flex className="analysisHeading" flexDir="row" w="100%">
             <Heading color="#000">Trending Tweets</Heading>
@@ -49,9 +49,9 @@ function Tweet() {
               </Thead>
               <Tbody>
               {/* Render the list of items */}
-              {list.map((item) => {
+              {list.map((item, index) => {
                 return(
-                    <Tr>
+                    <Tr key={index}>
                       <Td>{item}</Td>
                     </Tr>
                 );
@@ -64,7 +64,7 @@ function Tweet() {
             </Flex>
           )
         }
-        </div>
+        </Flex>
     )
 }
 

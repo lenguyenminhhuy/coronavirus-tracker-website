@@ -49,7 +49,7 @@ class News extends Component {
     const { list } = this.state;
 
     return (
-      <div className="App"
+      <Flex className="analysisMain" w="100%" flexDir="column"
       style={{ overflow: 'scroll', overflowX: 'hidden', overflowY: 'visible'}}>
         <Flex className="analysisHeading" flexDir="row" w="100%">
           <Heading color="#000">Latest News</Heading>
@@ -61,7 +61,7 @@ class News extends Component {
           {list.map((item) => {
             return(
 
-              <NewCards date={item.date} title={item.title} link={item.link} author={item.author} />
+              <NewCards key={item.link} date={item.date} title={item.title} link={item.link} author={item.author} />
 
             );
           })}
@@ -72,7 +72,7 @@ class News extends Component {
           </Flex>
         )
       }
-      </div>
+      </Flex>
     );
   }
 }
