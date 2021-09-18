@@ -2,7 +2,7 @@
 https://covid19-tracker-website.minhthings.com/
 
 ## Motivation
-COVID-19 has upended the lives of billion people for more than two years. It has caused 227 million infected cases and 4.6 million deaths people. Although the number of vaccinations passes 5 billion, is the pandemic really left behind? As we are living in unprecedented times, being well informed about the danger of the disease and staying up to date how the virus spreads are essential. To address the ongoing demand of people, the team decided to build an application regarding meaningful COVID visualizations that enable them to understand what is happening and how damage the current situation is. Furthermore, the application also aims to help human be aware of this dangerous disease so that they will seriously look after their healthy now and for the future in a changing world.
+COVID-19 has upended the lives of billion people for more than two years. It has caused 227 million infected cases and 4.6 million deaths people. Although the number of vaccinations passes 5 billion, is the pandemic really left behind? As we are living in unprecedented times, being well informed about the danger of the disease and staying up to date how the virus spreads are essential. To address the ongoing demand of people, the team decided to build an application regarding meaningful COVID visualizations that enable them to understand what is happening and how damage the current situation is. Therefore, people will seriously look after their healthy now and for the future in a changing world.
 
 ## Introduction
 
